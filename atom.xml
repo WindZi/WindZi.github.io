@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://181016.xyz</id>
     <title>Gridea</title>
-    <updated>2020-08-25T06:10:35.408Z</updated>
+    <updated>2020-09-11T01:38:41.398Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://181016.xyz"/>
     <link rel="self" href="https://181016.xyz/atom.xml"/>
@@ -10,6 +10,26 @@
     <logo>https://181016.xyz/images/avatar.png</logo>
     <icon>https://181016.xyz/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[港股打新]]></title>
+        <id>https://181016.xyz/post/gang-gu-da-xin/</id>
+        <link href="https://181016.xyz/post/gang-gu-da-xin/">
+        </link>
+        <updated>2020-09-11T01:27:14.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="1-开哪个证券公司的户">1 开哪个证券公司的户？</h1>
+<p><img src="https://181016.xyz/post-images/1599787866996.png" alt="" loading="lazy"><br>
+通过上面的图片可以查看各个证券公司的收费情况等。我这主要使用现金打新，选择了艾德。</p>
+<h1 id="2-如何入金">2 如何入金</h1>
+<figure data-type="image" tabindex="1"><img src="https://181016.xyz/post-images/1599787951683.png" alt="" loading="lazy"></figure>
+<p>因为没有港卡，又不想使用sib和华美进行中转，开户的时间选择了艾德，然后办了一张民生卡，可以直接入金。</p>
+<h1 id="3-入金手续费">3 入金手续费</h1>
+<p>汇出行 民生  电讯费50 手续费 25<br>
+汇入行  工行亚洲    160 手续费</p>
+<h1 id="4-打新">4 打新</h1>
+<p>农夫山泉  600股  未中   现金<br>
+百胜       1手       未中   融资</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[投标]]></title>
         <id>https://181016.xyz/post/tou-biao/</id>
