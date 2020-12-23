@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://181016.xyz</id>
     <title>Gridea</title>
-    <updated>2020-09-11T01:38:41.398Z</updated>
+    <updated>2020-12-23T01:07:35.181Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://181016.xyz"/>
     <link rel="self" href="https://181016.xyz/atom.xml"/>
@@ -10,6 +10,27 @@
     <logo>https://181016.xyz/images/avatar.png</logo>
     <icon>https://181016.xyz/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[港股入场费]]></title>
+        <id>https://181016.xyz/post/gang-gu-ru-chang-fei/</id>
+        <link href="https://181016.xyz/post/gang-gu-ru-chang-fei/">
+        </link>
+        <updated>2020-12-23T01:03:47.000Z</updated>
+        <summary type="html"><![CDATA[<h2 id="港股入场费">港股入场费</h2>
+<p>原来一直以为入场费为  ** 一手股数*申购价上限 ** ，今天看艾德给的通知邮件发现不是的，网上搜了下才知道为 ** (1+1.0077%)<em>一手股数</em>申购价上限； **</p>
+]]></summary>
+        <content type="html"><![CDATA[<h2 id="港股入场费">港股入场费</h2>
+<p>原来一直以为入场费为  ** 一手股数*申购价上限 ** ，今天看艾德给的通知邮件发现不是的，网上搜了下才知道为 ** (1+1.0077%)<em>一手股数</em>申购价上限； **</p>
+<!-- more -->
+<p>（2）认购与费用</p>
+<p>一般公司正式公布招股书那天，投资者可以认购新股。认购期3天至一周，在此期间都可以填写认购申请。</p>
+<p>打新需要的费用，包括入场费+手续费+孖展利息（如有）</p>
+<p>入场费：申购一手新股所需费用，入场费=(1+1.0077%)<em>一手股数</em>申购价上限；</p>
+<p>注：入场费中包含的「1.0077%<em>一手股数</em>申购价上限」的费用，在没有中签的情况下，该笔费用将退还。（1.0077%为：1%的经纪佣金+0.0027%证监会征费+0.005%联交所交易费）。</p>
+<p>手续费：申购过程中券商收取的费用；</p>
+<p>https://zhuanlan.zhihu.com/p/145762675</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[港股打新]]></title>
         <id>https://181016.xyz/post/gang-gu-da-xin/</id>
@@ -27,7 +48,10 @@
 汇入行  工行亚洲    160 手续费</p>
 <h1 id="4-打新">4 打新</h1>
 <p>农夫山泉  600股  未中   现金<br>
-百胜       1手       未中   融资</p>
+百胜       1手       未中   融资  利息 13 手续费100<br>
+乐享互动  现金 一手<br>
+福禄控股  现金一手<br>
+明源云   融资一手    利息9.5 手续费100</p>
 ]]></content>
     </entry>
     <entry>
