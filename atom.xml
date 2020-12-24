@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://181016.xyz</id>
     <title>Gridea</title>
-    <updated>2020-12-24T03:39:45.709Z</updated>
+    <updated>2020-12-24T08:51:01.316Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://181016.xyz"/>
     <link rel="self" href="https://181016.xyz/atom.xml"/>
@@ -109,6 +109,7 @@ link/ether 4a:a4:63:50:3c:42 brd ff:ff:ff:ff:ff:ff link-netnsid 0<br>
 inet6 fe80::48a4:63ff:fe50:3c42/64 scope link<br>
 valid_lft forever preferred_lft forever</p>
 <p><a href="https://www.oschina.net/translate/docker-network-configuration?print">Docker 网络配置</a><br>
+<a href="https://www.cnblogs.com/qiyeyang/p/13415721.html">Docker端口映射及虚拟机挂起重开无法远程访问的理解</a><br>
 <a href="http://dockone.io/article/393">玩转Docker Network</a><br>
 <a href="https://www.cnblogs.com/sparkdev/p/9217310.html">Docker 网络之理解 bridge 驱动</a><br>
 <a href="https://cizixs.com/2016/06/01/docker-default-network/">docker 容器默认的网络模型</a></p>
