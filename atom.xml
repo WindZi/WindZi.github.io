@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://181016.xyz</id>
     <title>Gridea</title>
-    <updated>2020-12-23T01:07:35.181Z</updated>
+    <updated>2020-12-24T03:39:45.709Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://181016.xyz"/>
     <link rel="self" href="https://181016.xyz/atom.xml"/>
@@ -11,22 +11,136 @@
     <icon>https://181016.xyz/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
     <entry>
+        <title type="html"><![CDATA[虚拟机挂起再恢复 docker容器无法访问]]></title>
+        <id>https://181016.xyz/post/xu-ni-ji-gua-qi-zai-hui-fu-docker-rong-qi-wu-fa-fang-wen/</id>
+        <link href="https://181016.xyz/post/xu-ni-ji-gua-qi-zai-hui-fu-docker-rong-qi-wu-fa-fang-wen/">
+        </link>
+        <updated>2020-12-24T02:08:23.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="现象">现象</h1>
+<p>虚拟机挂起后再恢复，docker内启动的容器无法访问<br>
+网上搜索的信息是ipv4转发被禁用了，通过修改/etc/sysctl.conf 中的</p>
+<blockquote>
+<p>net.ipv4.ip_forward = 0</p>
+</blockquote>
+<p>将这条改为1，然后重启网络即可，</p>
+<blockquote>
+<p>sudo systemctl restart network<br>
+上面的命令在centos下可能好使，但是在ubuntu20.10下无效</p>
+</blockquote>
+<p>sudo systemctl restart NetworkManager<br>
+上面这条命令是可行的。</p>
+<h1 id="挂起前的-ip-a">挂起前的 ip a</h1>
+<p>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000<br>
+link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00<br>
+inet 127.0.0.1/8 scope host lo<br>
+valid_lft forever preferred_lft forever<br>
+inet6 ::1/128 scope host<br>
+valid_lft forever preferred_lft forever<br>
+2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000<br>
+link/ether 00:0c:29:13:91:e9 brd ff:ff:ff:ff:ff:ff<br>
+altname enp2s1<br>
+inet 192.168.6.128/24 brd 192.168.6.255 scope global dynamic noprefixroute ens33<br>
+valid_lft 1540sec preferred_lft 1540sec<br>
+inet6 fe80::b9bb:f89b:2b73:77ff/64 scope link noprefixroute<br>
+valid_lft forever preferred_lft forever<br>
+3: docker0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default<br>
+link/ether 02:42:da:9f:7e:fd brd ff:ff:ff:ff:ff:ff<br>
+inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0<br>
+valid_lft forever preferred_lft forever<br>
+inet6 fe80::42:daff:fe9f:7efd/64 scope link<br>
+valid_lft forever preferred_lft forever<br>
+5: veth16781c9@if4: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP group default<br>
+link/ether 36:f6:3e:99:39:22 brd ff:ff:ff:ff:ff:ff link-netnsid 1<br>
+inet6 fe80::34f6:3eff:fe99:3922/64 scope link<br>
+valid_lft forever preferred_lft forever<br>
+7: veth81c92d7@if6: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP group default<br>
+link/ether 4a:a4:63:50:3c:42 brd ff:ff:ff:ff:ff:ff link-netnsid 0<br>
+inet6 fe80::48a4:63ff:fe50:3c42/64 scope link<br>
+valid_lft forever preferred_lft forever</p>
+<h1 id="挂起恢复后的-ip-a">挂起恢复后的 ip a</h1>
+<p>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000<br>
+link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00<br>
+inet 127.0.0.1/8 scope host lo<br>
+valid_lft forever preferred_lft forever<br>
+inet6 ::1/128 scope host<br>
+valid_lft forever preferred_lft forever<br>
+2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000<br>
+link/ether 00:0c:29:13:91:e9 brd ff:ff:ff:ff:ff:ff<br>
+altname enp2s1<br>
+inet 192.168.6.128/24 brd 192.168.6.255 scope global dynamic noprefixroute ens33<br>
+valid_lft 1767sec preferred_lft 1767sec<br>
+inet6 fe80::b9bb:f89b:2b73:77ff/64 scope link noprefixroute<br>
+valid_lft forever preferred_lft forever<br>
+3: docker0: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc noqueue state DOWN group default<br>
+link/ether 02:42:da:9f:7e:fd brd ff:ff:ff:ff:ff:ff<br>
+5: veth16781c9@if4: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP group default<br>
+link/ether 36:f6:3e:99:39:22 brd ff:ff:ff:ff:ff:ff link-netnsid 1<br>
+inet6 fe80::34f6:3eff:fe99:3922/64 scope link<br>
+valid_lft forever preferred_lft forever<br>
+7: veth81c92d7@if6: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP group default<br>
+link/ether 4a:a4:63:50:3c:42 brd ff:ff:ff:ff:ff:ff link-netnsid 0<br>
+inet6 fe80::48a4:63ff:fe50:3c42/64 scope link<br>
+valid_lft forever preferred_lft forever<br>
+可以看出docker0在恢复后 ipv4 ipv6 均没有启动成功。问题应该出在这里。<br>
+通过 ip link set docker0 up 将docker0网卡启动起来，但是看到的信息 ipv4 未分配IP<br>
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000<br>
+link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00<br>
+inet 127.0.0.1/8 scope host lo<br>
+valid_lft forever preferred_lft forever<br>
+inet6 ::1/128 scope host<br>
+valid_lft forever preferred_lft forever<br>
+2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000<br>
+link/ether 00:0c:29:13:91:e9 brd ff:ff:ff:ff:ff:ff<br>
+altname enp2s1<br>
+inet 192.168.6.128/24 brd 192.168.6.255 scope global dynamic noprefixroute ens33<br>
+valid_lft 1775sec preferred_lft 1775sec<br>
+inet6 fe80::b9bb:f89b:2b73:77ff/64 scope link noprefixroute<br>
+valid_lft forever preferred_lft forever<br>
+3: docker0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default<br>
+link/ether 02:42:da:9f:7e:fd brd ff:ff:ff:ff:ff:ff<br>
+inet6 fe80::42:daff:fe9f:7efd/64 scope link<br>
+valid_lft forever preferred_lft forever<br>
+5: veth16781c9@if4: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP group default<br>
+link/ether 36:f6:3e:99:39:22 brd ff:ff:ff:ff:ff:ff link-netnsid 1<br>
+inet6 fe80::34f6:3eff:fe99:3922/64 scope link<br>
+valid_lft forever preferred_lft forever<br>
+7: veth81c92d7@if6: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP group default<br>
+link/ether 4a:a4:63:50:3c:42 brd ff:ff:ff:ff:ff:ff link-netnsid 0<br>
+inet6 fe80::48a4:63ff:fe50:3c42/64 scope link<br>
+valid_lft forever preferred_lft forever</p>
+<p><a href="https://www.oschina.net/translate/docker-network-configuration?print">Docker 网络配置</a><br>
+<a href="http://dockone.io/article/393">玩转Docker Network</a><br>
+<a href="https://www.cnblogs.com/sparkdev/p/9217310.html">Docker 网络之理解 bridge 驱动</a><br>
+<a href="https://cizixs.com/2016/06/01/docker-default-network/">docker 容器默认的网络模型</a></p>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[港股入场费]]></title>
         <id>https://181016.xyz/post/gang-gu-ru-chang-fei/</id>
         <link href="https://181016.xyz/post/gang-gu-ru-chang-fei/">
         </link>
         <updated>2020-12-23T01:03:47.000Z</updated>
         <summary type="html"><![CDATA[<h2 id="港股入场费">港股入场费</h2>
-<p>原来一直以为入场费为  ** 一手股数*申购价上限 ** ，今天看艾德给的通知邮件发现不是的，网上搜了下才知道为 ** (1+1.0077%)<em>一手股数</em>申购价上限； **</p>
+<p>原来一直以为入场费为  __ 一手股数*申购价上限 __ ，今天看艾德给的通知邮件发现不是的，网上搜了下才知道为 __ (1+1.0077%)<em>一手股数</em>申购价上限；__</p>
 ]]></summary>
         <content type="html"><![CDATA[<h2 id="港股入场费">港股入场费</h2>
-<p>原来一直以为入场费为  ** 一手股数*申购价上限 ** ，今天看艾德给的通知邮件发现不是的，网上搜了下才知道为 ** (1+1.0077%)<em>一手股数</em>申购价上限； **</p>
+<p>原来一直以为入场费为  __ 一手股数*申购价上限 __ ，今天看艾德给的通知邮件发现不是的，网上搜了下才知道为 __ (1+1.0077%)<em>一手股数</em>申购价上限；__</p>
 <!-- more -->
+<blockquote>
 <p>（2）认购与费用</p>
+</blockquote>
+<blockquote>
 <p>一般公司正式公布招股书那天，投资者可以认购新股。认购期3天至一周，在此期间都可以填写认购申请。</p>
+</blockquote>
+<blockquote>
 <p>打新需要的费用，包括入场费+手续费+孖展利息（如有）</p>
+</blockquote>
+<blockquote>
 <p>入场费：申购一手新股所需费用，入场费=(1+1.0077%)<em>一手股数</em>申购价上限；</p>
-<p>注：入场费中包含的「1.0077%<em>一手股数</em>申购价上限」的费用，在没有中签的情况下，该笔费用将退还。（1.0077%为：1%的经纪佣金+0.0027%证监会征费+0.005%联交所交易费）。</p>
+</blockquote>
+<blockquote>
+<p>注：入场费中包含的「1.0077%<em>一手股数</em>申购价上限」的费用，在没有中签的情况下，该笔费用将退还。&gt;（1.0077%为：1%的经纪佣金+0.0027%证监会征费+0.005%联交所交易费）。</p>
+</blockquote>
 <p>手续费：申购过程中券商收取的费用；</p>
 <p>https://zhuanlan.zhihu.com/p/145762675</p>
 ]]></content>
