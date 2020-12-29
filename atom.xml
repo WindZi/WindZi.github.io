@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://181016.xyz</id>
     <title>Gridea</title>
-    <updated>2020-12-24T08:51:01.316Z</updated>
+    <updated>2020-12-29T06:09:39.405Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://181016.xyz"/>
     <link rel="self" href="https://181016.xyz/atom.xml"/>
@@ -10,6 +10,85 @@
     <logo>https://181016.xyz/images/avatar.png</logo>
     <icon>https://181016.xyz/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[docker容器随随docker服务启动而启动]]></title>
+        <id>https://181016.xyz/post/docker-rong-qi-sui-sui-docker-fu-wu-qi-dong-er-qi-dong/</id>
+        <link href="https://181016.xyz/post/docker-rong-qi-sui-sui-docker-fu-wu-qi-dong-er-qi-dong/">
+        </link>
+        <updated>2020-12-29T06:06:44.000Z</updated>
+        <content type="html"><![CDATA[<p><a href="https://blog.csdn.net/annita2019/article/details/108803731">原文链接</a></p>
+<h1 id="一-我们的需求">一、我们的需求</h1>
+<p>让Docker容器跟随宿主机启动而启动</p>
+<h1 id="二-restart-policy机制">二、Restart policy机制</h1>
+<p>Docker提供了Restart policy机制，可以在容器退出或者Docker重启时控制容器能够自启动。这种Restart policy可以保证相关容器按照正确顺序启动。虽然也可以通过进程监控的方式(如systemd)来完成这种动作，但Docker还是建议尽量避免使用进程监控的方式来&quot;自启动&quot; 容器。</p>
+<p>Docker的 Restart policy与dockerd命令的--live-restore启动标志还有区别：–live-restore标志可以在Docker升级的时候保证容器继续运行，但是网络以及用户终端输入会被中断。<br>
+那到底什么是restart policy呢？我们来看看实际的情况吧。</p>
+<h1 id="三-docker-run的restart参数">三、docker run的restart参数</h1>
+<p>在使用docker run启动容器时，使用–restart参数来设置：</p>
+<p>docker run -m 512m --memory-swap 1G-it -p 58080:8080 --restart=always --name bvrfis --volumes -from logdata mytomcat:4.0 /root/run.sh<br>
+1<br>
+–restart具体参数值详细信息：</p>
+<p>no - 容器不自动重启<br>
+on-failure - 容器退出状态不为0时自动重启<br>
+on-failure:[n] - 容器退出状态不为0时自动重启，最大尝试n次<br>
+always - 始终尝试自动重启<br>
+如果创建时未指定 --restart=always ,可通过update 命令设置</p>
+<p>docker update --restart=always 容器名称<br>
+1<br>
+在使用on - failure参数时，指定Docker将尝试重新启动容器的最大次数。</p>
+<p>默认情况下，Docker将尝试永远重新启动容器。</p>
+<p>尝试重启redis容器10次</p>
+<p>docker run --restart=on-failure:10 redis<br>
+1</p>
+<h1 id="四-举例验证">四、举例验证</h1>
+<p>接下来我们通过举例来验证</p>
+<p>[root@docker ~]# docker run -i -t -d --name centos_aways --restart=always centos<br>
+e278cabec91e36f5582d92ba3ddb95ac17a0c2c59d8cdcc60791a28075e8abce<br>
+[root@docker ~]# docker ps -l<br>
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES<br>
+e278cabec91e        centos              &quot;/bin/bash&quot;         5 seconds ago       Up 4 seconds<br>
+[root@docker ~]# init 6   #重启机器<br>
+[root@docker ~]# docker ps -l<br>
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES<br>
+e278cabec91e        centos              &quot;/bin/bash&quot;         3 minutes ago       Up About a minute<br>
+1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+Docker服务重启后，查看添加了--restart=always参数的容器能否自动启动</p>
+<p>[root@docker ~]# /etc/init.d/docker stop<br>
+Stopping docker:                                           [  OK  ]<br>
+[root@docker ~]# /etc/init.d/docker start<br>
+Starting docker:	                                   [  OK  ]<br>
+[root@docker ~]# docker ps<br>
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES<br>
+14caa9ab03a9        dockerui/dockerui   &quot;/dockerui&quot;         11 minutes ago      Up 3 seconds        0.0.0.0:9000-&gt;9000/tcp   dockerui_qinwen<br>
+e278cabec91e        centos              &quot;/bin/bash&quot;         About an hour ago   Up 3 seconds                                 centos_aways<br>
+1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+在这里我们看到两台容器的状态还是up</p>
+<h1 id="五-restart-policy细节">五、Restart policy细节</h1>
+<p>使用Restart policies时需要注意如下细节：</p>
+<p>容器只有在成功启动后restart policy才能生效。这里的&quot;成功启动&quot;是指容器处于up至少10秒且已经处于docker监管。这是避免没有成功启动的容器陷入restart的死循环。<br>
+如果手动（manually）的stop(与前面的explicitly stopped有何区别)一个容器，容器设置的restart policy将会被忽略，除非Docker daemon重启或者容器手动重启。这是避免了另外一种死循环。<br>
+restart policies只能用于容器，对于swarm services其restart policies有不通过的配置。<br>
+六、多个容器使用时的注意事项<br>
+1.用docker自带的--link把多个容器链接在一起，有重启或升级的问题，比如很多容器都依赖于 db 这个容器，然后db容器重启了，重启时docker分配的ip会变，导致其他依赖于db的容器都要重启。<br>
+2.–link 链接的容器还有启动顺序的问题， 需要先启动db容器再启动其他依赖于db的容器， 这样导致 --link和--restart=always 不能一起用， 如果一起用会发现宿主机重启了， docker容器并没有全部重启。<br>
+3.因为这时候docker容器是同时被启动的，并不知道启动顺序。 最后决定不用 --link 链接容器了</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[虚拟机挂起再恢复 docker容器无法访问]]></title>
         <id>https://181016.xyz/post/xu-ni-ji-gua-qi-zai-hui-fu-docker-rong-qi-wu-fa-fang-wen/</id>
