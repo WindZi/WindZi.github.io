@@ -2,14 +2,30 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://181016.xyz</id>
     <title>Gridea</title>
-    <updated>2020-12-29T07:37:18.144Z</updated>
+    <updated>2021-01-06T03:44:25.929Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://181016.xyz"/>
     <link rel="self" href="https://181016.xyz/atom.xml"/>
     <subtitle>温故而知新</subtitle>
     <logo>https://181016.xyz/images/avatar.png</logo>
     <icon>https://181016.xyz/favicon.ico</icon>
-    <rights>All rights reserved 2020, Gridea</rights>
+    <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[中签率低不一定大涨]]></title>
+        <id>https://181016.xyz/post/zhong-qian-lu-di-bu-yi-ding-da-zhang/</id>
+        <link href="https://181016.xyz/post/zhong-qian-lu-di-bu-yi-ding-da-zhang/">
+        </link>
+        <updated>2021-01-06T03:38:14.000Z</updated>
+        <content type="html"><![CDATA[<p>之前中签京东健康，上市首日100元整就给卖了，后面一度涨到了180，后悔不已，<br>
+这次中签清科创业，中签率是2%，认为中签率很低，应该可以涨一波，暗盘从11块涨到15块，收益在1600多吧，但是觉得上市首日应该能赚不少，就等首日，结果高开低走，就一直没卖，但是估计回到15块难了。</p>
+<h1 id="中签率低不代表一定能大涨">中签率低不代表一定能大涨</h1>
+<h1 id="中签率高的不一定就涨的少">中签率高的不一定就涨的少</h1>
+<h1 id="涨多涨少跟中签率没关系">涨多涨少跟中签率没关系</h1>
+<blockquote>
+<p>遵守纪律，暗盘或者首日卖出股票，不要打新变炒股。</p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[docker容器随随docker服务启动而启动]]></title>
         <id>https://181016.xyz/post/docker-rong-qi-sui-sui-docker-fu-wu-qi-dong-er-qi-dong/</id>
