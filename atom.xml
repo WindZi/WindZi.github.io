@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://181016.xyz</id>
     <title>Gridea</title>
-    <updated>2021-01-15T06:05:17.948Z</updated>
+    <updated>2021-01-15T06:08:34.619Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://181016.xyz"/>
     <link rel="self" href="https://181016.xyz/atom.xml"/>
@@ -10,6 +10,17 @@
     <logo>https://181016.xyz/images/avatar.png</logo>
     <icon>https://181016.xyz/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[ubuntu 20.10 有线连接无法显示解决办法]]></title>
+        <id>https://181016.xyz/post/ubuntu-2010-you-xian-lian-jie-wu-fa-xian-shi-jie-jue-ban-fa/</id>
+        <link href="https://181016.xyz/post/ubuntu-2010-you-xian-lian-jie-wu-fa-xian-shi-jie-jue-ban-fa/">
+        </link>
+        <updated>2021-01-15T06:06:22.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="sudo-nmcli-networking-on">sudo nmcli networking on</h2>
+<p>搜索半天最后通过这个方式显示了。</p>
+<p><a href="https://superuser.com/questions/1581484/ubuntu-20-04-wired-network-setting-is-missing">ubuntu 20.04 wired network setting is missing</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[vim 普通身份编辑root的文件无法保存]]></title>
         <id>https://181016.xyz/post/vim-pu-tong-shen-fen-bian-ji-root-de-wen-jian-wu-fa-bao-cun/</id>
