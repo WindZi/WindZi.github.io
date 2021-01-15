@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://181016.xyz</id>
     <title>Gridea</title>
-    <updated>2021-01-06T03:44:25.929Z</updated>
+    <updated>2021-01-15T06:05:17.948Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://181016.xyz"/>
     <link rel="self" href="https://181016.xyz/atom.xml"/>
@@ -10,6 +10,24 @@
     <logo>https://181016.xyz/images/avatar.png</logo>
     <icon>https://181016.xyz/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[vim 普通身份编辑root的文件无法保存]]></title>
+        <id>https://181016.xyz/post/vim-pu-tong-shen-fen-bian-ji-root-de-wen-jian-wu-fa-bao-cun/</id>
+        <link href="https://181016.xyz/post/vim-pu-tong-shen-fen-bian-ji-root-de-wen-jian-wu-fa-bao-cun/">
+        </link>
+        <updated>2021-01-15T05:59:20.000Z</updated>
+        <content type="html"><![CDATA[<p>出现这种问题时，在命令行输入</p>
+<blockquote>
+<h1 id="w-sudo-tee">:w !sudo tee %</h1>
+</blockquote>
+<p>命令:w !{cmd}，让 vim 执行一个外部命令{cmd}，然后把当前缓冲区的内容从 stdin 传入。<br>
+tee 是一个把 stdin 保存到文件的小工具。<br>
+而 %，是vim当中一个只读寄存器的名字，总保存着当前编辑文件的文件路径。<br>
+所以执行这个命令，就相当于从vim外部修改了当前编辑的文件，好完工。</p>
+<p><a href="https://segmentfault.com/q/1010000000151086">参考网页</a><br>
+<a href="https://vim.fandom.com/wiki/Su-write">Su-write</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[中签率低不一定大涨]]></title>
         <id>https://181016.xyz/post/zhong-qian-lu-di-bu-yi-ding-da-zhang/</id>
