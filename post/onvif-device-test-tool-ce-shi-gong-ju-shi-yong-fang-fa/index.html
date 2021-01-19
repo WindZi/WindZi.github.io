@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="shortcut icon" href="https://181016.xyz/favicon.ico" type="image/x-icon" /><meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta name="apple-mobile-web-app-capable"content="yes"/><meta name="apple-mobile-web-app-status-bar-style"content="black"/><meta name="format-detection"content="telephone=no"/><meta name="renderer"content="webkit"><meta name="description"content="温故而知新"><meta charset="UTF-8"><title>投标 | Gridea</title>
+<link rel="shortcut icon" href="https://181016.xyz/favicon.ico" type="image/x-icon" /><meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta name="apple-mobile-web-app-capable"content="yes"/><meta name="apple-mobile-web-app-status-bar-style"content="black"/><meta name="format-detection"content="telephone=no"/><meta name="renderer"content="webkit"><meta name="description"content="温故而知新"><meta charset="UTF-8"><title>ONVIF Device Test Tool测试工具使用方法 | Gridea</title>
 <link href="https://181016.xyz/styles/main.css" type="text/css" rel="stylesheet" /><link href="https://at.alicdn.com/t/font_1621793_zatzzgvf30g.css" type="text/css" rel="stylesheet" /><link rel="stylesheet" href="https://181016.xyz/media/css/katex.css"><script async src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.min.js"></script><script src="https://181016.xyz/media/js/magnify.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
 <script type="text/javascript">function btn_toggle(){document.getElementById("hn").classList.contains("no-js")?document.getElementById("hn").classList.remove("no-js"):document.getElementById("hn").classList.add("no-js")}</script>
 
-<link rel="canonical" href="https://181016.xyz/post/tou-biao/" />
+<link rel="canonical" href="https://181016.xyz/post/onvif-device-test-tool-ce-shi-gong-ju-shi-yong-fang-fa/" />
 </head>
 <body>
 <div class="progress"></div><style>.progress{background:linear-gradient(to right,#87ceeb var(--scroll),transparent 0);background-repeat:no-repeat;position:fixed;width:100%;height:4px;z-index:1}</style><div class="darkmode-background"></div><div class="darkmode-layer"></div>
@@ -23,16 +23,53 @@
 
 <div class="main"><div class="main-inner"><div class="content">
 <article class="post">
-<h2 class="post_title sm_margin"><a>投标</a></h2>
+<h2 class="post_title sm_margin"><a>ONVIF Device Test Tool测试工具使用方法</a></h2>
 <script>function lan(){if(document.getElementById("lan").innerText=="繁"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_tw.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="简"}else{if(document.getElementById("lan").innerText=="簡"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_cn.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="繁"}}};</script>
-<section class="post_details"><i class="iconfont icon-calendar"></i><span style="margin-right:15px"> 2020-08-25</span><i class="iconfont icon-browse"></i><span style="margin-right:15px"> <span id="busuanzi_value_page_pv"></span> Views</span><i class="iconfont icon-category"></i><span class="weaklink" style="margin-right:15px"></span><i class="iconfont icon-caret-down"></i><span style="margin-right:15px">9字</span><i class="iconfont icon-naozhong"></i><span style="margin-right:15px">1 min read</span><a id="lan" href="javascript:void(0);"onclick="lan();"title="调整简繁体" style="margin-right:15px;">繁</a>
+<section class="post_details"><i class="iconfont icon-calendar"></i><span style="margin-right:15px"> 2021-01-19</span><i class="iconfont icon-browse"></i><span style="margin-right:15px"> <span id="busuanzi_value_page_pv"></span> Views</span><i class="iconfont icon-category"></i><span class="weaklink" style="margin-right:15px"></span><i class="iconfont icon-caret-down"></i><span style="margin-right:15px">912字</span><i class="iconfont icon-naozhong"></i><span style="margin-right:15px">4 min read</span><a id="lan" href="javascript:void(0);"onclick="lan();"title="调整简繁体" style="margin-right:15px;">繁</a>
 </section>
 
 <div style="display:flex">
 <div class="md_block" id="md_block">
 <div class="round-shape-one"></div>
-<p>🤡# 投标<br>
-😐## 这样的效果如何</p>
+<p><a href="https://blog.csdn.net/zhizhengguan/article/details/109289728">原文链接</a><br>
+海康相机支持onvif协议，因此可以通过该协议来获得视频数据以及控制相机云台，在正式写代码控制之前，先使用onvif测试工具进行简单的测试，保证相机相关配置正确。</p>
+<p>1 工具下载<br>
+测试工具使用ONVIF Device Test Tool，具体下载地址可自行百度，一路默认安装即可。</p>
+<p>我使用的</p>
+<p>2 相机配置<br>
+在这里插入图片描述<br>
+进入海康相机设置平台，选择配置-高级配置-勾选启用ONVIF-添加用户-输入登陆用户名和密码-保存</p>
+<p>以上即可完成相机ONVIF的相关配置</p>
+<p>3 连接设备<br>
+接下来可在ONVIF Devive Test Tool测试工具中测试相机了，打开测试软件<br>
+在这里插入图片描述<br>
+首先在NIC中选择与相机同一网段的网卡，点击Discover Devices，即可搜索到在该网段支持ONVIF协议的网络相机<br>
+在这里插入图片描述<br>
+首先在发现设备列表中选择目标相机，在右侧信息中会自动填写相机的参数，然后填写用户名和密码，点击check，即可获得相机的Brand、Model等参数，即第4点钟的信息填写完成，表面设备配置成功<br>
+在这里插入图片描述<br>
+首先在发现设备列表中选择目标相机，在右侧信息中会自动填写相机的参数，然后填写用户名和密码（因为基于ONVIF协议搜索摄像头需要鉴权，即认证登录），点击check，即可获得相机的Brand、Model等参数，即第4点钟的信息填写完成，表面设备配置成功</p>
+<p>4 视频测试<br>
+这一步我们使用测试工具获得相机视频，</p>
+<p>首先切换到“Debug”选项卡<br>
+点击“Media”（对应音频和视频等媒体的探测与控制）<br>
+“Get” Media URL<br>
+“Get” Media Profile，发现默认选中的是“TestMediaProfile”<br>
+选择“main Stream(Profile_1)”，即可自动获得Video和Audio的相关参数<br>
+点击下方Play Video即可打卡相机视频，如图所示<br>
+在这里插入图片描述<br>
+在左上方“Authentication”中选择权限验证方式（None为不发送用户名密码，WS-Username token是onvif标准的用户名密码验证方式，Digest是RTSP中的Digest形式，用户名密码就是从Discovery那里读过来的） 。不要旋转None，否则会”Access Denied。“</p>
+<p>5 PTZ测试<br>
+云台测试方法与视频测试方法类似，切换到PTZ选项卡–Get URLs–Get Profile–选择main Stream–PTZ Control</p>
+<p>在PTZ Control中用多种控制模式，分别是绝对位置控制、相对位置控制和连续控制，可自行测试看看效果</p>
+<p>在这里插入图片描述</p>
+<p>6 Requests模式<br>
+除了使用上述方法来控制云台外，我们还可以使用Requests的方式来发送指令，同时收到Response<br>
+在这里插入图片描述<br>
+如图所示为PTZ测试示例，有几个地方要注意：1 是要把Service和Service Address修改为要测试的模块地址，2 是注意模板中的Porfile Token要修改为自己的Profile，默认的prof0，3 是注意修改设置x y的数值</p>
+<p>设置完成后，点击Send Request，当返回200 OK时表明测试成功。</p>
+<p>同样的，我们可以使用类似的流程来测试其它功能，比如测试Device Management模块的GetCapabilities功能，发送及接收如图所示</p>
+<p>在这里插入图片描述</p>
+<p>https://blog.csdn.net/m0_37287361/article/details/83827350</p>
 
 <span id="footnote"></span>
 <div id = "warn"></div>
@@ -54,7 +91,7 @@ if(section.offsetTop<=fromTop){if(nextSection){if(nextSection.offsetTop>fromTop)
 var list=document.querySelectorAll(".katex");for(var i=0;i<list.length;i++){list[i].style.display="unset"};
 var h=document.documentElement,b=document.body,st="scrollTop",sh="scrollHeight",progress=document.querySelector(".progress"),scroll;document.addEventListener("scroll",function(){scroll=(h[st]||b[st])/((h[sh]||b[sh])-h.clientHeight)*100;progress.style.setProperty("--scroll",scroll+"%")});
 var wxScale=new WxScale({fullPage:document.querySelector("#fullPage"),canvas:document.querySelector("#canvas")});var imgBox=document.querySelectorAll("#md_block img");for(var i=0;i<imgBox.length;i++){imgBox[i].onclick=function(e){wxScale.start(this)}};
-content="本文最后更新于2020-08-25，已超过 1 年没有更新，涉及的内容可能已经失效！";var date1="2020-08-25 09:21:17";date1=date1.replace("-","/");var date2=new Date();var date3=date2.getTime()-new Date(date1).getTime();var days=Math.floor(date3/(24*3600*1000));if(days>=365){document.getElementById("warn").innerHTML=content};
+content="本文最后更新于2021-01-19，已超过 1 年没有更新，涉及的内容可能已经失效！";var date1="2021-01-19 12:46:14";date1=date1.replace("-","/");var date2=new Date();var date3=date2.getTime()-new Date(date1).getTime();var days=Math.floor(date3/(24*3600*1000));if(days>=365){document.getElementById("warn").innerHTML=content};
 </script>
 <style>#magnifyImg{position:fixed;left:0;top:0;text-align:center;width:100%;display:none;z-index:9999}#magnifyImg img{object-fit:contain;background:#eaecef;padding:15px;border-radius:10px;height:auto;width:auto;vertical-align:middle}</style>
 <a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647; display: block;"></a><div class="footer animated fadeInDown"><div class="site_footer"><div class="mysocials"><div class="my_socials"></div></div><div class="copyright"id="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>Copyright © 2018-2020 <a href="https://181016.xyz" style="margin:0;">Gridea</a>.</div>

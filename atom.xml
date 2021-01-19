@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://181016.xyz</id>
     <title>Gridea</title>
-    <updated>2021-01-18T02:39:41.749Z</updated>
+    <updated>2021-01-19T10:09:47.971Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://181016.xyz"/>
     <link rel="self" href="https://181016.xyz/atom.xml"/>
@@ -10,6 +10,95 @@
     <logo>https://181016.xyz/images/avatar.png</logo>
     <icon>https://181016.xyz/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[windows 通过端口号查看对应的进程]]></title>
+        <id>https://181016.xyz/post/windows-tong-guo-duan-kou-hao-cha-kan-dui-ying-de-jin-cheng/</id>
+        <link href="https://181016.xyz/post/windows-tong-guo-duan-kou-hao-cha-kan-dui-ying-de-jin-cheng/">
+        </link>
+        <updated>2021-01-19T08:19:11.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="现在海康威视安装插件后可以在chrome中查看摄像头视频了之前对chrome有要求需要低版本chrome可以使用npapi插件的版本-现在通过websocket的方式实现的使用端口为15900">现在海康威视安装插件后，可以在chrome中查看摄像头视频了，之前对chrome有要求，需要低版本chrome（可以使用npapi插件的版本）。现在通过websocket的方式实现的，使用端口为15900，</h2>
+<p>通过  netstat -ano|findstr &quot;15900&quot; 找到对应PID 然后通过 tasklist | findstr ”PID”，找到对应的进程，发现是“WebControl.exe”提供的服务。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ONVIF Device Test Tool测试工具使用方法]]></title>
+        <id>https://181016.xyz/post/onvif-device-test-tool-ce-shi-gong-ju-shi-yong-fang-fa/</id>
+        <link href="https://181016.xyz/post/onvif-device-test-tool-ce-shi-gong-ju-shi-yong-fang-fa/">
+        </link>
+        <updated>2021-01-19T04:46:14.000Z</updated>
+        <content type="html"><![CDATA[<p><a href="https://blog.csdn.net/zhizhengguan/article/details/109289728">原文链接</a><br>
+海康相机支持onvif协议，因此可以通过该协议来获得视频数据以及控制相机云台，在正式写代码控制之前，先使用onvif测试工具进行简单的测试，保证相机相关配置正确。</p>
+<p>1 工具下载<br>
+测试工具使用ONVIF Device Test Tool，具体下载地址可自行百度，一路默认安装即可。</p>
+<p>我使用的</p>
+<p>2 相机配置<br>
+在这里插入图片描述<br>
+进入海康相机设置平台，选择配置-高级配置-勾选启用ONVIF-添加用户-输入登陆用户名和密码-保存</p>
+<p>以上即可完成相机ONVIF的相关配置</p>
+<p>3 连接设备<br>
+接下来可在ONVIF Devive Test Tool测试工具中测试相机了，打开测试软件<br>
+在这里插入图片描述<br>
+首先在NIC中选择与相机同一网段的网卡，点击Discover Devices，即可搜索到在该网段支持ONVIF协议的网络相机<br>
+在这里插入图片描述<br>
+首先在发现设备列表中选择目标相机，在右侧信息中会自动填写相机的参数，然后填写用户名和密码，点击check，即可获得相机的Brand、Model等参数，即第4点钟的信息填写完成，表面设备配置成功<br>
+在这里插入图片描述<br>
+首先在发现设备列表中选择目标相机，在右侧信息中会自动填写相机的参数，然后填写用户名和密码（因为基于ONVIF协议搜索摄像头需要鉴权，即认证登录），点击check，即可获得相机的Brand、Model等参数，即第4点钟的信息填写完成，表面设备配置成功</p>
+<p>4 视频测试<br>
+这一步我们使用测试工具获得相机视频，</p>
+<p>首先切换到“Debug”选项卡<br>
+点击“Media”（对应音频和视频等媒体的探测与控制）<br>
+“Get” Media URL<br>
+“Get” Media Profile，发现默认选中的是“TestMediaProfile”<br>
+选择“main Stream(Profile_1)”，即可自动获得Video和Audio的相关参数<br>
+点击下方Play Video即可打卡相机视频，如图所示<br>
+在这里插入图片描述<br>
+在左上方“Authentication”中选择权限验证方式（None为不发送用户名密码，WS-Username token是onvif标准的用户名密码验证方式，Digest是RTSP中的Digest形式，用户名密码就是从Discovery那里读过来的） 。不要旋转None，否则会”Access Denied。“</p>
+<p>5 PTZ测试<br>
+云台测试方法与视频测试方法类似，切换到PTZ选项卡–Get URLs–Get Profile–选择main Stream–PTZ Control</p>
+<p>在PTZ Control中用多种控制模式，分别是绝对位置控制、相对位置控制和连续控制，可自行测试看看效果</p>
+<p>在这里插入图片描述</p>
+<p>6 Requests模式<br>
+除了使用上述方法来控制云台外，我们还可以使用Requests的方式来发送指令，同时收到Response<br>
+在这里插入图片描述<br>
+如图所示为PTZ测试示例，有几个地方要注意：1 是要把Service和Service Address修改为要测试的模块地址，2 是注意模板中的Porfile Token要修改为自己的Profile，默认的prof0，3 是注意修改设置x y的数值</p>
+<p>设置完成后，点击Send Request，当返回200 OK时表明测试成功。</p>
+<p>同样的，我们可以使用类似的流程来测试其它功能，比如测试Device Management模块的GetCapabilities功能，发送及接收如图所示</p>
+<p>在这里插入图片描述</p>
+<p>https://blog.csdn.net/m0_37287361/article/details/83827350</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[openwrt下安装vim]]></title>
+        <id>https://181016.xyz/post/openwrt-xia-an-zhuang-vim/</id>
+        <link href="https://181016.xyz/post/openwrt-xia-an-zhuang-vim/">
+        </link>
+        <updated>2021-01-18T14:27:33.000Z</updated>
+        <content type="html"><![CDATA[<p>openwrt下默认安装的是VI，使用vim命令也是一个alias到vi的，vi打开中文文件出现乱码。所以空间允许的情况下，还是安装vim完整版比较号</p>
+<blockquote>
+<p>opkg update<br>
+opkg install vim-full vim-runtime</p>
+</blockquote>
+<p>如果安装时显示Package size mismatch  则使用  --force-checksum 参数</p>
+<blockquote>
+<p>opkg   --force-checksum install vim-full vim-runtime</p>
+</blockquote>
+<p>openwrt默认使用的shell是ash，初始化配置在/etc/profile ， alias定义在 /etc/shinit。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[zerotier 用起来真好]]></title>
+        <id>https://181016.xyz/post/zerotier-yong-qi-lai-zhen-hao/</id>
+        <link href="https://181016.xyz/post/zerotier-yong-qi-lai-zhen-hao/">
+        </link>
+        <updated>2021-01-18T02:39:43.000Z</updated>
+        <content type="html"><![CDATA[<p>周末的时间把斐讯的N1盒子刷入了openwrt固件，也写入到了emmc中去（通过<a href="http://www.jiguo.com/mb/article/article/89211.html">ddbr方式</a>）写入emmc后就可以使用docker功能了，安装几个镜像后，就牵扯到一个管理问题，但是盒子在家不能随时管理，在固件VPN子栏目下发现了zerotier，研发了一番，注册账号，把盒子添加到网络中，笔记本也添加到网络中，同时在zerotier后台将做了一个路由表，这样不管是访问盒子，还是盒子所在的局域网都是没有问题的。相当的方便。</p>
+<p>参考<br>
+<a href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;tid=192351">zerotier连入内网</a><br>
+<a href="https://www.right.com.cn/forum/thread-1292323-1-1.html">op中zerotier自动允许客户端NAT的设置方法</a><br>
+<a href="https://www.right.com.cn/forum/thread-476177-1-1.html">ZeroTier内网穿透简要介绍及简明设置方法</a>  重点关注 三、（6）路由器防火墙设置<br>
+<a href="https://www.right.com.cn/forum/thread-367080-1-1.html">关于Padavan下的zerotier内网穿透设置</a> 这个基本是纯手动安装了，如果自己刷的固件没zerotier，可以参考这个来</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[ubuntu 20.10 有线连接无法显示解决办法]]></title>
         <id>https://181016.xyz/post/ubuntu-2010-you-xian-lian-jie-wu-fa-xian-shi-jie-jue-ban-fa/</id>
@@ -268,71 +357,6 @@ valid_lft forever preferred_lft forever</p>
 </blockquote>
 <p>手续费：申购过程中券商收取的费用；</p>
 <p>https://zhuanlan.zhihu.com/p/145762675</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[港股打新]]></title>
-        <id>https://181016.xyz/post/gang-gu-da-xin/</id>
-        <link href="https://181016.xyz/post/gang-gu-da-xin/">
-        </link>
-        <updated>2020-09-11T01:27:14.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="1-开哪个证券公司的户">1 开哪个证券公司的户？</h1>
-<p><img src="https://181016.xyz/post-images/1599787866996.png" alt="" loading="lazy"><br>
-通过上面的图片可以查看各个证券公司的收费情况等。我这主要使用现金打新，选择了艾德。</p>
-<h1 id="2-如何入金">2 如何入金</h1>
-<figure data-type="image" tabindex="1"><img src="https://181016.xyz/post-images/1599787951683.png" alt="" loading="lazy"></figure>
-<p>因为没有港卡，又不想使用sib和华美进行中转，开户的时间选择了艾德，然后办了一张民生卡，可以直接入金。</p>
-<h1 id="3-入金手续费">3 入金手续费</h1>
-<p>汇出行 民生  电讯费50 手续费 25<br>
-汇入行  工行亚洲    160 手续费</p>
-<h1 id="4-打新">4 打新</h1>
-<p>农夫山泉  600股  未中   现金<br>
-百胜       1手       未中   融资  利息 13 手续费100<br>
-乐享互动  现金 一手<br>
-福禄控股  现金一手<br>
-明源云   融资一手    利息9.5 手续费100</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[投标]]></title>
-        <id>https://181016.xyz/post/tou-biao/</id>
-        <link href="https://181016.xyz/post/tou-biao/">
-        </link>
-        <updated>2020-08-25T01:21:17.000Z</updated>
-        <content type="html"><![CDATA[<p>🤡# 投标<br>
-😐## 这样的效果如何</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://181016.xyz/post/hello-gridea/</id>
-        <link href="https://181016.xyz/post/hello-gridea/">
-        </link>
-        <updated>2018-12-11T16:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
 ]]></content>
     </entry>
 </feed>
