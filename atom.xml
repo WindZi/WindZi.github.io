@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://181016.xyz</id>
     <title>Gridea</title>
-    <updated>2021-01-25T01:33:09.652Z</updated>
+    <updated>2021-01-28T07:04:46.524Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://181016.xyz"/>
     <link rel="self" href="https://181016.xyz/atom.xml"/>
@@ -10,6 +10,24 @@
     <logo>https://181016.xyz/images/avatar.png</logo>
     <icon>https://181016.xyz/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[直流电与交流电的优缺点比较]]></title>
+        <id>https://181016.xyz/post/zhi-liu-dian-yu-jiao-liu-dian-de-you-que-dian-bi-jiao/</id>
+        <link href="https://181016.xyz/post/zhi-liu-dian-yu-jiao-liu-dian-de-you-que-dian-bi-jiao/">
+        </link>
+        <updated>2021-01-28T07:03:57.000Z</updated>
+        <content type="html"><![CDATA[<p><a href="http://www.magtron.com.cn/index.php?case=archive&amp;act=show&amp;aid=256">原文链接</a><br>
+19世纪80年代曾经有过一场关于使用“交流电”还是使用“直流电”的激烈争论。提倡使用直流电的代表人物是大名鼎鼎的发明家爱迪生，主张改用交流电的代表人物则是后起之秀特斯拉。发电机发明以后，电能就在工农业生产和日常生活的各个方面得到了广泛的应用。起初是采用直流电的方式输电和供电，由于输电的电压较低，所以在输电线路上的热损失就较大，因此每一平方英里的地区就需要一个单独的直流发电机供电，而且还要用大量较粗的铜线。为了解决上述缺点，特斯拉发明了以交流发电机供电的“交流多相电力传输系统”，由于使用变压器以高电压、低电流的方式输电，就大大地降低了输电线路上的热损失，实现了远距离输电，从而不需要大量分散的单机供电，输电导线的载面也大大地减小了。由此交流供电系统广为社会采用，最终这场竞争以特斯拉的胜利而结束。</p>
+<p>随着科学技术的不断进步与发展，那么如今直流电与交流电技术发展现状又是如何呢？我们从以下几个方面对直流电与交流电的优缺点进行比较：</p>
+<p>（1）发电：对水电、火电、核电等常见发电方式，在发电量相同条件下，交流电的发电设备比直流发电设备要简单，交流电占有优势。而光伏发电更便于接入直流电网，可以省去DC/AC逆变环节，减少成本、降低损耗。</p>
+<p>（2）输电：①输送相同功率时，直流输电所用线材仅为交流输电的2／3～1／2。直流输电采用两线制，与采用三线制三相交流输电相比，在输电线载面积相同和电流密度相同的条件下，即使不考虑趋肤效应，也可以输送相同的电功率，而输电线和绝缘材料可节约1／3。如果考虑到趋肤效应和各种损耗（绝缘材料的介质损耗、磁感应的涡流损耗、架空线的电晕损耗等），输送同样功率交流电所用导线截面积大于或等于直流输电所用导线的截面积的1.33倍。同时，交流电对绝缘要求更高，也增加了电缆成本。因此，直流输电所用的线材几乎不到交流输电的一半，可以节省输电线与架设费用。②在电缆输电线路中，直流输电没有电容电流产生，而交流输电线路存在电容电流，引起损耗。③直流输电发生故障的损失比交流输电小。直流输电线路当一极发生故障时，只需停运故障极，另一极仍可输送不少于一半功率的电能；但在交流输电线路中，任一相发生永久性故障，必须全线停电。因此直流电在长距离输电这一导致其“败北”的因素之一环节，已完成了对交流电的“逆转”。近年，我国已兴建及在建了多条特高压直流输电线路。</p>
+<p>（3）变电：交流电最大的优势在于通过变压器就能很方便地升高或降低电压等级，而直流电电压无法通过变压器进行升压或降压，只能通过专门的电子电路进行升压或降压变换。</p>
+<p>（4）储电：储能系统能很大程度上缓解供配电在地域、时间上的峰谷差异以及分布式能源波动性等问题，减少能源浪费。储能设备都是直流，更方便接入直流电网，接入交流电网需要AC/DC转换。</p>
+<p>（5）配电：目前交流配电系统面临着线路损耗大、电压瞬时跌落、电压波动、电网谐波、三相不平衡现象等一系列电能质量问题。而直流配电网的线路损耗小；直流配电网供电可靠性高，交流配电一般采用三相四线或五线制，而直流配电只有两根输电线路，线路的可靠性比相同电压等级的交流线路要高；直流配电不涉及相位、频率控制，和无功功率及交流充电电流等问题；直流配电网便于分布式电源、储能装置等接入；直流线路的“空间电荷效应”使电晕损耗和无线电干扰都比交流线路小，产生的电磁辐射也小，具有环保优势。直流配电推广面临的问题更多在于变电环节以及庞大的设施更替规模。</p>
+<p>（6）用电：随着半导体、数字电路、信息技术的发展，如今，用户侧越来越多的负荷，如LED、手机、计算机、电视机等设备的内部供电都是基于直流。包括电动车等新能源的兴起也增加了直流负荷应用。交流电有幅值、频率、相位三个量需要控制，而直流电只需要控制电压幅值，控制更加简单稳定，直流电器也更绿色节能。随着直流微电网的推进及智慧家居行业的发展，未来直流家电也会成为一大增长点。</p>
+<p>可以看到随着科学技术的进步发展，直流电应用拥有广阔的发展前景。当然，直流电网目前也有部分技术问题亟待解决或提高，如直流漏电保护、DC/DC电压等级变换、直流电弧熄灭等。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[增加或删除swap分区]]></title>
         <id>https://181016.xyz/post/zeng-jia-huo-shan-chu-swap-fen-qu/</id>
@@ -196,85 +214,6 @@ tee 是一个把 stdin 保存到文件的小工具。<br>
 <blockquote>
 <p>遵守纪律，暗盘或者首日卖出股票，不要打新变炒股。</p>
 </blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[docker容器随随docker服务启动而启动]]></title>
-        <id>https://181016.xyz/post/docker-rong-qi-sui-sui-docker-fu-wu-qi-dong-er-qi-dong/</id>
-        <link href="https://181016.xyz/post/docker-rong-qi-sui-sui-docker-fu-wu-qi-dong-er-qi-dong/">
-        </link>
-        <updated>2020-12-29T06:06:44.000Z</updated>
-        <content type="html"><![CDATA[<p><a href="https://blog.csdn.net/annita2019/article/details/108803731">原文链接</a></p>
-<h1 id="一-我们的需求">一、我们的需求</h1>
-<p>让Docker容器跟随宿主机启动而启动</p>
-<h1 id="二-restart-policy机制">二、Restart policy机制</h1>
-<p>Docker提供了Restart policy机制，可以在容器退出或者Docker重启时控制容器能够自启动。这种Restart policy可以保证相关容器按照正确顺序启动。虽然也可以通过进程监控的方式(如systemd)来完成这种动作，但Docker还是建议尽量避免使用进程监控的方式来&quot;自启动&quot; 容器。</p>
-<p>Docker的 Restart policy与dockerd命令的--live-restore启动标志还有区别：–live-restore标志可以在Docker升级的时候保证容器继续运行，但是网络以及用户终端输入会被中断。<br>
-那到底什么是restart policy呢？我们来看看实际的情况吧。</p>
-<h1 id="三-docker-run的restart参数">三、docker run的restart参数</h1>
-<p>在使用docker run启动容器时，使用–restart参数来设置：</p>
-<p>docker run -m 512m --memory-swap 1G-it -p 58080:8080 --restart=always --name bvrfis --volumes -from logdata mytomcat:4.0 /root/run.sh<br>
-1<br>
-–restart具体参数值详细信息：</p>
-<p>no - 容器不自动重启<br>
-on-failure - 容器退出状态不为0时自动重启<br>
-on-failure:[n] - 容器退出状态不为0时自动重启，最大尝试n次<br>
-always - 始终尝试自动重启<br>
-如果创建时未指定 --restart=always ,可通过update 命令设置</p>
-<p>docker update --restart=always 容器名称<br>
-1<br>
-在使用on - failure参数时，指定Docker将尝试重新启动容器的最大次数。</p>
-<p>默认情况下，Docker将尝试永远重新启动容器。</p>
-<p>尝试重启redis容器10次</p>
-<p>docker run --restart=on-failure:10 redis<br>
-1</p>
-<h1 id="四-举例验证">四、举例验证</h1>
-<p>接下来我们通过举例来验证</p>
-<p>[root@docker ~]# docker run -i -t -d --name centos_aways --restart=always centos<br>
-e278cabec91e36f5582d92ba3ddb95ac17a0c2c59d8cdcc60791a28075e8abce<br>
-[root@docker ~]# docker ps -l<br>
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES<br>
-e278cabec91e        centos              &quot;/bin/bash&quot;         5 seconds ago       Up 4 seconds<br>
-[root@docker ~]# init 6   #重启机器<br>
-[root@docker ~]# docker ps -l<br>
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES<br>
-e278cabec91e        centos              &quot;/bin/bash&quot;         3 minutes ago       Up About a minute<br>
-1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-7<br>
-8<br>
-9<br>
-Docker服务重启后，查看添加了--restart=always参数的容器能否自动启动</p>
-<p>[root@docker ~]# /etc/init.d/docker stop<br>
-Stopping docker:                                           [  OK  ]<br>
-[root@docker ~]# /etc/init.d/docker start<br>
-Starting docker:	                                   [  OK  ]<br>
-[root@docker ~]# docker ps<br>
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES<br>
-14caa9ab03a9        dockerui/dockerui   &quot;/dockerui&quot;         11 minutes ago      Up 3 seconds        0.0.0.0:9000-&gt;9000/tcp   dockerui_qinwen<br>
-e278cabec91e        centos              &quot;/bin/bash&quot;         About an hour ago   Up 3 seconds                                 centos_aways<br>
-1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-7<br>
-8<br>
-在这里我们看到两台容器的状态还是up</p>
-<h1 id="五-restart-policy细节">五、Restart policy细节</h1>
-<p>使用Restart policies时需要注意如下细节：</p>
-<p>容器只有在成功启动后restart policy才能生效。这里的&quot;成功启动&quot;是指容器处于up至少10秒且已经处于docker监管。这是避免没有成功启动的容器陷入restart的死循环。<br>
-如果手动（manually）的stop(与前面的explicitly stopped有何区别)一个容器，容器设置的restart policy将会被忽略，除非Docker daemon重启或者容器手动重启。这是避免了另外一种死循环。<br>
-restart policies只能用于容器，对于swarm services其restart policies有不通过的配置。<br>
-六、多个容器使用时的注意事项<br>
-1.用docker自带的--link把多个容器链接在一起，有重启或升级的问题，比如很多容器都依赖于 db 这个容器，然后db容器重启了，重启时docker分配的ip会变，导致其他依赖于db的容器都要重启。<br>
-2.–link 链接的容器还有启动顺序的问题， 需要先启动db容器再启动其他依赖于db的容器， 这样导致 --link和--restart=always 不能一起用， 如果一起用会发现宿主机重启了， docker容器并没有全部重启。<br>
-3.因为这时候docker容器是同时被启动的，并不知道启动顺序。 最后决定不用 --link 链接容器了</p>
 ]]></content>
     </entry>
 </feed>
