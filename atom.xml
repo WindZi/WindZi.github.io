@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://181016.xyz</id>
     <title>Gridea</title>
-    <updated>2021-01-28T07:04:46.524Z</updated>
+    <updated>2021-02-22T01:08:53.854Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://181016.xyz"/>
     <link rel="self" href="https://181016.xyz/atom.xml"/>
@@ -10,6 +10,22 @@
     <logo>https://181016.xyz/images/avatar.png</logo>
     <icon>https://181016.xyz/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[使用telegram-cli签到]]></title>
+        <id>https://181016.xyz/post/shi-yong-telegram-cli-qian-dao/</id>
+        <link href="https://181016.xyz/post/shi-yong-telegram-cli-qian-dao/">
+        </link>
+        <updated>2021-02-22T01:00:10.000Z</updated>
+        <content type="html"><![CDATA[<p>arm64的telegram-cli docker镜像比较少，在docker hub找了几个，其中 ugeek/telegram-cli:arm 还算行，但是原来的启动命令无法联网。需要下面的命令来启动<br>
+docker run -dit  --name telegram-cli   --hostname telegram  --restart always  --network host -e TZ=Asia/Shanghai     ugeek/telegram-cli:arm</p>
+<p>容器建立后，还需要修改localtime才行。</p>
+<p>ln -s /usr/share/zoneinfo/Aisa/Shanghai  /etc/localtime</p>
+<p>这样定时任务的时间应该就对了。可以在crontab中 echo <code>date</code> 查看时间是否正确</p>
+<p>crontab定时任务时间是否设置正确，可以通过crontab.guru来查看</p>
+<p>关于telegram-cli如何使用可以查看下面的文章。</p>
+<p>https://www.bgegao.com/2019/09/1500.html</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[直流电与交流电的优缺点比较]]></title>
         <id>https://181016.xyz/post/zhi-liu-dian-yu-jiao-liu-dian-de-you-que-dian-bi-jiao/</id>
@@ -198,22 +214,6 @@ tee 是一个把 stdin 保存到文件的小工具。<br>
 所以执行这个命令，就相当于从vim外部修改了当前编辑的文件，好完工。</p>
 <p><a href="https://segmentfault.com/q/1010000000151086">参考网页</a><br>
 <a href="https://vim.fandom.com/wiki/Su-write">Su-write</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[中签率低不一定大涨]]></title>
-        <id>https://181016.xyz/post/zhong-qian-lu-di-bu-yi-ding-da-zhang/</id>
-        <link href="https://181016.xyz/post/zhong-qian-lu-di-bu-yi-ding-da-zhang/">
-        </link>
-        <updated>2021-01-06T03:38:14.000Z</updated>
-        <content type="html"><![CDATA[<p>之前中签京东健康，上市首日100元整就给卖了，后面一度涨到了180，后悔不已，<br>
-这次中签清科创业，中签率是2%，认为中签率很低，应该可以涨一波，暗盘从11块涨到15块，收益在1600多吧，但是觉得上市首日应该能赚不少，就等首日，结果高开低走，就一直没卖，但是估计回到15块难了。</p>
-<h1 id="中签率低不代表一定能大涨">中签率低不代表一定能大涨</h1>
-<h1 id="中签率高的不一定就涨的少">中签率高的不一定就涨的少</h1>
-<h1 id="涨多涨少跟中签率没关系">涨多涨少跟中签率没关系</h1>
-<blockquote>
-<p>遵守纪律，暗盘或者首日卖出股票，不要打新变炒股。</p>
-</blockquote>
 ]]></content>
     </entry>
 </feed>
