@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" href="https://181016.xyz/favicon.ico" type="image/x-icon" /><meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta name="apple-mobile-web-app-capable"content="yes"/><meta name="apple-mobile-web-app-status-bar-style"content="black"/><meta name="format-detection"content="telephone=no"/><meta name="renderer"content="webkit"><meta name="description"content="温故而知新"><meta charset="UTF-8"><title>Nginx location 配置踩坑过程分享 | Gridea</title>
+<link href="https://181016.xyz/styles/main.css" type="text/css" rel="stylesheet" /><link href="https://at.alicdn.com/t/font_1621793_zatzzgvf30g.css" type="text/css" rel="stylesheet" /><link rel="stylesheet" href="https://181016.xyz/media/css/katex.css"><script async src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.min.js"></script><script src="https://181016.xyz/media/js/magnify.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+<script type="text/javascript">function btn_toggle(){document.getElementById("hn").classList.contains("no-js")?document.getElementById("hn").classList.remove("no-js"):document.getElementById("hn").classList.add("no-js")}</script>
+
+<link rel="canonical" href="https://181016.xyz/post/nginx-location-pei-zhi-cai-keng-guo-cheng-fen-xiang/" />
+</head>
+<body>
+<div class="progress"></div><style>.progress{background:linear-gradient(to right,#87ceeb var(--scroll),transparent 0);background-repeat:no-repeat;position:fixed;width:100%;height:4px;z-index:1}</style><div class="darkmode-background"></div><div class="darkmode-layer"></div>
+<noscript><p class="warn" >本页面需要浏览器支持（启用）JavaScript</p></noscript><div class="header"><div class="logo_title"><div class="title animated fadeInDown"><a href="https://181016.xyz"><img alt="logo" style="display:inline-block;" src="https://181016.xyz/images/avatar.png"/></a><h1 title="Gridea" class="weaklink"><a  href="/">Gridea</a></h1>
+
+<div class="navbar weaklink">
+<div class="normal_nav">
+<div class="bitcron_nav_container"><div class="bitcron_nav"><div class="bitcron_nav"><div style="display:flex;justify-content:center;"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul></nav>
+<div style="float:right;margin-top:1em"><form id="gridea-search-form" data-update="1578893743252" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="Search..."></form></div><div style="margin-left:0.5em;margin-top:1.2em"><input id="switch_default" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+<div class="clear clear_nav_inline_end"></div></div></div><div class="clear clear_nav_end"></div></div></div><div class="hamberger" href="javascript:void(0)" onclick="btn_toggle();"><i class="iconfont icon-category"></i></div></div></div></div>
+<div id="hn" class="no-js hidden_nav animated fadeInDown"><div class="bitcron_nav_container"><div class="bitcron_nav"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul><div class="clear clear_nav_inline_end"></div></nav></div><div class="clear clear_nav_end"></div></div>
+<div style="display:flex;justify-content:center;inline-block;text-align:center;margin-top:7%"><div><form id="gridea-search-form" data-update="1700192119215" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q"  placeholder="Search..." /></form></div><div style="margin-left:0.5em"><input id="switch_default_h" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+</div></div>
+<script>function enableDarkmode(){document.body.classList.add("darkmode"),document.getElementById("switch_default").checked=1,document.getElementById("switch_default_h").checked=1}function removeDarkmode(){document.body.classList.remove("darkmode"),document.getElementById("switch_default").checked=0,document.getElementById("switch_default_h").checked=0}function getCookie(a){var b,c=new RegExp("(^| )"+a+"=([^;]*)(;|$)");return(b=document.cookie.match(c))?unescape(b[2]):null}cookie=getCookie("darkmode"),"enable"==cookie&&enableDarkmode(),window.matchMedia("(prefers-color-scheme: dark)").matches&&"disable"!==cookie&&(enableDarkmode(),document.cookie="darkmode=enable; path=/");var mobileBtn=function(){1==document.getElementById("switch_default").checked?(enableDarkmode(),document.cookie="darkmode=enable; path=/"):(removeDarkmode(),document.cookie="darkmode=disable; path=/")};</script>
+
+<div class="main"><div class="main-inner"><div class="content">
+<article class="post">
+<h2 class="post_title sm_margin"><a>Nginx location 配置踩坑过程分享</a></h2>
+<script>function lan(){if(document.getElementById("lan").innerText=="繁"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_tw.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="简"}else{if(document.getElementById("lan").innerText=="簡"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_cn.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="繁"}}};</script>
+<section class="post_details"><i class="iconfont icon-calendar"></i><span style="margin-right:15px"> 2023-11-17</span><i class="iconfont icon-browse"></i><span style="margin-right:15px"> <span id="busuanzi_value_page_pv"></span> Views</span><i class="iconfont icon-category"></i><span class="weaklink" style="margin-right:15px"></span><i class="iconfont icon-caret-down"></i><span style="margin-right:15px">2238字</span><i class="iconfont icon-naozhong"></i><span style="margin-right:15px">10 min read</span><a id="lan" href="javascript:void(0);"onclick="lan();"title="调整简繁体" style="margin-right:15px;">繁</a>
+</section>
+
+<div style="display:flex">
+<div class="md_block" id="md_block">
+<div class="round-shape-one"></div>
+<p>原文链接 ：https://ruby-china.org/topics/24090<br>
+这是五个小时与一个字符的战斗<br>
+是的，作为一个程序员，你往往发现，有的时候你花费了数小时，数天，甚至数星期来查找问题，但最终可能只花费了数秒，改动了数行，甚至几个字符就解决了问题。这次给大家分享一个困扰了我很久，我花了五个小时才查找出问题原因，最终只添加了一个字符解决了的问题。</p>
+<p>问题描述<br>
+我们的业务系统比较复杂，但最终提供给用户的访问接口比较单一，都是使用 Nginx 来做一个代理转发，而这个代理转发，往往需要匹配很多种不同类型的 URL 转给不同的服务。这就使得我们的 Nginx 配置文件变得很复杂，粗略估计了下，我们有近 20 个 upstream，有近 60 个 location 匹配。这些配置按照模块分布在不同的文件中，虽然复杂，但是仍然在我们的努力下运行的良好。直到有一天，有位同事给我反映说偶尔有些 URL 会出现 404 的问题。一开始没太在意，因为他也说不准是哪一种 URL 才遇到这个问题。</p>
+<p>问题查找<br>
+后来，慢慢的查找，找到了一些规律，一开始只知道是 tomcat 那边返回 404 了，想到 Nginx 都代理给了 tomcat，一开始就怀疑是程序的问题，不会想到是 Nginx。</p>
+<p>我开始查找代码的问题，我在本地的开发环境，尝试了很久，我使用 8080 端口访问，不论如何都是正确的结果，可是生产环境就是不行。然后我就听信了某坑友同事的理论，重启解决 95% 的问题，重装解决 100% 的问题，我尝试重启了 tomcat 和 Nginx，依然不行，然后是重装，你猜结果如何？？？？？ ------想啥呢？当然也是不行！</p>
+<p>后来就开始怀疑是生产环境和开发环境的差异，去服务器上访问 8080 端口，仍然是可以的。可是一经过 Nginx 代理，就不行。这个时候才开始怀疑是 Nginx 出了什么问题。</p>
+<p>Nginx 怎么会出问题呢，业务系统中 URL 模式 /helloworld/* ,这样的 URL 我们都是统一处理的。怎么会出现一些行，一些不行呢。问题表现为 A URL（/helloworld/nn/hello/world）没问题，而 B URL(/helloworld/ii/hello/world) 有问题。</p>
+<p>所以到目前为止，基本可以肯定是 Nginx 的 location 上出了一些问题。</p>
+<p>问题解决<br>
+因篇幅有限，为了直面本次问题的核心，我不再贴出完整的 Nginx 配置，我简化此次问题的模型。请看如下 Nginx 配置，这是我们之前的会导致问题的错误配置模型。</p>
+<p>worker_processes  1;<br>
+error_log  logs/error.log;<br>
+events {<br>
+worker_connections  1024;<br>
+}</p>
+<p>http {<br>
+include       mime.types;<br>
+default_type  application/octet-stream;<br>
+log_format  main  '$remote_addr - $request_time - <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>r</mi><mi>e</mi><mi>m</mi><mi>o</mi><mi>t</mi><msub><mi>e</mi><mi>u</mi></msub><mi>s</mi><mi>e</mi><mi>r</mi><mo>[</mo></mrow><annotation encoding="application/x-tex">remote_user [</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">t</span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">u</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">[</span></span></span></span>time_local] &quot;<span class='katex-error' title='ParseError: KaTeX parse error: Double superscript at position 34: …               &#039;̲'>request&quot; &#039;
+                      &#039;</span>status <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi><mi>o</mi><mi>d</mi><msub><mi>y</mi><mi>b</mi></msub><mi>y</mi><mi>t</mi><mi>e</mi><msub><mi>s</mi><mi>s</mi></msub><mi>e</mi><mi>n</mi><mi>t</mi><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">body_bytes_sent &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">b</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">b</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">t</span><span class="mord mathdefault">e</span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault">t</span><span class="mord">&quot;</span></span></span></span>http_referer&quot; '<br>
+'&quot;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>h</mi><mi>t</mi><mi>t</mi><msub><mi>p</mi><mi>u</mi></msub><mi>s</mi><mi>e</mi><msub><mi>r</mi><mi>a</mi></msub><mi>g</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi mathvariant="normal">&quot;</mi><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">http_user_agent&quot; &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">h</span><span class="mord mathdefault">t</span><span class="mord mathdefault">t</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">u</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault">t</span><span class="mord">&quot;</span><span class="mord">&quot;</span></span></span></span>http_x_forwarded_for&quot;';</p>
+<pre><code>access_log  logs/access.log main;
+
+sendfile        on;
+keepalive_timeout  65;
+
+gzip  on;
+
+server {
+    listen       80;
+    server_name  localhost;
+    location / {
+        root   html;
+        index  index.html index.htm;
+    }
+    location = /helloworld {
+            return 602;
+    }
+    location /helloworld {
+            return 603;
+    }
+
+    ## 生产环境中如下两个 location 在另外一个文件中，通过 include 包含进来
+    location /ii {
+            return 604;
+    }
+    location ~ /ii/[^\/]+/[^\/]+ {
+            return 605;
+    }
+    ##
+
+    location ~ ^/helloworld/(scripts|styles|images).* {
+            return 606;
+    }
+}
+</code></pre>
+<p>}<br>
+注意，这里有几点需要说明一下，生产环境的 Nginx 服务器配置文件比这里要复杂很多，而且是按模块分布在不同的文件中的。这里简化模型后，使用 Http 响应状态码 60x 来区分到底被哪个 location 匹配到了。 我针对当时的情况，做了大量尝试，最终的简化版本如下：</p>
+<p>尝试 1：http://localhost/helloworld ==&gt; 602 符合预期<br>
+尝试 2：http://localhost/helloworld/hello ==&gt; 603 符合预期<br>
+尝试 3：http://localhost/ii ==&gt; 604 符合预期<br>
+尝试 4：http://localhost/ii/oo ==&gt; 604 符合预期<br>
+尝试 5：http://localhost/ii/pp/kk ==&gt; 605 符合预期<br>
+尝试 6：http://localhost/ii/pp/kk/ll ==&gt; 605 符合预期<br>
+尝试 7：http://localhost/helloworld/scripts/aaa.js ==&gt; 606 符合预期<br>
+尝试 8：http://localhost/helloworld/ii/hello/world ==&gt; 605 不符合预期，预期为【603】<br>
+上面这些尝试支持读者自行试验，Nginx 配置文件是完整可用的，我本地 Nginx 的版本是 1.6.2<br>
+问题就在这里：我这里是事后，把这些匹配 location 标记成了不同的响应码，才方便查找问题。当发现这个不符合预期后，我还是难以理解，为何我一个以 /helloworld 开头的 URL 会被匹配到 605 这个以 /ii 开头的 location 里面来。在当时的生产环境中，以 /ii 的配置统一放在另外一个文件中，这里是很难直观的察觉出来这个 /ii 跟访问的 URL 里面的 /ii 的关系。</p>
+<p>我不得不重新编译了 Nginx，加上了调试参数，修改配置项，看调试日志了。</p>
+<p>这里不再讲如何给 Nginx 加调试的编译参数，可自行查看相关文档。修改配置项很简单，只需要在</p>
+<p>error_log  logs/error.log;<br>
+后面加上 debug 就可以了。</p>
+<p>打出详细调试日志后，访问</p>
+<p>http://localhost/helloworld/ii/hello/world<br>
+我得到了这样的一段日志 (省略掉了前后无用的日志，只保留有意义的一段)：</p>
+<p>2015/02/02 15:38:48 [debug] 5801#0: *60 http request line: &quot;GET /helloworld/ii/hello/world HTTP/1.1&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http uri: &quot;/helloworld/ii/hello/world&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http args: &quot;&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http exten: &quot;&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http process request header line<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http header: &quot;User-Agent: curl/7.37.1&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http header: &quot;Host: localhost&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http header: &quot;Accept: <em>/</em>&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http header done<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 event timer del: 4: 1422862788055<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 rewrite phase: 0<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 test location: &quot;/&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 test location: &quot;ii&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 test location: &quot;helloworld&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 test location: ~ &quot;/ii/[<sup>/]+/[</sup>/]+&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 using configuration &quot;/ii/[<sup>/]+/[</sup>/]+&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http cl:-1 max:1048576<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 rewrite phase: 2<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http finalize request: 605, &quot;/helloworld/ii/hello/world?&quot; a:1, c:1<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http special response: 605, &quot;/helloworld/ii/hello/world?&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http set discard body<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 posix_memalign: 00007FC3BB816000:4096 @16<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 HTTP/1.1 605<br>
+Server: nginx/1.6.2<br>
+Date: Mon, 02 Feb 2015 07:38:48 GMT<br>
+Content-Length: 0<br>
+Connection: keep-alive<br>
+可以看到，Nginx 测试了几次 location 匹配，最终选择了</p>
+<p>~ &quot;/ii/[<sup>/]+/[</sup>/]+&quot;<br>
+这个作为最终的匹配项。到这里问题就完全展现出来了，我们本来的意思，是要以 /ii 开头，后面有两个或者更多的 / 分割的 URL 模型才匹配，但是这里的正则表达式匹配写的不够精准，导致了匹配错误。正则表达式没有限制必须从开头匹配，所以才会匹配到 /helloworld/ii/hello/world 这样的 URL。</p>
+<p>解决办法就是在这个正则表达式前面加上 ^ 来强制 URL 必须以 /ii 开头才能匹配. 由</p>
+<p>/ii/[<sup>/]+/[</sup>/]+<br>
+变成</p>
+<p><sup>/ii/[</sup>/]+/[^/]+<br>
+至此，这个坑被填上了，消耗的是五个小时和一个字符。</p>
+<p>相信很多人在写 Nginx 的 location 的时候都会 location ~ /xxx 或者 location /iii 这样简单了事，但是我想说的是能尽量精确就尽量精确，否则出现问题的时候，非常难以查找。</p>
+<p>有关 Nginx 的 location 匹配规则，可以查看：http://nginx.org/en/docs/http/ngx_http_core_module.html<br>
+问题总结<br>
+这个问题看似简单，却也隐含了不少问题，值得我们深思。</p>
+<p>计算机或者软件出的问题往往是确定的，你发现他捉摸不定的时候，往往是没有观察到问题点<br>
+追踪一个问题，如果有一个必现方式，一定要紧追不舍，这就是所谓线索<br>
+当你实在是找不到问题所在的时候，要怀疑一下之前被自己排除掉的可能性<br>
+借助各个组件的详细调试日志来查找问题，往往能得到意想不到的效果<br>
+程序员的价值不是用行数，字数，提交数衡量的！<br>
+本文作者： [王振威][1] 文章出自： [Coding 官方技术博客][2] 如需转载，请注明作者与出处，谢谢</p>
+
+<span id="footnote"></span>
+<div id = "warn"></div>
+</div>
+<div class="toc-container"></div>
+</div>
+<div id="fullPage"><canvas id="canvas"></canvas></div>
+</article>
+<div id="eof"><span>EOF</span></div><div class="round-shape-one"></div>
+<section>
+<div class="doc_comments">
+
+</div></section>
+</div></div></div><script>
+"use strict";!function(){for(var n=document.getElementsByTagName("pre"),e=n.length,s=0;s<e;s++){n[s].innerHTML='<span class="line-number"></span>'+n[s].innerHTML+'<span class="cl"></span>';for(var a=n[s].innerHTML.split(/\n/).length,r=0;r<a-1;r++){n[s].getElementsByTagName("span")[0].innerHTML+="<span>"+(r+1)+"</span>"}}}();
+let mainNavLinks=document.querySelectorAll(".markdownIt-TOC a");window.addEventListener("scroll",event=>{let fromTop=window.scrollY;mainNavLinks.forEach((link,index)=>{let section=document.getElementById(decodeURI(link.hash).substring(1));let nextSection=null
+if(mainNavLinks[index+1]){nextSection=document.getElementById(decodeURI(mainNavLinks[index+1].hash).substring(1));}
+if(section.offsetTop<=fromTop){if(nextSection){if(nextSection.offsetTop>fromTop){link.classList.add("currentToc");}else{link.classList.remove("currentToc");}}else{link.classList.add("currentToc");}}else{link.classList.remove("currentToc");}});});
+var list=document.querySelectorAll(".katex");for(var i=0;i<list.length;i++){list[i].style.display="unset"};
+var h=document.documentElement,b=document.body,st="scrollTop",sh="scrollHeight",progress=document.querySelector(".progress"),scroll;document.addEventListener("scroll",function(){scroll=(h[st]||b[st])/((h[sh]||b[sh])-h.clientHeight)*100;progress.style.setProperty("--scroll",scroll+"%")});
+var wxScale=new WxScale({fullPage:document.querySelector("#fullPage"),canvas:document.querySelector("#canvas")});var imgBox=document.querySelectorAll("#md_block img");for(var i=0;i<imgBox.length;i++){imgBox[i].onclick=function(e){wxScale.start(this)}};
+content="本文最后更新于2023-11-17，已超过 1 年没有更新，涉及的内容可能已经失效！";var date1="2023-11-17 11:34:39";date1=date1.replace("-","/");var date2=new Date();var date3=date2.getTime()-new Date(date1).getTime();var days=Math.floor(date3/(24*3600*1000));if(days>=365){document.getElementById("warn").innerHTML=content};
+</script>
+<style>#magnifyImg{position:fixed;left:0;top:0;text-align:center;width:100%;display:none;z-index:9999}#magnifyImg img{object-fit:contain;background:#eaecef;padding:15px;border-radius:10px;height:auto;width:auto;vertical-align:middle}</style>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647; display: block;"></a><div class="footer animated fadeInDown"><div class="site_footer"><div class="mysocials"><div class="my_socials"></div></div><div class="copyright"id="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>Copyright © 2018-2020 <a href="https://181016.xyz" style="margin:0;">Gridea</a>.</div>
+<span style="display: inline;margin-right:15px;">👁<strong><span id="busuanzi_value_site_uv"></span></strong></span><span id="busuanzi_container_page_pv" style="display: inline;"><span>📚<strong>42</strong> posts</span></div></div>
+<script>
+console.log("\n %c \u26a1Theme: Bitcron-pro Author's Blog:https://blog.blinkstar.cn  Writen By Serence  \n\n", "color: #ffffff; background: rgba(49, 49, 49, 0.85); padding:5px 0;border-radius:5px;", );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/instant.page@3.0.0/instantpage.min.js" type="module" defer></script>
+<script type="text/javascript" async src="https://181016.xyz/media/js/prism.js"></script>
+</body>
+</html>

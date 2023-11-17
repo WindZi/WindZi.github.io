@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://181016.xyz</id>
+    <title>Gridea</title>
+    <updated>2023-11-17T03:35:23.676Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://181016.xyz"/>
+    <link rel="self" href="https://181016.xyz/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://181016.xyz/images/avatar.png</logo>
+    <icon>https://181016.xyz/favicon.ico</icon>
+    <rights>All rights reserved 2023, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[Nginx location 配置踩坑过程分享]]></title>
+        <id>https://181016.xyz/post/nginx-location-pei-zhi-cai-keng-guo-cheng-fen-xiang/</id>
+        <link href="https://181016.xyz/post/nginx-location-pei-zhi-cai-keng-guo-cheng-fen-xiang/">
+        </link>
+        <updated>2023-11-17T03:34:39.000Z</updated>
+        <content type="html"><![CDATA[<p>原文链接 ：https://ruby-china.org/topics/24090<br>
+这是五个小时与一个字符的战斗<br>
+是的，作为一个程序员，你往往发现，有的时候你花费了数小时，数天，甚至数星期来查找问题，但最终可能只花费了数秒，改动了数行，甚至几个字符就解决了问题。这次给大家分享一个困扰了我很久，我花了五个小时才查找出问题原因，最终只添加了一个字符解决了的问题。</p>
+<p>问题描述<br>
+我们的业务系统比较复杂，但最终提供给用户的访问接口比较单一，都是使用 Nginx 来做一个代理转发，而这个代理转发，往往需要匹配很多种不同类型的 URL 转给不同的服务。这就使得我们的 Nginx 配置文件变得很复杂，粗略估计了下，我们有近 20 个 upstream，有近 60 个 location 匹配。这些配置按照模块分布在不同的文件中，虽然复杂，但是仍然在我们的努力下运行的良好。直到有一天，有位同事给我反映说偶尔有些 URL 会出现 404 的问题。一开始没太在意，因为他也说不准是哪一种 URL 才遇到这个问题。</p>
+<p>问题查找<br>
+后来，慢慢的查找，找到了一些规律，一开始只知道是 tomcat 那边返回 404 了，想到 Nginx 都代理给了 tomcat，一开始就怀疑是程序的问题，不会想到是 Nginx。</p>
+<p>我开始查找代码的问题，我在本地的开发环境，尝试了很久，我使用 8080 端口访问，不论如何都是正确的结果，可是生产环境就是不行。然后我就听信了某坑友同事的理论，重启解决 95% 的问题，重装解决 100% 的问题，我尝试重启了 tomcat 和 Nginx，依然不行，然后是重装，你猜结果如何？？？？？ ------想啥呢？当然也是不行！</p>
+<p>后来就开始怀疑是生产环境和开发环境的差异，去服务器上访问 8080 端口，仍然是可以的。可是一经过 Nginx 代理，就不行。这个时候才开始怀疑是 Nginx 出了什么问题。</p>
+<p>Nginx 怎么会出问题呢，业务系统中 URL 模式 /helloworld/* ,这样的 URL 我们都是统一处理的。怎么会出现一些行，一些不行呢。问题表现为 A URL（/helloworld/nn/hello/world）没问题，而 B URL(/helloworld/ii/hello/world) 有问题。</p>
+<p>所以到目前为止，基本可以肯定是 Nginx 的 location 上出了一些问题。</p>
+<p>问题解决<br>
+因篇幅有限，为了直面本次问题的核心，我不再贴出完整的 Nginx 配置，我简化此次问题的模型。请看如下 Nginx 配置，这是我们之前的会导致问题的错误配置模型。</p>
+<p>worker_processes  1;<br>
+error_log  logs/error.log;<br>
+events {<br>
+worker_connections  1024;<br>
+}</p>
+<p>http {<br>
+include       mime.types;<br>
+default_type  application/octet-stream;<br>
+log_format  main  '$remote_addr - $request_time - <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>r</mi><mi>e</mi><mi>m</mi><mi>o</mi><mi>t</mi><msub><mi>e</mi><mi>u</mi></msub><mi>s</mi><mi>e</mi><mi>r</mi><mo>[</mo></mrow><annotation encoding="application/x-tex">remote_user [</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">t</span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">u</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">[</span></span></span></span>time_local] &quot;<span class='katex-error' title='ParseError: KaTeX parse error: Double superscript at position 34: …               &#039;̲'>request&quot; &#039;
+                      &#039;</span>status <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi><mi>o</mi><mi>d</mi><msub><mi>y</mi><mi>b</mi></msub><mi>y</mi><mi>t</mi><mi>e</mi><msub><mi>s</mi><mi>s</mi></msub><mi>e</mi><mi>n</mi><mi>t</mi><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">body_bytes_sent &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">b</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">b</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">t</span><span class="mord mathdefault">e</span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault">t</span><span class="mord">&quot;</span></span></span></span>http_referer&quot; '<br>
+'&quot;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>h</mi><mi>t</mi><mi>t</mi><msub><mi>p</mi><mi>u</mi></msub><mi>s</mi><mi>e</mi><msub><mi>r</mi><mi>a</mi></msub><mi>g</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi mathvariant="normal">&quot;</mi><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">http_user_agent&quot; &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">h</span><span class="mord mathdefault">t</span><span class="mord mathdefault">t</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">u</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault">t</span><span class="mord">&quot;</span><span class="mord">&quot;</span></span></span></span>http_x_forwarded_for&quot;';</p>
+<pre><code>access_log  logs/access.log main;
+
+sendfile        on;
+keepalive_timeout  65;
+
+gzip  on;
+
+server {
+    listen       80;
+    server_name  localhost;
+    location / {
+        root   html;
+        index  index.html index.htm;
+    }
+    location = /helloworld {
+            return 602;
+    }
+    location /helloworld {
+            return 603;
+    }
+
+    ## 生产环境中如下两个 location 在另外一个文件中，通过 include 包含进来
+    location /ii {
+            return 604;
+    }
+    location ~ /ii/[^\/]+/[^\/]+ {
+            return 605;
+    }
+    ##
+
+    location ~ ^/helloworld/(scripts|styles|images).* {
+            return 606;
+    }
+}
+</code></pre>
+<p>}<br>
+注意，这里有几点需要说明一下，生产环境的 Nginx 服务器配置文件比这里要复杂很多，而且是按模块分布在不同的文件中的。这里简化模型后，使用 Http 响应状态码 60x 来区分到底被哪个 location 匹配到了。 我针对当时的情况，做了大量尝试，最终的简化版本如下：</p>
+<p>尝试 1：http://localhost/helloworld ==&gt; 602 符合预期<br>
+尝试 2：http://localhost/helloworld/hello ==&gt; 603 符合预期<br>
+尝试 3：http://localhost/ii ==&gt; 604 符合预期<br>
+尝试 4：http://localhost/ii/oo ==&gt; 604 符合预期<br>
+尝试 5：http://localhost/ii/pp/kk ==&gt; 605 符合预期<br>
+尝试 6：http://localhost/ii/pp/kk/ll ==&gt; 605 符合预期<br>
+尝试 7：http://localhost/helloworld/scripts/aaa.js ==&gt; 606 符合预期<br>
+尝试 8：http://localhost/helloworld/ii/hello/world ==&gt; 605 不符合预期，预期为【603】<br>
+上面这些尝试支持读者自行试验，Nginx 配置文件是完整可用的，我本地 Nginx 的版本是 1.6.2<br>
+问题就在这里：我这里是事后，把这些匹配 location 标记成了不同的响应码，才方便查找问题。当发现这个不符合预期后，我还是难以理解，为何我一个以 /helloworld 开头的 URL 会被匹配到 605 这个以 /ii 开头的 location 里面来。在当时的生产环境中，以 /ii 的配置统一放在另外一个文件中，这里是很难直观的察觉出来这个 /ii 跟访问的 URL 里面的 /ii 的关系。</p>
+<p>我不得不重新编译了 Nginx，加上了调试参数，修改配置项，看调试日志了。</p>
+<p>这里不再讲如何给 Nginx 加调试的编译参数，可自行查看相关文档。修改配置项很简单，只需要在</p>
+<p>error_log  logs/error.log;<br>
+后面加上 debug 就可以了。</p>
+<p>打出详细调试日志后，访问</p>
+<p>http://localhost/helloworld/ii/hello/world<br>
+我得到了这样的一段日志 (省略掉了前后无用的日志，只保留有意义的一段)：</p>
+<p>2015/02/02 15:38:48 [debug] 5801#0: *60 http request line: &quot;GET /helloworld/ii/hello/world HTTP/1.1&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http uri: &quot;/helloworld/ii/hello/world&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http args: &quot;&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http exten: &quot;&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http process request header line<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http header: &quot;User-Agent: curl/7.37.1&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http header: &quot;Host: localhost&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http header: &quot;Accept: <em>/</em>&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http header done<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 event timer del: 4: 1422862788055<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 rewrite phase: 0<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 test location: &quot;/&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 test location: &quot;ii&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 test location: &quot;helloworld&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 test location: ~ &quot;/ii/[<sup>/]+/[</sup>/]+&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 using configuration &quot;/ii/[<sup>/]+/[</sup>/]+&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http cl:-1 max:1048576<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 rewrite phase: 2<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http finalize request: 605, &quot;/helloworld/ii/hello/world?&quot; a:1, c:1<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http special response: 605, &quot;/helloworld/ii/hello/world?&quot;<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 http set discard body<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 posix_memalign: 00007FC3BB816000:4096 @16<br>
+2015/02/02 15:38:48 [debug] 5801#0: *60 HTTP/1.1 605<br>
+Server: nginx/1.6.2<br>
+Date: Mon, 02 Feb 2015 07:38:48 GMT<br>
+Content-Length: 0<br>
+Connection: keep-alive<br>
+可以看到，Nginx 测试了几次 location 匹配，最终选择了</p>
+<p>~ &quot;/ii/[<sup>/]+/[</sup>/]+&quot;<br>
+这个作为最终的匹配项。到这里问题就完全展现出来了，我们本来的意思，是要以 /ii 开头，后面有两个或者更多的 / 分割的 URL 模型才匹配，但是这里的正则表达式匹配写的不够精准，导致了匹配错误。正则表达式没有限制必须从开头匹配，所以才会匹配到 /helloworld/ii/hello/world 这样的 URL。</p>
+<p>解决办法就是在这个正则表达式前面加上 ^ 来强制 URL 必须以 /ii 开头才能匹配. 由</p>
+<p>/ii/[<sup>/]+/[</sup>/]+<br>
+变成</p>
+<p><sup>/ii/[</sup>/]+/[^/]+<br>
+至此，这个坑被填上了，消耗的是五个小时和一个字符。</p>
+<p>相信很多人在写 Nginx 的 location 的时候都会 location ~ /xxx 或者 location /iii 这样简单了事，但是我想说的是能尽量精确就尽量精确，否则出现问题的时候，非常难以查找。</p>
+<p>有关 Nginx 的 location 匹配规则，可以查看：http://nginx.org/en/docs/http/ngx_http_core_module.html<br>
+问题总结<br>
+这个问题看似简单，却也隐含了不少问题，值得我们深思。</p>
+<p>计算机或者软件出的问题往往是确定的，你发现他捉摸不定的时候，往往是没有观察到问题点<br>
+追踪一个问题，如果有一个必现方式，一定要紧追不舍，这就是所谓线索<br>
+当你实在是找不到问题所在的时候，要怀疑一下之前被自己排除掉的可能性<br>
+借助各个组件的详细调试日志来查找问题，往往能得到意想不到的效果<br>
+程序员的价值不是用行数，字数，提交数衡量的！<br>
+本文作者： [王振威][1] 文章出自： [Coding 官方技术博客][2] 如需转载，请注明作者与出处，谢谢</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[https://www.kejicode.cn/index.php/archives/39/]]></title>
+        <id>https://181016.xyz/post/httpswwwkejicodecnindexphparchives39/</id>
+        <link href="https://181016.xyz/post/httpswwwkejicodecnindexphparchives39/">
+        </link>
+        <updated>2023-07-14T09:15:56.000Z</updated>
+        <content type="html"><![CDATA[<p>【第二期】史上最强免费 VPN：WARP 安卓、苹果手机端优选 IP + 无限流量保姆级教程，Team 账户跳过绑卡，保证速度起飞！ - 科技源代码<br>
+哈喽，大家好，这里是科技源代码。本期视频接着上一期，给大家说一下在如何获取 WARP 的配置文件，以及安卓，和苹果端如何优选 ip，顺带解决一下上一期视频发出后，很多同学遇到的问题。所以没有看上一期视...<br>
+哈喽，大家好，这里是科技源代码。</p>
+<p>本期视频接着上一期，给大家说一下在如何获取 WARP 的配置文件，以及安卓，和苹果端如何优选 ip，顺带解决一下上一期视频发出后，很多同学遇到的问题。所以没有看上一期视频的同学，建议你先点击右上角观看一下上一期视频，这样才能较好的理解本期内容。</p>
+<p>废话不多说，首先就是解决一下上一期大家遇到最多的一个问题：</p>
+<p>1、跳过 cloudflare 绑定支付方式的问题。其实就是进行到支付页面这一步的时候，关闭整个网页，再重新进入 cloudflare 即可。</p>
+<p>2、进行设备绑定的时候，不出现那个绑定设备页面，这个可能是网页的 bug 吧，也很好解决，只需要先点击其他菜单，再次点击回来就可以了。记住就是在点击的过程中，不能打开网页翻译，需要在关闭翻译的状态下，这样就能看到绑定设备界面了。</p>
+<p>IP 优选<br>
+1、IP 优选需要用到不同的软件，不能再用官方的客户端 WARP 了，因为 WARP 使用的就是 wireguard 协议，所以我们需要用 wireguard 客户端，只有这个客户端，才能修改配置文件，进行 IP 优选。<br>
+wireguard 客户端下载：https://www.wireguard.com/install/</p>
+<p>2、获取配置文件：https://replit.com/@ygkkkk/WARP-Wireguard-Register</p>
+<p>打开连接，点击运行，选择 2，然后选择 3 团队账户，根据网站提示，获取 token，粘贴到网站里，然后获取配置文件。有文字和二维码形式。配置文件是通用的，手机端也是这个配置文件。</p>
+<p>电脑端优选 IP：<br>
+1、获取完成配置文件之后，就可以在电脑上优选 ip 了，优选过后，把 ip 地址和端口，替换到配置文件最后一行的 ip 地址端口。接着打开 wireguard 客户端，粘贴配置文件，然后连接即可。</p>
+<p>2、手机也一样，苹果需要下载 wireguard ios 客户端，注意的是，这里需要一个美区的 Apple ID 进行下载。下载完成之后，打开 wireguard，扫描刚刚第二步出来的二维码，之后，就可以点开编辑，替换优选的 IP 进行连接了。</p>
+<p>苹果端优选 IP：<br>
+下载软件 ISH，打卡之后先更新依赖：</p>
+<p>然后输入脚本地址：</p>
+<p>把优选出来的 IP 第一个，复制粘贴到 wireguard 配置的对端地址里。</p>
+<p>安卓端优选 IP<br>
+下载软件 termux ，下载 x86_64.apk 的那个升级依赖，升级代码：</p>
+<p>然后输入脚本地址：</p>
+<p>把优选出来的 IP 第一个，复制粘贴到 wireguard 配置的对端地址里。</p>
+<p>全文完<br>
+本文由 简悦 SimpRead 优化，用以提升阅读体验<br>
+使用了 全新的简悦词法分析引擎 beta，点击查看详细说明<br>
+IP 优选</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[BACKUP GPT4]]></title>
+        <id>https://181016.xyz/post/backup-gpt4/</id>
+        <link href="https://181016.xyz/post/backup-gpt4/">
+        </link>
+        <updated>2023-07-13T09:00:50.000Z</updated>
+        <content type="html"><![CDATA[<p>完全免费使用，只有速度限制 gpt4 每分钟10条，每天1000条。相比官方的付费订阅，3小时才25条</p>
+<ol>
+<li>
+<p>加入 Discord ChinmeraGPT 群<br>
+https://discord.gg/aubyc3JY<br>
+进群后有个验证，找一下 verify 进去验证。通过验证后，在 chat 频道，输入 /key get 获取 key</p>
+</li>
+<li>
+<p>一键部署 chatgpt next web。部署成功后，任何设备中你都能使用网页版的GPT。如果不会部署或只在电脑上用的，跳到 4<br>
+https://github.com/Yidadaa/ChatG ... b/main/README_CN.md<br>
+建议 fork 到自己名字下，然后部署，这样做可以自动更新<br>
+有自己服务器也可以用 docker 部署到自己服务器下，海外服务器比较好<br>
+有很多开源的前端项目，选这个是因为最容易部署。也可以选其他的。</p>
+</li>
+<li>
+<p>next web 配置环境变量<br>
+BASE_URL=https://chimeragpt.adventblocks.cc<br>
+OPENAI_API_KEY=粘贴第一步的key<br>
+CODE=设置网站的访问密码<br>
+HIDE_USER_API_KEY=1</p>
+</li>
+</ol>
+<p>另外可以在 vercel 里绑定自己的域名<br>
+可选模型和速度限制: https://chimeragpt.adventblocks.cc/v1/models<br>
+claude-2-100k也是很强的模型<br>
+如果回复中有“apikey出错，discord...”的提示，可以清空浏览器缓存：F12进入dev tool，application &gt; Storage &gt; Local Storage &gt; 某网站  右键清空</p>
+<p>4.（已经部署好的不用看） 安装 电脑版客户端<br>
+windows<br>
+https://github.com/Yidadaa/ChatG ... 2.8.9_x64-setup.exe<br>
+mac<br>
+https://github.com/Yidadaa/ChatG ... t.Web_2.8.9_x64.dmg<br>
+点左下角设置，看图填入参数<br>
+接口地址：https://chimeragpt.adventblocks.cc<br>
+API Key：粘贴第一步的key<br>
+就可以直接用了</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Copilot快捷键]]></title>
+        <id>https://181016.xyz/post/copilot-kuai-jie-jian/</id>
+        <link href="https://181016.xyz/post/copilot-kuai-jie-jian/">
+        </link>
+        <updated>2023-04-23T01:03:03.000Z</updated>
+        <content type="html"><![CDATA[<p>Copilot官方在线文档<br>
+https://docs.github.com/cn/copilot</p>
+<p>Copilot快捷键<br>
+接受建议：Tab<br>
+拒绝建议：Esc<br>
+打开Copilot：Ctrl + Enter （会打开一个单独的面板，展示10个建议）<br>
+下一条建议：Alt/Option + ]<br>
+上一条建议：Alt/Option + [<br>
+触发行内Copilot：Alt/Option + \ （Copilot还没有给出建议或者建议被拒绝了，希望手工触发它提供建议）</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Prometheus+Grafana监控Docker容器]]></title>
+        <id>https://181016.xyz/post/prometheusgrafana-jian-kong-docker-rong-qi/</id>
+        <link href="https://181016.xyz/post/prometheusgrafana-jian-kong-docker-rong-qi/">
+        </link>
+        <updated>2023-03-10T08:37:52.000Z</updated>
+        <content type="html"><![CDATA[<p>一、监控系统概述<br>
+cAdvisor （Container Advisor） ：用于收集正在运行的容器资源使用和性能信息。<br>
+开源地址：https://github.com/google/cadvisor</p>
+<p>Prometheus（普罗米修斯）：容器监控系统。<br>
+官网地址：https://prometheus.io<br>
+开源地址：https://github.com/prometheus</p>
+<p>Grafana：是一个开源的度量分析和可视化系统。<br>
+开源地址：https://grafana.com/grafana</p>
+<p>cAdvisor （采集所有容器资源利用率，部署在每个docker主机上）-&gt;Prometheus（收集与存储）-&gt;Grafana（可视化展示）</p>
+<p>原文 https://www.ucloud.cn/yun/128125.html</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[符号连接]]></title>
+        <id>https://181016.xyz/post/fu-hao-lian-jie/</id>
+        <link href="https://181016.xyz/post/fu-hao-lian-jie/">
+        </link>
+        <updated>2023-03-08T06:21:00.000Z</updated>
+        <content type="html"><![CDATA[<p>什么是符号连接(Symbolic Link)?符号连接从Vista开始就得到支持,属于NTFS内置的功能,符号链接适用于文件、目录。可以理解为一种超级快捷方式。支持相对路径、绝对路径。假设创建symbolic link时使用了相对路径，保存到NTFS中的就是相对路径，不会隐式转换成绝对路径。可以跨盘符，可以跨主机，可以使用UNC路径、网络驱动器等。符号链接旨在帮助迁移和应用程序与UNIX操作系统的兼容性。在Windows10下面创建符号链接非常简单,本文就简要介绍一下.</p>
+<p>符号连接使用场景</p>
+<p>现实场景中,很多云服务应用程序只会同步位于自己文件夹中的文件或者特定文件夹中的文件,例如有些程序特别喜欢使用C盘下面某些文件夹(C:\Users\用户名\AppData\Local),而程序本身并不提供修改这些文件夹的功能。此时就可以通过创建一个符号链接,把这些文件移动到其他目录,但是应用程序还不会报错,它会自动把文件同步到符号链接所指向的文件夹中,就像它从来没有移动过一样.</p>
+<p>使用命令行创建</p>
+<p>我们可以通过使用mklink在命令行创建符号链接。点击左下角的按时按钮,输入cmd,然后选择，然后鼠标右键点击命令提示符,在弹出的菜单选择选项“以管理员身份运行”,该命令从Windows VISTA开始就内置于操作系统中。</p>
+<pre><code>  C:\Users\181016.xyz&gt;mklink
+命令语法不正确。
+创建符号链接。
+
+MKLINK [[/D] | [/H] | [/J]] Link Target
+
+        /D      创建目录符号链接。默认为文件
+                符号链接。
+        /H      创建硬链接而非符号链接。
+        /J      创建目录联接。
+        Link    指定新的符号链接名称。
+        Target  指定新链接引用的路径
+                (相对或绝对)。
+</code></pre>
+<p>使用第三方工具创建符号链接</p>
+<p>如果你不想在命令提示符下操作，那么可以尝试一下使用第三方工具Link Shell Extension，该工具允许您使用右键菜单创建指向现有文件或目录的符号链接,</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[测试优先级定义 ]]></title>
+        <id>https://181016.xyz/post/ce-shi-you-xian-ji-ding-yi/</id>
+        <link href="https://181016.xyz/post/ce-shi-you-xian-ji-ding-yi/">
+        </link>
+        <updated>2023-03-08T01:12:51.000Z</updated>
+        <content type="html"><![CDATA[<p>一级功能测试</p>
+<p>业务场景测试</p>
+<p>一、TEST CASE的优先级定义<br>
+测试用例的优先级用于标识测试用例的重要性和执行频率，共分为4级，由高至低依次为P0-P3。</p>
+<p>P0</p>
+<p>核心功能测试用例（冒烟测试），确定此版本是否可测的测试用例，此部分测试用例如果fail会阻碍大部分其他测试用例的验证。</p>
+<p>P1</p>
+<p>高优先级测试用例，最常执行以保证功能性是稳定的；基本功能测试，和重要的错误、边界测试</p>
+<p>P2</p>
+<p>中优先级测试用例，更全面地验证功能的各个方面，异常测试，边界、中断、断网、容错、UI等测试用例</p>
+<p>P3</p>
+<p>低优先级测试用例，不常常被执行，性能、压力、兼容性、稳定性、安全、可用性等等。</p>
+<p>二、如何划分TEST CASE的优先级<br>
+2.1 初步划分<br>
+1.把所有功能性验证（或基本路径）的测试标注为P1；</p>
+<p>2.把所有错误、边界值、UI测试标注为P2；</p>
+<p>3.把所有非功能性的测试（例如性能、可用性、稳定性、安全、兼容等）标注为P3。</p>
+<p>2.2 提升和降级<br>
+并非所有的功能性测试都一样的重要，并且有些边界和非功能性测试也很重要。思考一下测试的重要性及相对于其他同等优先级别的测试，你想要检查这个功能的频率，考虑质量目标和项目的需求，可以对case重新调整，规则如下：</p>
+<p>1.把功能性验证测试分为两组：重要和不是十分重要，将“不是十分重要”的功能性验证测试降级为P2；</p>
+<p>2.把错误和边界测试分成两组：重要和不是十分重要，将“重要”的错误和边界测试升级为P1；</p>
+<p>3.把非功能性测试分成两组：重要和不是十分重要，把“重要”的非功能性测试升级为P2；</p>
+<p>4.针对每组高，中和低优先级别的测试用例，重复划分和升级/降级流程直到你达到一个点，可以在不同优先级之间移动的测试用例的数量到最小。</p>
+<p>注：所谓“重要”，可以理解为：bug多的、用户使用频率高的、最基本的这些概念。</p>
+<p>2.3 挑出冒烟测试用例<br>
+为了确保小版本是可以测试的并准备好给小组其他成员执行准入测试，需从高优先级别的case中挑选出P0 case，规则如下：</p>
+<p>1.将高优先级别的测试用例分成两组：严重的和重要的，将“严重”的高优先级的测试用例升级为P0级</p>
+<p>2.4 各级别TEST CASE的比例<br>
+case优先级划分完成后，不同级别所占百分比为：P0:10%-15%，P1:30%-40%，P2:30%-40%，P3:10%-15%。</p>
+<p>另外，随着项目的进行，通过调研和观察缺陷出现的位置，你可能会重新给你的测试用例划分优先级别。</p>
+<p>转自：https://www.cnblogs.com/joy-sir/p/12165157.html</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[chrome 的无障碍辅助功能 短暂突出显示焦点对象]]></title>
+        <id>https://181016.xyz/post/chrome-de-wu-zhang-ai-fu-zhu-gong-neng-duan-zan-tu-chu-xian-shi-jiao-dian-dui-xiang/</id>
+        <link href="https://181016.xyz/post/chrome-de-wu-zhang-ai-fu-zhu-gong-neng-duan-zan-tu-chu-xian-shi-jiao-dian-dui-xiang/">
+        </link>
+        <updated>2023-03-02T02:49:55.000Z</updated>
+        <content type="html"><![CDATA[<p>最近使用chrome遇到输入框就有一个黑边，很是烦人，但是不知道哪里问题，以为更新了新版的bug，等了一个版本还是老样子。<br>
+<img src="https://181016.xyz/post-images/1677725642276.png" alt="" loading="lazy"></p>
+<p>后来怀疑是扩展问题，一个个的禁用，发现还不行。最后无意中想到，是不是可能是个无障碍功能，查了下，还确实是这个原因，关掉开关就行了。<br>
+<img src="https://181016.xyz/post-images/1677725804865.png" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[linux 命令行中对光标常用操作 移动快捷键]]></title>
+        <id>https://181016.xyz/post/linux-ming-ling-xing-zhong-dui-guang-biao-chang-yong-cao-zuo-yi-dong-kuai-jie-jian/</id>
+        <link href="https://181016.xyz/post/linux-ming-ling-xing-zhong-dui-guang-biao-chang-yong-cao-zuo-yi-dong-kuai-jie-jian/">
+        </link>
+        <updated>2023-02-24T03:19:11.000Z</updated>
+        <content type="html"><![CDATA[<p>有几个常用的快捷键。<br>
+ctrl+左右键:在单词之间跳转<br>
+ctrl+a:跳到本行的行首<br>
+ctrl+e:跳到页尾<br>
+Ctrl+u：删除当前光标前面的文字 （还有剪切功能）<br>
+ctrl+k：删除当前光标后面的文字(还有剪切功能)<br>
+Ctrl+L：进行清屏操作<br>
+Ctrl+y:粘贴Ctrl+u或ctrl+k剪切的内容<br>
+Ctrl+w:删除光标前面的单词的字符<br>
+Alt – d ：由光标位置开始，往右删除单词。往行尾删</p>
+<p>Linux命令行快捷键</p>
+<p>涉及在linux命令行下进行快速移动光标、命令编辑、编辑后执行历史命令、Bang(!)命令、控制命令等。让basher更有效率。</p>
+<p>说明</p>
+<p>Ctrl – k: 先按住 Ctrl 键，然后再按 k 键；<br>
+Alt – k: 先按住 Alt 键，然后再按 k 键；<br>
+M – k：先单击 Esc 键，然后再按 k 键。</p>
+<p>移动光标</p>
+<p>Ctrl – a ：移到行首<br>
+Ctrl – e ：移到行尾<br>
+Ctrl – b ：往回(左)移动一个字符<br>
+Ctrl – f ：往后(右)移动一个字符<br>
+Alt – b ：往回(左)移动一个单词<br>
+Alt – f ：往后(右)移动一个单词<br>
+Ctrl – xx ：在命令行尾和光标之间移动<br>
+M-b ：往回(左)移动一个单词<br>
+M-f ：往后(右)移动一个单词</p>
+<p>编辑命令</p>
+<p>Ctrl – h ：删除光标左方位置的字符<br>
+Ctrl – d ：删除光标右方位置的字符（注意：当前命令行没有任何字符时，会注销系统或结束终端）<br>
+Ctrl – w ：由光标位置开始，往左删除单词。往行首删<br>
+Alt – d ：由光标位置开始，往右删除单词。往行尾删<br>
+M – d ：由光标位置开始，删除单词，直到该单词结束。<br>
+Ctrl – k ：由光标所在位置开始，删除右方所有的字符，直到该行结束。<br>
+Ctrl – u ：由光标所在位置开始，删除左方所有的字符，直到该行开始。<br>
+Ctrl – y ：粘贴之前删除的内容到光标后。<br>
+Alt + t ：交换光标处和之前两个字符的位置。<br>
+Alt + . ：使用上一条命令的最后一个参数。<br>
+Ctrl – _ ：回复之前的状态。撤销操作。</p>
+<p>Ctrl -a + Ctrl -k 或 Ctrl -e + Ctrl -u 或 Ctrl -k + Ctrl -u 组合可删除整行。</p>
+<p>Bang(!)命令</p>
+<p>!! ：执行上一条命令。<br>
+<sup>foo</sup>bar ：把上一条命令里的foo替换为bar，并执行。<br>
+!wget ：执行最近的以wget开头的命令。<br>
+!wget:p ：仅打印最近的以wget开头的命令，不执行。<br>
+!$ ：上一条命令的最后一个参数， 与 Alt - . 和 $_ 相同。<br>
+!* ：上一条命令的所有参数<br>
+!*:p ：打印上一条命令是所有参数，也即 !*的内容。<br>
+^abc ：删除上一条命令中的abc。<br>
+<sup>foo</sup>bar ：将上一条命令中的 foo 替换为 bar<br>
+<sup>foo</sup>bar^ ：将上一条命令中的 foo 替换为 bar<br>
+!-n ：执行前n条命令，执行上一条命令： !-1， 执行前5条命令的格式是： !-5</p>
+<p>查找历史命令</p>
+<p>Ctrl – p ：显示当前命令的上一条历史命令<br>
+Ctrl – n ：显示当前命令的下一条历史命令<br>
+Ctrl – r ：搜索历史命令，随着输入会显示历史命令中的一条匹配命令，Enter键执行匹配命令；ESC键在命令行显示而不执行匹配命令。<br>
+Ctrl – g ：从历史搜索模式（Ctrl – r）退出。</p>
+<p>控制命令</p>
+<p>Ctrl – l ：清除屏幕，然后，在最上面重新显示目前光标所在的这一行的内容。<br>
+Ctrl – o ：执行当前命令，并选择上一条命令。<br>
+Ctrl – s ：阻止屏幕输出<br>
+Ctrl – q ：允许屏幕输出<br>
+Ctrl – c ：终止命令<br>
+Ctrl – z ：挂起命令</p>
+<p>重复执行操作动作</p>
+<p>M – 操作次数 操作动作 ： 指定操作次数，重复执行指定的操作。<br>
+————————————————<br>
+版权声明：本文为CSDN博主「vitrovitro」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>
+原文链接：https://blog.csdn.net/yizhuanlu9607/article/details/109381648</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[小雅alist]]></title>
+        <id>https://181016.xyz/post/xiao-ya-alist/</id>
+        <link href="https://181016.xyz/post/xiao-ya-alist/">
+        </link>
+        <updated>2023-02-20T01:20:26.000Z</updated>
+        <content type="html"><![CDATA[<p>entrypoint.sh</p>
+<pre><code>#!/bin/sh
+
+/bin/busybox-extras httpd -p 82 -h /www
+/usr/sbin/nginx
+/updateall
+
+if [[ -f /data/mytoken.txt ]] &amp;&amp; [[ -s /data/mytoken.txt ]]; then
+        user_token=$(head -n1 /data/mytoken.txt)
+        /token $user_token
+        echo `date` &quot;User's own token $user_token has been updated into database succefully&quot;
+fi
+
+if [[ -f /mytoken.txt ]] &amp;&amp; [[ -s /mytoken.txt ]]; then
+        user_token=$(head -n1 /mytoken.txt)
+        /token $user_token
+        echo `date` &quot;User's own token $user_token has been updated into database succefully&quot;
+fi
+
+if [[ -f /data/pikpak.txt ]] &amp;&amp; [[ -s /data/pikpak.txt ]]; then
+        /pikpak
+        echo `date` &quot;User's own PikPak account has been updated into database succefully&quot;
+fi
+
+if [ -f /www/mobi.tgz ]; then
+        cd /www
+        tar zxf mobi.tgz
+        rm mobi.tgz
+fi
+
+
+echo -e &quot;129.146.173.211\tdocker.xiaoya.pro&quot; &gt;&gt; /etc/hosts
+cd /opt/alist
+
+exec &quot;$@&quot;
+</code></pre>
+<p>token.sh</p>
+<pre><code>#!/bin/sh
+set -e
+
+newtoken=$1
+sqlite3 /opt/alist/data/data.db &lt;&lt;EOF
+update x_storages set addition = json_replace(addition, '$.refresh_token', &quot;$newtoken&quot;) where driver = 'AliyundriveShare';
+EOF
+</code></pre>
+<p>updateall</p>
+<pre><code>#!/bin/sh
+cd /tmp/
+
+if [ -f index.zip ]; then
+        rm index.zip
+fi
+
+if [ -f index.txt ]; then
+        rm index.txt
+fi
+
+if [ -f version.txt ]; then
+        rm version.txt
+fi
+
+wget -T 5 -t 2 -q http://docker.xiaoya.pro/version.txt
+if [ ! -f version.txt ]; then
+        echo &quot;Failed to download version.txt file, the index file upgrade process has aborted&quot;
+else
+        remote=$(head -n1 version.txt)
+        if [ ! -f /version.txt ]; then
+                echo 0.0.0 &gt; /version.txt
+        fi
+        local=$(head -n1 /version.txt)
+        latest=$(printf &quot;$remote\n$local\n&quot; |sort -r |head -n1)
+        if [ $remote = $local ]; then
+                echo `date` &quot;current index file version is updated, no need to upgrade&quot;
+                exit
+        elif [ $remote = $latest ]; then
+                wget -T 5 -t 2 -q http://docker.xiaoya.pro/index.zip
+                if [ ! -f index.zip ]; then
+                        echo &quot;Failed to download index compressed file, the index file upgrade process has aborted&quot;
+                        exit
+                else
+                        unzip -o -q -P abcd index.zip
+                        mv index*.txt /
+                        echo `date` &quot;update index succesfully, your new version.txt is&quot; $remote
+                        echo $remote &gt; /version.txt
+                fi
+
+                wget -T 5 -t 2 -q http://docker.xiaoya.pro/update.zip
+                if [ ! -f update.zip ]; then
+                        echo &quot;Failed to download update database file, the database upgrade process has aborted&quot;
+                        exit
+                else
+                        unzip -o -q -P abcd update.zip
+                        entries=$(expr `cat update.sql|wc -l` - 4)
+                        if [[ ! -f /data/pikpak.txt ]] || [[ ! -s /data/pikpak.txt ]]; then
+                                sed -i &quot;/PikPakShare/d&quot; update.sql
+                        fi
+
+                        echo `date` &quot;total&quot; $entries &quot;records&quot;
+                        sqlite3 /opt/alist/data/data.db &lt;&lt;EOF
+drop table x_storages;
+drop table x_meta;
+drop table x_setting_items;
+.read update.sql
+EOF
+                        echo `date` &quot;update database succesfully, your new version is&quot; $remote
+                fi
+
+        else
+                echo `date` &quot;your current version.txt is updated, no need to downgrade&quot;
+                echo $remote &gt; /version.txt
+        fi
+        rm index.*
+        rm update.*
+        rm version.txt
+fi
+
+exec &quot;$@&quot;
+</code></pre>
+<p>guesspass</p>
+<pre><code>#!/bin/sh
+set -e
+
+newtoken=$1
+sqlite3 /opt/alist/data/data.db &lt;&lt;EOF
+update x_users set password = &quot;$newtoken&quot; where id = 2;
+EOF
+</code></pre>
+<p>gzexe -d</p>
+]]></content>
+    </entry>
+</feed>

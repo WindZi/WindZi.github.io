@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" href="https://181016.xyz/favicon.ico" type="image/x-icon" /><meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta name="apple-mobile-web-app-capable"content="yes"/><meta name="apple-mobile-web-app-status-bar-style"content="black"/><meta name="format-detection"content="telephone=no"/><meta name="renderer"content="webkit"><meta name="description"content="温故而知新"><meta charset="UTF-8"><title>开源流媒体服务器SRS学习笔记(1) - 安装、推流、拉流 | Gridea</title>
+<link href="https://181016.xyz/styles/main.css" type="text/css" rel="stylesheet" /><link href="https://at.alicdn.com/t/font_1621793_zatzzgvf30g.css" type="text/css" rel="stylesheet" /><link rel="stylesheet" href="https://181016.xyz/media/css/katex.css"><script async src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.min.js"></script><script src="https://181016.xyz/media/js/magnify.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+<script type="text/javascript">function btn_toggle(){document.getElementById("hn").classList.contains("no-js")?document.getElementById("hn").classList.remove("no-js"):document.getElementById("hn").classList.add("no-js")}</script>
+
+<link rel="canonical" href="https://181016.xyz/post/kai-yuan-liu-mei-ti-fu-wu-qi-srs-xue-xi-bi-ji-1-an-zhuang-tui-liu-la-liu/" />
+</head>
+<body>
+<div class="progress"></div><style>.progress{background:linear-gradient(to right,#87ceeb var(--scroll),transparent 0);background-repeat:no-repeat;position:fixed;width:100%;height:4px;z-index:1}</style><div class="darkmode-background"></div><div class="darkmode-layer"></div>
+<noscript><p class="warn" >本页面需要浏览器支持（启用）JavaScript</p></noscript><div class="header"><div class="logo_title"><div class="title animated fadeInDown"><a href="https://181016.xyz"><img alt="logo" style="display:inline-block;" src="https://181016.xyz/images/avatar.png"/></a><h1 title="Gridea" class="weaklink"><a  href="/">Gridea</a></h1>
+
+<div class="navbar weaklink">
+<div class="normal_nav">
+<div class="bitcron_nav_container"><div class="bitcron_nav"><div class="bitcron_nav"><div style="display:flex;justify-content:center;"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul></nav>
+<div style="float:right;margin-top:1em"><form id="gridea-search-form" data-update="1578893743252" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="Search..."></form></div><div style="margin-left:0.5em;margin-top:1.2em"><input id="switch_default" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+<div class="clear clear_nav_inline_end"></div></div></div><div class="clear clear_nav_end"></div></div></div><div class="hamberger" href="javascript:void(0)" onclick="btn_toggle();"><i class="iconfont icon-category"></i></div></div></div></div>
+<div id="hn" class="no-js hidden_nav animated fadeInDown"><div class="bitcron_nav_container"><div class="bitcron_nav"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul><div class="clear clear_nav_inline_end"></div></nav></div><div class="clear clear_nav_end"></div></div>
+<div style="display:flex;justify-content:center;inline-block;text-align:center;margin-top:7%"><div><form id="gridea-search-form" data-update="1700192119215" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q"  placeholder="Search..." /></form></div><div style="margin-left:0.5em"><input id="switch_default_h" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+</div></div>
+<script>function enableDarkmode(){document.body.classList.add("darkmode"),document.getElementById("switch_default").checked=1,document.getElementById("switch_default_h").checked=1}function removeDarkmode(){document.body.classList.remove("darkmode"),document.getElementById("switch_default").checked=0,document.getElementById("switch_default_h").checked=0}function getCookie(a){var b,c=new RegExp("(^| )"+a+"=([^;]*)(;|$)");return(b=document.cookie.match(c))?unescape(b[2]):null}cookie=getCookie("darkmode"),"enable"==cookie&&enableDarkmode(),window.matchMedia("(prefers-color-scheme: dark)").matches&&"disable"!==cookie&&(enableDarkmode(),document.cookie="darkmode=enable; path=/");var mobileBtn=function(){1==document.getElementById("switch_default").checked?(enableDarkmode(),document.cookie="darkmode=enable; path=/"):(removeDarkmode(),document.cookie="darkmode=disable; path=/")};</script>
+
+<div class="main"><div class="main-inner"><div class="content">
+<article class="post">
+<h2 class="post_title sm_margin"><a>开源流媒体服务器SRS学习笔记(1) - 安装、推流、拉流</a></h2>
+<script>function lan(){if(document.getElementById("lan").innerText=="繁"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_tw.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="简"}else{if(document.getElementById("lan").innerText=="簡"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_cn.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="繁"}}};</script>
+<section class="post_details"><i class="iconfont icon-calendar"></i><span style="margin-right:15px"> 2021-12-07</span><i class="iconfont icon-browse"></i><span style="margin-right:15px"> <span id="busuanzi_value_page_pv"></span> Views</span><i class="iconfont icon-category"></i><span class="weaklink" style="margin-right:15px"></span><i class="iconfont icon-caret-down"></i><span style="margin-right:15px">1487字</span><i class="iconfont icon-naozhong"></i><span style="margin-right:15px">7 min read</span><a id="lan" href="javascript:void(0);"onclick="lan();"title="调整简繁体" style="margin-right:15px;">繁</a>
+</section>
+
+<div style="display:flex">
+<div class="md_block" id="md_block">
+<div class="round-shape-one"></div>
+<p>SRS(Simple RTMP Server)  是国人写的一款非常优秀的开源流媒体服务器软件，可用于直播/录播/视频客服等多种场景，其定位是运营级的互联网直播服务器集群。1</p>
+<p>一、安装</p>
+<p>官网提供了3种安装方式： 从源码编译安装、利用docker（学习用) 、直接下载安装包安装</p>
+<p>相信很多人主要目的是出于学习srs如何使用，对c++语言本身可能并不擅长，所以本文仅介绍&quot;如何利用安装包&quot;安装部署。</p>
+<p>先从官网下载最新的稳定发布版本(目前是2.0r6) http://ossrs.net/srs.release/releases/files/SRS-CentOS6-x86_64-2.0.263.zip</p>
+<p>然后将其上传到centos服务器, 并解压到指定目录 ，执行下面的命令安装：</p>
+<p>sudo ./INSTALL<br>
+点击查看原图</p>
+<p>安装成功后，会出现类似上图的提示。</p>
+<p>如果出现No package lsb_release available. 的错误提示（centos 7上容易出现这个错误），可尝试先安装 yum install -y redhat-lsb</p>
+<p>tips: 如果要卸载，可执行以下命令（前提是先停止srs）</p>
+<p>sudo rm -rf /usr/local/srs<br>
+sudo rm -rf /etc/init.d/srs</p>
+<p>二、启动/停止</p>
+<p>2.1 启动</p>
+<p>sudo /etc/init.d/srs start<br>
+2.2 停止</p>
+<p>sudo /etc/init.d/srs stop<br>
+类似的，除了start/stop，还有其它选项，比如：reload|status</p>
+<p>1 [~]$ /etc/init.d/srs<br>
+2 Usage: /etc/init.d/srs {start|stop|status|restart|reload}</p>
+<p>三、推流测试<br>
+推流：即向流媒体服务器发布视频（支持本地文件或摄像头做为视频源)</p>
+<p>3.1 用FFmpeg推流<br>
+FFmpeg是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源软件，利用它可以将本机视频文件推到SRS上。从FFmpeg官网下载后，直接解压到本机即可运行。<br>
+tips: srs源码自带了一个示例flv, 路径为 ./trunk/doc/source.200kbps.768x320.flv</p>
+<p>推流命令(mac环境)：<br>
+./ffmpeg -re -i source.200kbps.768x320.flv -vcodec copy -acodec copy -f flv -y rtmp://srs_server_ip:1935/live/livestream<br>
+注: 上述命令中的flv完整路径，以及srs server ip，大家根据情况自行替换为实际值。 另外：默认情况下srs的rtmp采用1935端口，如果该端口被占用或修改了srs.conf中的端口，注意根据情况调整；防火墙如果开了，也要检测下1935是否允许访问。</p>
+<p>复制代码<br>
+./ffmpeg -re -i /Users/jimmy/code/srs/trunk/doc/source.200kbps.768x320.flv -vcodec copy -acodec copy -f flv -y rtmp://<em>.</em>.<em>.</em>:1935/live/livestream<br>
+ffmpeg version 4.1.3-tessus  https://evermeet.cx/ffmpeg/  Copyright (c) 2000-2019 the FFmpeg developers<br>
+built with Apple LLVM version 10.0.1 (clang-1001.0.46.3)<br>
+configuration: --cc=/usr/bin/clang --prefix=/opt/ffmpeg --extra-version=tessus --enable-avisynth --enable-fontconfig --enable-gpl --enable-libaom --enable-libass --enable-libbluray --enable-libfreetype --enable-libgsm --enable-libmodplug --enable-libmp3lame --enable-libmysofa --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopus --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvo-amrwbenc --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libx264 --enable-libx265 --enable-libxavs --enable-libxvid --enable-libzimg --enable-libzmq --enable-libzvbi --enable-version3 --pkg-config-flags=--static --disable-ffplay<br>
+libavutil      56. 22.100 / 56. 22.100<br>
+libavcodec     58. 35.100 / 58. 35.100<br>
+libavformat    58. 20.100 / 58. 20.100<br>
+libavdevice    58.  5.100 / 58.  5.100<br>
+libavfilter     7. 40.101 /  7. 40.101<br>
+libswscale      5.  3.100 /  5.  3.100<br>
+libswresample   3.  3.100 /  3.  3.100<br>
+libpostproc    55.  3.100 / 55.  3.100<br>
+Input #0, flv, from '/Users/jimmy/code/srs/trunk/doc/source.200kbps.768x320.flv':<br>
+Metadata:<br>
+major_brand     : isom<br>
+minor_version   : 512<br>
+compatible_brands: isomiso2avc1mp41<br>
+encoder         : Lavf54.63.104<br>
+Duration: 00:03:30.73, start: 0.034000, bitrate: 251 kb/s<br>
+Stream #0:0: Video: h264 (High), yuv420p(progressive), 768x320 [SAR 1:1 DAR 12:5], 212 kb/s, 25 fps, 25 tbr, 1k tbn, 50 tbc<br>
+Stream #0:1: Audio: aac (LC), 44100 Hz, stereo, fltp, 30 kb/s<br>
+Output #0, flv, to 'rtmp://10.2.72.62:1935/live/livestream':<br>
+Metadata:<br>
+major_brand     : isom<br>
+minor_version   : 512<br>
+compatible_brands: isomiso2avc1mp41<br>
+encoder         : Lavf58.20.100<br>
+Stream #0:0: Video: h264 (High) ([7][0][0][0] / 0x0007), yuv420p(progressive), 768x320 [SAR 1:1 DAR 12:5], q=2-31, 212 kb/s, 25 fps, 25 tbr, 1k tbn, 1k tbc<br>
+Stream #0:1: Audio: aac (LC) ([10][0][0][0] / 0x000A), 44100 Hz, stereo, fltp, 30 kb/s<br>
+Stream mapping:<br>
+Stream #0:0 -&gt; #0:0 (copy)<br>
+Stream #0:1 -&gt; #0:1 (copy)<br>
+Press [q] to stop, [?] for help<br>
+frame=  508 fps= 25 q=-1.0 size=     693kB time=00:00:20.24 bitrate= 280.4kbits/s speed=   1x<br>
+复制代码<br>
+顺利的话，会看到类似上面的输出，表示正在向srs推送视频流。</p>
+<p>3.2 用obs采集摄像头推流<br>
+FFmpeg的命令行方式不太友好，推荐使用主流的OBS开源推流软件，可从官网https://obsproject.com/ 下载最新版本，目前很多网络主播都是用它做直播。该软件支持本地视频文件以及摄像头推流。</p>
+<p>3.2.1 文件推流<br>
+先添加一个：“媒体源”</p>
+<p>然后新建一个名称（随便输入）</p>
+<p>选择本机视频文件</p>
+<p>接下来是关键的部分，进入设置：</p>
+<p>点击看源图</p>
+<p>在串流-&gt;服务器这里，输入srs的地址：rtmp://srs_server_ip:1935/live (注意这里不要带livestream), 然后在串流密钥这里，才是输入livestream</p>
+<p>点击看源图</p>
+<p>设置好以后，就可以点击“开始推流”了。如果顺利，下面的状态栏，会显示一些实时数据：</p>
+<p>点击看源图</p>
+<p>3.2.2 摄像头推流</p>
+<p>跟上面的其实差不多，区别只是添加“视频捕捉设备”</p>
+<p>然后选择本机检测到的摄像头设备(比如：下图为mac笔记本自带的FaceTime HD Camera)</p>
+<p>接下来的操作就一样了：</p>
+<p>四、拉流测试</p>
+<p>拉流：即从流媒体服务器读取视频流(说白了：就是播放)<br>
+推荐使用开源的VLC播放器 (当然其它任何支持网络媒体源播放的player其实都行），File -&gt; Open Network，输入地址 rtmp://srs_server_ip:1935/live/livestream</p>
+<p>点击看源图</p>
+<p>顺利的话，就可正常播放。</p>
+<p>点击看源图</p>
+<p>作者：菩提树下的杨过<br>
+https://www.cnblogs.com/yjmyzz/p/srs_study_1_install_push_and_pull_stream.html<br>
+出处：http://yjmyzz.cnblogs.com<br>
+本文版权归作者和博客园共有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。</p>
+
+<span id="footnote"></span>
+<div id = "warn"></div>
+</div>
+<div class="toc-container"></div>
+</div>
+<div id="fullPage"><canvas id="canvas"></canvas></div>
+</article>
+<div id="eof"><span>EOF</span></div><div class="round-shape-one"></div>
+<section>
+<div class="doc_comments">
+
+</div></section>
+</div></div></div><script>
+"use strict";!function(){for(var n=document.getElementsByTagName("pre"),e=n.length,s=0;s<e;s++){n[s].innerHTML='<span class="line-number"></span>'+n[s].innerHTML+'<span class="cl"></span>';for(var a=n[s].innerHTML.split(/\n/).length,r=0;r<a-1;r++){n[s].getElementsByTagName("span")[0].innerHTML+="<span>"+(r+1)+"</span>"}}}();
+let mainNavLinks=document.querySelectorAll(".markdownIt-TOC a");window.addEventListener("scroll",event=>{let fromTop=window.scrollY;mainNavLinks.forEach((link,index)=>{let section=document.getElementById(decodeURI(link.hash).substring(1));let nextSection=null
+if(mainNavLinks[index+1]){nextSection=document.getElementById(decodeURI(mainNavLinks[index+1].hash).substring(1));}
+if(section.offsetTop<=fromTop){if(nextSection){if(nextSection.offsetTop>fromTop){link.classList.add("currentToc");}else{link.classList.remove("currentToc");}}else{link.classList.add("currentToc");}}else{link.classList.remove("currentToc");}});});
+var list=document.querySelectorAll(".katex");for(var i=0;i<list.length;i++){list[i].style.display="unset"};
+var h=document.documentElement,b=document.body,st="scrollTop",sh="scrollHeight",progress=document.querySelector(".progress"),scroll;document.addEventListener("scroll",function(){scroll=(h[st]||b[st])/((h[sh]||b[sh])-h.clientHeight)*100;progress.style.setProperty("--scroll",scroll+"%")});
+var wxScale=new WxScale({fullPage:document.querySelector("#fullPage"),canvas:document.querySelector("#canvas")});var imgBox=document.querySelectorAll("#md_block img");for(var i=0;i<imgBox.length;i++){imgBox[i].onclick=function(e){wxScale.start(this)}};
+content="本文最后更新于2021-12-07，已超过 1 年没有更新，涉及的内容可能已经失效！";var date1="2021-12-07 16:15:21";date1=date1.replace("-","/");var date2=new Date();var date3=date2.getTime()-new Date(date1).getTime();var days=Math.floor(date3/(24*3600*1000));if(days>=365){document.getElementById("warn").innerHTML=content};
+</script>
+<style>#magnifyImg{position:fixed;left:0;top:0;text-align:center;width:100%;display:none;z-index:9999}#magnifyImg img{object-fit:contain;background:#eaecef;padding:15px;border-radius:10px;height:auto;width:auto;vertical-align:middle}</style>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647; display: block;"></a><div class="footer animated fadeInDown"><div class="site_footer"><div class="mysocials"><div class="my_socials"></div></div><div class="copyright"id="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>Copyright © 2018-2020 <a href="https://181016.xyz" style="margin:0;">Gridea</a>.</div>
+<span style="display: inline;margin-right:15px;">👁<strong><span id="busuanzi_value_site_uv"></span></strong></span><span id="busuanzi_container_page_pv" style="display: inline;"><span>📚<strong>42</strong> posts</span></div></div>
+<script>
+console.log("\n %c \u26a1Theme: Bitcron-pro Author's Blog:https://blog.blinkstar.cn  Writen By Serence  \n\n", "color: #ffffff; background: rgba(49, 49, 49, 0.85); padding:5px 0;border-radius:5px;", );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/instant.page@3.0.0/instantpage.min.js" type="module" defer></script>
+<script type="text/javascript" async src="https://181016.xyz/media/js/prism.js"></script>
+</body>
+</html>

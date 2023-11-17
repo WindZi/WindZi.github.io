@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" href="https://181016.xyz/favicon.ico" type="image/x-icon" /><meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta name="apple-mobile-web-app-capable"content="yes"/><meta name="apple-mobile-web-app-status-bar-style"content="black"/><meta name="format-detection"content="telephone=no"/><meta name="renderer"content="webkit"><meta name="description"content="温故而知新"><meta charset="UTF-8"><title>VsCode中使用Emmet神器快速编写HTML代码 | Gridea</title>
+<link href="https://181016.xyz/styles/main.css" type="text/css" rel="stylesheet" /><link href="https://at.alicdn.com/t/font_1621793_zatzzgvf30g.css" type="text/css" rel="stylesheet" /><link rel="stylesheet" href="https://181016.xyz/media/css/katex.css"><script async src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.min.js"></script><script src="https://181016.xyz/media/js/magnify.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+<script type="text/javascript">function btn_toggle(){document.getElementById("hn").classList.contains("no-js")?document.getElementById("hn").classList.remove("no-js"):document.getElementById("hn").classList.add("no-js")}</script>
+
+<link rel="canonical" href="https://181016.xyz/post/vscode-zhong-shi-yong-emmet-shen-qi-kuai-su-bian-xie-html-dai-ma/" />
+</head>
+<body>
+<div class="progress"></div><style>.progress{background:linear-gradient(to right,#87ceeb var(--scroll),transparent 0);background-repeat:no-repeat;position:fixed;width:100%;height:4px;z-index:1}</style><div class="darkmode-background"></div><div class="darkmode-layer"></div>
+<noscript><p class="warn" >本页面需要浏览器支持（启用）JavaScript</p></noscript><div class="header"><div class="logo_title"><div class="title animated fadeInDown"><a href="https://181016.xyz"><img alt="logo" style="display:inline-block;" src="https://181016.xyz/images/avatar.png"/></a><h1 title="Gridea" class="weaklink"><a  href="/">Gridea</a></h1>
+
+<div class="navbar weaklink">
+<div class="normal_nav">
+<div class="bitcron_nav_container"><div class="bitcron_nav"><div class="bitcron_nav"><div style="display:flex;justify-content:center;"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul></nav>
+<div style="float:right;margin-top:1em"><form id="gridea-search-form" data-update="1578893743252" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="Search..."></form></div><div style="margin-left:0.5em;margin-top:1.2em"><input id="switch_default" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+<div class="clear clear_nav_inline_end"></div></div></div><div class="clear clear_nav_end"></div></div></div><div class="hamberger" href="javascript:void(0)" onclick="btn_toggle();"><i class="iconfont icon-category"></i></div></div></div></div>
+<div id="hn" class="no-js hidden_nav animated fadeInDown"><div class="bitcron_nav_container"><div class="bitcron_nav"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul><div class="clear clear_nav_inline_end"></div></nav></div><div class="clear clear_nav_end"></div></div>
+<div style="display:flex;justify-content:center;inline-block;text-align:center;margin-top:7%"><div><form id="gridea-search-form" data-update="1700192119215" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q"  placeholder="Search..." /></form></div><div style="margin-left:0.5em"><input id="switch_default_h" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+</div></div>
+<script>function enableDarkmode(){document.body.classList.add("darkmode"),document.getElementById("switch_default").checked=1,document.getElementById("switch_default_h").checked=1}function removeDarkmode(){document.body.classList.remove("darkmode"),document.getElementById("switch_default").checked=0,document.getElementById("switch_default_h").checked=0}function getCookie(a){var b,c=new RegExp("(^| )"+a+"=([^;]*)(;|$)");return(b=document.cookie.match(c))?unescape(b[2]):null}cookie=getCookie("darkmode"),"enable"==cookie&&enableDarkmode(),window.matchMedia("(prefers-color-scheme: dark)").matches&&"disable"!==cookie&&(enableDarkmode(),document.cookie="darkmode=enable; path=/");var mobileBtn=function(){1==document.getElementById("switch_default").checked?(enableDarkmode(),document.cookie="darkmode=enable; path=/"):(removeDarkmode(),document.cookie="darkmode=disable; path=/")};</script>
+
+<div class="main"><div class="main-inner"><div class="content">
+<article class="post">
+<h2 class="post_title sm_margin"><a>VsCode中使用Emmet神器快速编写HTML代码</a></h2>
+<script>function lan(){if(document.getElementById("lan").innerText=="繁"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_tw.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="简"}else{if(document.getElementById("lan").innerText=="簡"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_cn.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="繁"}}};</script>
+<section class="post_details"><i class="iconfont icon-calendar"></i><span style="margin-right:15px"> 2021-11-01</span><i class="iconfont icon-browse"></i><span style="margin-right:15px"> <span id="busuanzi_value_page_pv"></span> Views</span><i class="iconfont icon-category"></i><span class="weaklink" style="margin-right:15px"></span><i class="iconfont icon-caret-down"></i><span style="margin-right:15px">2050字</span><i class="iconfont icon-naozhong"></i><span style="margin-right:15px">9 min read</span><a id="lan" href="javascript:void(0);"onclick="lan();"title="调整简繁体" style="margin-right:15px;">繁</a>
+</section>
+
+<div style="display:flex">
+<div class="md_block" id="md_block">
+<div class="round-shape-one"></div>
+<p>一、Emmet简述#<br>
+Emmet (前身为 Zen Coding) 是一个能大幅度提高前端开发效率的一个工具. 在前端开发的过程中，一大部分的工作是写 HTML、CSS 代码。特别是手动编写 HTML 代码的时候，效率会特别低下，因为需要敲打很多尖括号，而且很多标签都需要闭合标签等。于是，就有了 Emmet，它可以极大的提高代码编写的效率，它提供了一种非常简练的语法规则，然后立刻生成对应的 HTML 结构或者 CSS 代码，同时还有多种实用的功能帮助进行前端开发。<br>
+VsCode内置了Emmet语法,在后缀为.html/.css中输入缩写后按Tab键即会自动生成相应代码</p>
+<p>请注意在VsCode新版本中按Tab不再默认启用Emmet展开缩写!需要在首选项配置中将emmet.triggerExpansionOnTab设置为true值!</p>
+<p>语法基本规则如下:</p>
+<p>Copy<br>
+E 代表HTML标签。<br>
+E#id 代表id属性。<br>
+E.class 代表class属性。<br>
+E[attr=foo] 代表某一个特定属性。<br>
+E{foo} 代表标签包含的内容是foo。<br>
+E&gt;N 代表N是E的子元素。<br>
+E+N 代表N是E的同级元素。<br>
+E^N 代表N是E的上级元素。<br>
+本文仅介绍了在Html使用Emmet,<br>
+如果想Css缩写的语法请参考这里https://docs.emmet.io/css-abbreviations/</p>
+<p>二、基础用法#<br>
+元素(Elements)<br>
+您可以使用元素的名称，如div或p来生成HTML标签。Emmet没有一组可用的标签名称，可以写任何单词并将其转换为标签。也就是只要知道元素的缩写,Emmet会自动转换成对应标签.<br>
+形如:<br>
+Copy<br>
+div =&gt; <div> </div><br>
+foo =&gt; <foo> </foo><br>
+html:5 =&gt; 将生成html5标准的包含body为空基本dom<br>
+html:xt =&gt; 生成XHTML过渡文档类型,DOCTYPE为XHTML<br>
+html:4s =&gt; 生成HTML4严格文档类型,DOCTYPE为HTML 4.01<br>
+a:mail          =&gt; <a href="mailto:"></a><br>
+a:link          =&gt; <a href="http://"></a><br>
+base            =&gt; <base href=""><br>
+br              =&gt; <br><br>
+link            =&gt; <link rel="stylesheet" href=""><br>
+script:src      =&gt; <script src=""></script><br>
+form:get        =&gt; <form action="" method="get"></form><br>
+label           =&gt; <label for=""></label><br>
+input           =&gt; <input type="text"><br>
+inp             =&gt; <input type="text" name="" id=""><br>
+input:hidden    =&gt; <input type="hidden" name=""> input:h亦可<br>
+input:email     =&gt; <input type="email" name="" id=""><br>
+input:password  =&gt; <input type="password" name="" id=""><br>
+input:checkbox  =&gt; <input type="checkbox" name="" id=""><br>
+input:radio     =&gt; <input type="radio" name="" id=""><br>
+select          =&gt; <select name="" id=""></select><br>
+option          =&gt; <option value=""></option><br>
+bq              =&gt; <blockquote></blockquote><br>
+btn             =&gt; <button></button><br>
+btn:s           =&gt; <button type="submit"></button><br>
+btn:r           =&gt; <button type="reset"></button><br>
+文本操作符(Text)<br>
+如果想在生成元素的同时添加文本内容可以使用{}<br>
+Copy<br>
+div{这是一段文本}</p>
+<div>这是一段文本</div>
+a{点我点我}
+<a href="">点我点我</a>  
+属性操作符(Attribute operators)
+属性运算符用于修改输出元素的属性.
+<p>Id和Class (elem#id and elem.class )<br>
+Copy<br>
+div.test  =&gt; <div class="test"></div><br>
+div#pageId =&gt; <div id="pageId"></div><br>
+隐式标签则会自动联想生成对应元素,根据配置规则不同生成的结果也是不同的.</p>
+<p>Copy<br>
+.class<br>
+=&gt;</p>
+<div class></div>
+em>.class
+=>
+<em><span class></span></em>
+table>.row>.col
+=>
+<table>
+    <tr class="row">
+        <td class="col"></td>
+    </tr>
+</table>
+绑定多个类名用.符号连续起来即可
+<p>Copy<br>
+div.test1.test2.test3<br>
+=&gt;</p>
+<div class="test1 test2 test3"></div>
+自定义属性使用 [attr1='' attr2='']
+Copy
+a[href='#' data-title='customer' target='_blank']
+=>
+<a href="#" data-title="customer" target="_blank"></a>
+嵌套操作符(Nesting operators)
+嵌套操作符用于将缩写元素放置在生成的树中,是否应放置在上下文元素的内部或附近.
+<p>子级:&gt;<br>
+通过&gt;标识元素可以生成嵌套子级元素,可以配合元素属性进行连写<br>
+Copy<br>
+div#pageId&gt;ul&gt;li<br>
+=&gt;</p>
+<div id="pageId">
+    <ul>
+        <li></li>
+    </ul>
+</div>
+同级:+
++字符表示生成兄弟级元素.
+Copy
+div#pageId+div.child
+=>
+<div id="pageId"></div>
+<div class="child"></div>
+父级:^
+用于生成父级元素的同级元素,从这个字符所在位置开始,查找左侧最近的元素的父级元素并生成其兄弟级元素.
+Copy
+div>p.parent>span.child^ul.brother>li
+=>
+<div>
+    <p class="parent"><span class="child"></span></p>
+    <ul class="brother">
+        <li></li>
+    </ul>
+</div>
+分组操作符(Grouping)
+分组使用()来实现缩写的分离.比如这个例子,如果不加括号那么a将作为span的子级元素生成.加上括号a将于()内的元素同级.
+<p>Copy<br>
+div&gt;(ul&gt;li+span)&gt;a<br>
+=&gt;</p>
+<div>
+    <ul>
+        <li></li>
+        <span></span>
+    </ul>
+    <a href=""></a>
+</div>
+乘法(Multiplication)
+使用N即可自动生成重复项.N是一个正整数.在使用时请注意N所在位置,位置不同生成的结果不同.
+Copy
+ul>li*3
+=>
+<ul>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+自动计数(numbering)
+这个功能挺方便的对于生成重复项时增加一个序号,只需要加上$符号即可.
+Copy
+ul>li.item${item number:$}*3
+<ul>
+    <li class="item1">item number:1</li>
+    <li class="item2">item number:2</li>
+    <li class="item3">item number:3</li>
+</ul>
+如果生成两位数则使用两个连续的$$,更多位数以此类推...
+使用@修饰符，可以更改编号方向（升序或降序）和基数（例如起始值）.注意这个操作符在$之后添加
+@-表示降序,@+表示升序,默认使用升序.
+@N可以改变起始值.需要注意的是如果配合升降序使用的话N是放到+-符后.
+<p>Copy<br>
+ul&gt;li.item$@-*3<br>
+=&gt;</p>
+<ul>
+    <li class="item3"></li>
+    <li class="item2"></li>
+    <li class="item1"></li>
+</ul>
+---------------------------
+ul>li.item$@-10*3
+=>
+<ul>
+    <li class="item12"></li>
+    <li class="item11"></li>
+    <li class="item10"></li>
+</ul>
+上述的操作是可以搭配使用进而得出酷炫的效果,使用时请注意空格的问题,缩写代码不要有空格否则是不会进行转换的.
+另外如果你的编辑器中已经有了一些html智能提示代码段,比如我的VsCode还装了HTML Snippets插件,这个与Emmet语法有部分冲突,使用Tab键时会优先使用插件的代码提示,建议禁用.
+组合起来看看效果:
+<p>Copy<br>
+table.table-row[role='table']&gt;(thead&gt;tr&gt;td{item <span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 5: @120}̲*5)+(tbody&gt;tr&gt;(…'>@120}*5)+(tbody&gt;tr&gt;(td.item</span>$@-)lorem10*5)<br>
+这段目的在于生成一个类名为table-row,且自定义了属性role的table标签,内部包含了thead与tbody,分别生成5个td.<br>
+thead中td的内容是item加上自增序号,自增序号基数从120开始.<br>
+tbody中td拥有一个名为item加降序自增符号类名,且每个td内容随机填充10个单词.</p>
+<p>Copy</p>
+<table class="table-row" role="table">
+    <thead>
+        <tr>
+            <td>item 120</td>
+            <td>item 121</td>
+            <td>item 122</td>
+            <td>item 123</td>
+            <td>item 124</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <td class="item05">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit, assumenda.</td>
+            </td>
+            <td>
+                <td class="item04">Magnam possimus molestias ipsum animi rem placeat, ut obcaecati laudantium.</td>
+            </td>
+            <td>
+                <td class="item03">Consequuntur, labore ad optio cupiditate iusto dolores fugit quidem officiis.</td>
+            </td>
+            <td>
+                <td class="item02">Veniam, explicabo consequuntur blanditiis at dicta fuga ratione eos beatae.</td>
+            </td>
+            <td>
+                <td class="item01">Fuga voluptatum illo quis ducimus ad eveniet non. Saepe, eveniet.</td>
+            </td>
+        </tr>
+    </tbody>
+</table>
+再来个配合嵌套元素和计数的大栗子.
+<p>Copy<br>
+div.nav&gt;(nav#navbar&gt;(ul&gt;li&gt;(a[href=&quot;/xxx/product/<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">&quot;</mi><mi>d</mi><mi>a</mi><mi>t</mi><mi>a</mi><mo>−</mo><mi>i</mi><mi>n</mi><mi>d</mi><mi>e</mi><mi>x</mi><mo>=</mo></mrow><annotation encoding="application/x-tex">&quot; data-index=</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord">&quot;</span><span class="mord mathdefault">d</span><span class="mord mathdefault">a</span><span class="mord mathdefault">t</span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span></span></span>]&gt;lorem4)*5))+div.btn[type='button']&gt;span{--}^^div#main</p>
+<p>这个有点复杂,看下效果:</p>
+<p>Copy</p>
+<div class="nav">
+    <nav id="navbar">
+        <ul>
+            <li>
+                <a href="/xxx/product/1" data-index="1">Lorem ipsum dolor sit.</a>
+                <a href="/xxx/product/2" data-index="2">Dolor vel, quia quas.</a>
+                <a href="/xxx/product/3" data-index="3">Qui hic, corrupti eum!</a>
+                <a href="/xxx/product/4" data-index="4">Necessitatibus perspiciatis, corrupti. Praesentium!</a>
+                <a href="/xxx/product/5" data-index="5">Nostrum quos, voluptate. Velit!</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="btn" type="button"><span>--</span></div>
+</div>
+<div id="main"></div>
+三、进阶高级用法#
+模拟文本/随机文本
+在开发时经常要填充一些文本内容占位,Emmet内置了Lorem Ipsum功能来实现.loremN或者lipsumN,N表示生成的单词数,正整数.可以不填.
+Copy
+lorem
+=> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit quia commodi vero sint omnis fugiat excepturi reiciendis necessitatibus totam asperiores, delectus saepe nulla consequuntur nostrum! Saepe suscipit recusandae repellendus assumenda.
+<p>p&gt;lorem4<br>
+=&gt;</p>
+<p>Lorem ipsum dolor sit.</p>
+<p>(p&gt;lorem4)*3<br>
+=&gt;</p>
+<p>Lorem ipsum dolor sit.</p>
+<p>Labore aperiam, consequuntur architecto.</p>
+<p>Quidem nisi, cum odio!</p>
+包装文本
+听起来可能有点绕,通俗点解释就是把一段指定的文本包装成我们想要的结构.注意这个功能需要编辑器的支持,举个大栗子:
+比如PM给了这样一段文本
+Copy
+首页
+产品介绍
+相关案例
+关于我们
+联系我们
+而我们预期的效果是这样
+<nav>
+    <ul>
+        <li>首页</li>
+        <li>产品介绍</li>
+        <li>相关案例</li>
+        <li>关于我们</li>
+        <li>联系我们</li>
+    </ul>
+</nav>
+选中文本,按下ctrl+shift+p打开命令窗口输入ewrap
+选择Emmet:使用缩写进行包装(Wrap with Abbreviation)选项
+<p>输入缩写字符nav&gt;ul&gt;li<em>按下回车键即可看到效果.<br>
+当然也可以在菜单=&gt;编辑=&gt;Emmet(M)..然后输入.<br>
+这里需要的注意的地方是输入的缩写代码中</em>所在位置不同得到的效果也是不同的.</p>
+<p>另外如果给的文本带有序号的情况,我们也是可以通过缩写来处理,而不是手动删除,主要用的是|t来处理.<br>
+比如:</p>
+<p>Copy<br>
+1.首页<br>
+2.产品介绍<br>
+3.相关案例<br>
+4.关于我们<br>
+5.联系我们<br>
+输入包装字符命令<br>
+nav&gt;ul&gt;li*|t<br>
+即可看到生成的html中自动去掉了序号<br>
+针对上边说的几种情况来演示一下.</p>
+<p>利用好Emmet来快速编写html代码,能提升工作效率不用在一个个敲闭合标签,简直是我等偷懒党神器.赶快去耍耍吧.</p>
+<p>作　　者：浮云也是种寂寞<br>
+出　　处：http://www.cnblogs.com/summit7ca/</p>
+
+<span id="footnote"></span>
+<div id = "warn"></div>
+</div>
+<div class="toc-container"></div>
+</div>
+<div id="fullPage"><canvas id="canvas"></canvas></div>
+</article>
+<div id="eof"><span>EOF</span></div><div class="round-shape-one"></div>
+<section>
+<div class="doc_comments">
+
+</div></section>
+</div></div></div><script>
+"use strict";!function(){for(var n=document.getElementsByTagName("pre"),e=n.length,s=0;s<e;s++){n[s].innerHTML='<span class="line-number"></span>'+n[s].innerHTML+'<span class="cl"></span>';for(var a=n[s].innerHTML.split(/\n/).length,r=0;r<a-1;r++){n[s].getElementsByTagName("span")[0].innerHTML+="<span>"+(r+1)+"</span>"}}}();
+let mainNavLinks=document.querySelectorAll(".markdownIt-TOC a");window.addEventListener("scroll",event=>{let fromTop=window.scrollY;mainNavLinks.forEach((link,index)=>{let section=document.getElementById(decodeURI(link.hash).substring(1));let nextSection=null
+if(mainNavLinks[index+1]){nextSection=document.getElementById(decodeURI(mainNavLinks[index+1].hash).substring(1));}
+if(section.offsetTop<=fromTop){if(nextSection){if(nextSection.offsetTop>fromTop){link.classList.add("currentToc");}else{link.classList.remove("currentToc");}}else{link.classList.add("currentToc");}}else{link.classList.remove("currentToc");}});});
+var list=document.querySelectorAll(".katex");for(var i=0;i<list.length;i++){list[i].style.display="unset"};
+var h=document.documentElement,b=document.body,st="scrollTop",sh="scrollHeight",progress=document.querySelector(".progress"),scroll;document.addEventListener("scroll",function(){scroll=(h[st]||b[st])/((h[sh]||b[sh])-h.clientHeight)*100;progress.style.setProperty("--scroll",scroll+"%")});
+var wxScale=new WxScale({fullPage:document.querySelector("#fullPage"),canvas:document.querySelector("#canvas")});var imgBox=document.querySelectorAll("#md_block img");for(var i=0;i<imgBox.length;i++){imgBox[i].onclick=function(e){wxScale.start(this)}};
+content="本文最后更新于2021-11-01，已超过 1 年没有更新，涉及的内容可能已经失效！";var date1="2021-11-01 17:49:35";date1=date1.replace("-","/");var date2=new Date();var date3=date2.getTime()-new Date(date1).getTime();var days=Math.floor(date3/(24*3600*1000));if(days>=365){document.getElementById("warn").innerHTML=content};
+</script>
+<style>#magnifyImg{position:fixed;left:0;top:0;text-align:center;width:100%;display:none;z-index:9999}#magnifyImg img{object-fit:contain;background:#eaecef;padding:15px;border-radius:10px;height:auto;width:auto;vertical-align:middle}</style>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647; display: block;"></a><div class="footer animated fadeInDown"><div class="site_footer"><div class="mysocials"><div class="my_socials"></div></div><div class="copyright"id="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>Copyright © 2018-2020 <a href="https://181016.xyz" style="margin:0;">Gridea</a>.</div>
+<span style="display: inline;margin-right:15px;">👁<strong><span id="busuanzi_value_site_uv"></span></strong></span><span id="busuanzi_container_page_pv" style="display: inline;"><span>📚<strong>42</strong> posts</span></div></div>
+<script>
+console.log("\n %c \u26a1Theme: Bitcron-pro Author's Blog:https://blog.blinkstar.cn  Writen By Serence  \n\n", "color: #ffffff; background: rgba(49, 49, 49, 0.85); padding:5px 0;border-radius:5px;", );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/instant.page@3.0.0/instantpage.min.js" type="module" defer></script>
+<script type="text/javascript" async src="https://181016.xyz/media/js/prism.js"></script>
+</body>
+</html>

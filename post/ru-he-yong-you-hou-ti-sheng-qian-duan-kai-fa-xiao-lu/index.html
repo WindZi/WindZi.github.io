@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" href="https://181016.xyz/favicon.ico" type="image/x-icon" /><meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta name="apple-mobile-web-app-capable"content="yes"/><meta name="apple-mobile-web-app-status-bar-style"content="black"/><meta name="format-detection"content="telephone=no"/><meta name="renderer"content="webkit"><meta name="description"content="温故而知新"><meta charset="UTF-8"><title>如何用油猴提升前端开发效率 | Gridea</title>
+<link href="https://181016.xyz/styles/main.css" type="text/css" rel="stylesheet" /><link href="https://at.alicdn.com/t/font_1621793_zatzzgvf30g.css" type="text/css" rel="stylesheet" /><link rel="stylesheet" href="https://181016.xyz/media/css/katex.css"><script async src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.min.js"></script><script src="https://181016.xyz/media/js/magnify.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+<script type="text/javascript">function btn_toggle(){document.getElementById("hn").classList.contains("no-js")?document.getElementById("hn").classList.remove("no-js"):document.getElementById("hn").classList.add("no-js")}</script>
+
+<link rel="canonical" href="https://181016.xyz/post/ru-he-yong-you-hou-ti-sheng-qian-duan-kai-fa-xiao-lu/" />
+</head>
+<body>
+<div class="progress"></div><style>.progress{background:linear-gradient(to right,#87ceeb var(--scroll),transparent 0);background-repeat:no-repeat;position:fixed;width:100%;height:4px;z-index:1}</style><div class="darkmode-background"></div><div class="darkmode-layer"></div>
+<noscript><p class="warn" >本页面需要浏览器支持（启用）JavaScript</p></noscript><div class="header"><div class="logo_title"><div class="title animated fadeInDown"><a href="https://181016.xyz"><img alt="logo" style="display:inline-block;" src="https://181016.xyz/images/avatar.png"/></a><h1 title="Gridea" class="weaklink"><a  href="/">Gridea</a></h1>
+
+<div class="navbar weaklink">
+<div class="normal_nav">
+<div class="bitcron_nav_container"><div class="bitcron_nav"><div class="bitcron_nav"><div style="display:flex;justify-content:center;"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul></nav>
+<div style="float:right;margin-top:1em"><form id="gridea-search-form" data-update="1578893743252" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="Search..."></form></div><div style="margin-left:0.5em;margin-top:1.2em"><input id="switch_default" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+<div class="clear clear_nav_inline_end"></div></div></div><div class="clear clear_nav_end"></div></div></div><div class="hamberger" href="javascript:void(0)" onclick="btn_toggle();"><i class="iconfont icon-category"></i></div></div></div></div>
+<div id="hn" class="no-js hidden_nav animated fadeInDown"><div class="bitcron_nav_container"><div class="bitcron_nav"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul><div class="clear clear_nav_inline_end"></div></nav></div><div class="clear clear_nav_end"></div></div>
+<div style="display:flex;justify-content:center;inline-block;text-align:center;margin-top:7%"><div><form id="gridea-search-form" data-update="1700192119215" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q"  placeholder="Search..." /></form></div><div style="margin-left:0.5em"><input id="switch_default_h" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+</div></div>
+<script>function enableDarkmode(){document.body.classList.add("darkmode"),document.getElementById("switch_default").checked=1,document.getElementById("switch_default_h").checked=1}function removeDarkmode(){document.body.classList.remove("darkmode"),document.getElementById("switch_default").checked=0,document.getElementById("switch_default_h").checked=0}function getCookie(a){var b,c=new RegExp("(^| )"+a+"=([^;]*)(;|$)");return(b=document.cookie.match(c))?unescape(b[2]):null}cookie=getCookie("darkmode"),"enable"==cookie&&enableDarkmode(),window.matchMedia("(prefers-color-scheme: dark)").matches&&"disable"!==cookie&&(enableDarkmode(),document.cookie="darkmode=enable; path=/");var mobileBtn=function(){1==document.getElementById("switch_default").checked?(enableDarkmode(),document.cookie="darkmode=enable; path=/"):(removeDarkmode(),document.cookie="darkmode=disable; path=/")};</script>
+
+<div class="main"><div class="main-inner"><div class="content">
+<article class="post">
+<h2 class="post_title sm_margin"><a>如何用油猴提升前端开发效率</a></h2>
+<script>function lan(){if(document.getElementById("lan").innerText=="繁"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_tw.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="简"}else{if(document.getElementById("lan").innerText=="簡"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_cn.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="繁"}}};</script>
+<section class="post_details"><i class="iconfont icon-calendar"></i><span style="margin-right:15px"> 2022-04-02</span><i class="iconfont icon-browse"></i><span style="margin-right:15px"> <span id="busuanzi_value_page_pv"></span> Views</span><i class="iconfont icon-category"></i><span class="weaklink" style="margin-right:15px"></span><i class="iconfont icon-caret-down"></i><span style="margin-right:15px">3045字</span><i class="iconfont icon-naozhong"></i><span style="margin-right:15px">12 min read</span><a id="lan" href="javascript:void(0);"onclick="lan();"title="调整简繁体" style="margin-right:15px;">繁</a>
+</section>
+
+<div style="display:flex">
+<div class="md_block" id="md_block">
+<div class="round-shape-one"></div>
+<p>原文链接：https://juejin.cn/post/7075237968205578277</p>
+<ol>
+<li>起因<br>
+时隔一年，油猴脚本系列又来了，起因是那天洗澡的时候，突然灵光一闪，想到平时在前端开发中，有很多工作完全是一些机械的，没有什么难度的活，但是又异常的花时间！其实就是对一些表格字段。<br>
+目前为止我还在开发之前的那个百万级ERP项目，项目中的列表非常的多，目前大概有几百个吧，而且每个列表都有非常多的字段，通常情况下都在20个字段左右，而后端写的时候会在对应的接口中返回一大堆字段，你需要从返回的字段中挑选出列表中需要的字段。<br>
+可能一个两个还好，但是几十个几百个列表一个字段一个字段的对起来就很耗时耗力，所以这个时候我就有一个想法：有没有那么一种方法，将原型图上列表字段提取出来，然后与swagger中该接口下面的字段注释做一个对比，如果对的上，则生成Antd可以使用的表头代码，如果没有对上，那么就统一将这些没有对上的字段展示出来，然后用肉眼去对，如果依然没有找到这些字段，那么就发给后端，让后端添加上这些字段。<br>
+一想到这个可能性，马上就想迫不及待的想要进行实现，这时我回忆起一年前用过油猴脚本做了一些事情，那么这次这个突发奇想是否也可以用油猴脚本进行实现。</li>
+<li>油猴脚本<br>
+我在去年已经写过几篇关于油猴脚本的文章，其中提到过通过Webpack打包，可以开发特别复杂的脚本，甚至可以开发一些工程级的脚本，同时也可以使用npm上的包。<br>
+但是由于webpack配置的复杂性，所以我首先是没有考虑使用webpack打包工具的，而是先想到了另一个零配置打包工具：parcel。<br>
+但是很遗憾，失败了，不知道为什么通过parcel打包后的js文件直接通过油猴引入外部资源的方法会报错，于是这个时候我还想到了一个打包js文件的工具：Rollup。<br>
+遗憾的是，同样失败了，不知道为什么引入油猴后就是会报错，于是这个时候我就放弃抵抗，选择了webpack进行打包，结果不出意料，webpack打包后的js文件引入油猴中没有任何问题。<br>
+因为我之前已经这么做过了，还总结了相关的文章：强大的油猴Tampermonkey脚本开发环境搭建，所以关于油猴的基础部分就不再赘述。<br>
+2.1 打包的好处<br>
+为什么要通过webpack打包？<br>
+因为在编写一些复杂脚本时，我们往往会需要使用到非常多的库，而且也会将脚本进行模块化，分成非常多的文件，同时如果你还想编写一些CSS样式，那么你也可以直接写CSS文件或者Less或者Sass文件，通过webpack可以将这些文件统一起来，打包成一个js，然后通过油猴提供的外部引入方式进行引入。<br>
+随着我对React越发的得心应手，要实现上面说的自动比对字段的功能React也是不可少的一环，而我个人非常喜欢使用TypeScript，因为它会给予代码更多的提示，让你在写代码的时候不容易犯一些低级错误。<br>
+而使用React的时候就不得不提到Antd，Antd这个UI组件库提供了非常多的方便的组件，不光是解决了一些样式问题，同时它还解决了很多交互层面的东西，比如它的Form表单，也是非常好用的。<br>
+综上所述，如果你要开发一个油猴脚本，那么通过webpack进行打包就是一个非常好的选择。</li>
+<li>jQuery<br>
+正如我年前的那篇文章所说，jQuery是一个非常值得学习的库，因为对于编写油猴脚本来说，没有什么比用jQuery去提取界面上的信息更方便的了。<br>
+由于jQuery的易用性，使用jQuery你可以轻易的从界面上提取到你要的信息，虽然使用正则可以达到差不多的效果，但jQuery代码写起来比正则更快，也更不容易出错。</li>
+<li>正则<br>
+编写脚本，非常多的情况会使用到正则，因为要精确的匹配到对应的字符，正则是你的不二之选，在做一些自动生成代码工具的时候，因为涉及到字符匹配的问题，学会正则就显得非常的重要。<br>
+这里就要推荐一个非常好的正则测试网站：RegExr: 学习、构建和测试正则表达式Test RegEx，因为有时候你无法判断你写的正则对不对，所以这个时候你就可以先在这个网站上面测试一下，如果测试结果符合你的预期，再将正则表达式复制到你的项目中进行测试，这样编写起正则来就方便的多，使用方法也非常简单，去该网站上面点两下大致就能明白如何使用。</li>
+<li>爬虫基础<br>
+如果你要提取一些界面上的信息，那么你得会一些爬虫基础知识，知道怎么获取到界面上的某些信息。<br>
+理论上一个网页上面所有的信息，都能通过正则表达式进行提取，但由于正则表达式在编写的过程中可能会比较容易出错，这个时候jQuery就能有效的帮你提取出这些页面数据。<br>
+这里就对爬虫入门时90%的人都会选择的豆瓣排行榜做一个页面信息提取。</li>
+<li>实例<br>
+上面所想的那个脚本我其实已经实现了，但碍于swagger上面有公司项目的接口信息，所以这里就不拿那个脚本作为演示。<br>
+那么这里我就拿jQuery爬取到的豆瓣排行榜信息作为演示吧：<br>
+主要实现的功能就是，在输入框中输入电影名称，然后将电影相关的信息进行匹配并且展示出来：<br>
+6.1 触发事件构建<br>
+要执行你已经写好的代码，你通常可能需要一个按钮、一个输入框或者其它元素进行触发，在本脚本的开发中，我就使用了Antd的按钮+Antd的模态框+Antd的输入框这3种组件来搭建脚本。<br>
+6.2 最终效果<br>
+最终的效果像下面这样，代码其实并不难。</li>
+</ol>
+<p>这里贴上最终的代码：<br>
+import { Button, ConfigProvider, Form, Modal } from &quot;antd&quot;;<br>
+import &quot;antd/dist/antd.css&quot;;<br>
+import TextArea from &quot;antd/es/input/TextArea&quot;;<br>
+import zhCN from &quot;antd/lib/locale/zh_CN&quot;;<br>
+import * as $ from &quot;jquery&quot;;<br>
+import { useState } from &quot;react&quot;;<br>
+import { render } from &quot;react-dom&quot;;</p>
+<p>interface InfoDataList {<br>
+/** 电影的名称 <em>/<br>
+title: string;<br>
+/</em>* 分数 <em>/<br>
+score: string;<br>
+/</em>* 评价数 <em>/<br>
+number: string;<br>
+/</em>* 简介 */<br>
+info: string;<br>
+}</p>
+<p>function AppButton() {<br>
+const [infoDataList, setInfoDataList] = useState&lt;InfoDataList[]&gt;([]);</p>
+<p>const [showData, setShowData] = useState<InfoDataList>();</p>
+<p>const [visible, setVisible] = useState(false);</p>
+<p>return (<br>
+&lt;&gt;<br>
+&lt;Button<br>
+onClick={() =&gt; {<br>
+/** 整理后的信息 */<br>
+const info: InfoDataList[] = [];</p>
+<pre><code>      // 这里是提取界面信息
+      $(&quot;.info&quot;).each(function (this) {
+        const infoItem: InfoDataList = {} as InfoDataList;
+        // 这里是所有的信息，下面组件提取各种信息
+        $(this)
+          .find(&quot;.title&quot;)
+          .each(function (this, index) {
+            // 只取第一个电影名字
+            if (index === 0) infoItem.title = this.innerHTML;
+          });
+
+        // 取分数
+        $(this)
+          .find(&quot;.rating_num&quot;)
+          .each(function (this) {
+            infoItem.score = this.innerHTML;
+          });
+
+        // 评价数
+        $(this)
+          .find(&quot;.star &gt; span:nth-child(4)&quot;)
+          .each(function (this) {
+            infoItem.number = this.innerHTML;
+          });
+
+        // 取信息
+        $(this)
+          .find(&quot;.inq&quot;)
+          .each(function (this) {
+            infoItem.info = this.innerHTML;
+          });
+
+        info.push(infoItem);
+      });
+
+      setInfoDataList(info);
+      // 打开弹窗
+      setVisible(true);
+    }}
+    style={{ position: &quot;fixed&quot;, right: &quot;100px&quot;, bottom: &quot;100px&quot; }}
+  &gt;
+    点我
+  &lt;/Button&gt;
+  &lt;Modal
+    title=&quot;自动对字段&quot;
+    visible={visible}
+    centered
+    destroyOnClose
+    width={1000}
+    onCancel={() =&gt; {
+      setVisible(false);
+    }}
+  &gt;
+    &lt;Form
+      preserve={false}
+      onValuesChange={async (value) =&gt; {
+        // 如果没有值，则不匹配
+        if (!value.text) {
+          setShowData(undefined);
+          return;
+        }
+        const rgx = RegExp(value.text);
+
+        const data = infoDataList.find((item) =&gt; rgx.test(item.title));
+        setShowData(data);
+      }}
+    &gt;
+      &lt;Form.Item name=&quot;text&quot;&gt;
+        &lt;TextArea rows={10} /&gt;
+      &lt;/Form.Item&gt;
+    &lt;/Form&gt;
+    {/* 这里是将对的字段展示出来 */}
+    &lt;ul&gt;
+      &lt;li&gt;电影名：{showData?.title}&lt;/li&gt;
+      &lt;li&gt;分数：{showData?.score}&lt;/li&gt;
+      &lt;li&gt;评价数：{showData?.number}&lt;/li&gt;
+      &lt;li&gt;简介：{showData?.info}&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/Modal&gt;
+&lt;/&gt;
+</code></pre>
+<p>);<br>
+}</p>
+<p>// 添加一个div作为React的入口文件<br>
+$(&quot;body&quot;).append(<code>&lt;div id=&quot;ccll-app&quot;/&gt;</code>);</p>
+<p>render(<br>
+<ConfigProvider locale={zhCN}><br>
+<AppButton /><br>
+</ConfigProvider>,<br>
+document.getElementById(&quot;ccll-app&quot;)<br>
+);<br>
+复制代码<br>
+7. webpack配置<br>
+下面是我自己搭建并且使用的一套webpack.config.js，添加了对CSS、TypeScript、Less的支持，并且还对JavaScript做了兼容性处理，可以直接将下面的代码复制过去尝试。<br>
+const { resolve } = require(&quot;path&quot;);</p>
+<p>module.exports = {<br>
+entry: [&quot;./index.js&quot;],<br>
+output: {<br>
+path: resolve(__dirname, &quot;build&quot;),<br>
+filename: &quot;index.js&quot;,<br>
+publicPath: &quot;/&quot;,<br>
+},<br>
+module: {<br>
+rules: [<br>
+{<br>
+test: /.(js|jsx|mjs)<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 542: …      ],
+      }̲,
+      {
+     …'>/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: &quot;babel-loader&quot;,
+            options: {
+              // 预设：指示babel做怎么样的兼容性处理。
+              presets: [
+                [
+                  &quot;@babel/preset-env&quot;,
+                  {
+                    corejs: {
+                      version: 3,
+                    }, // 按需加载
+                    useBuiltIns: &quot;usage&quot;,
+                  },
+                ],
+                &quot;@babel/preset-react&quot;,
+              ],
+            },
+          },
+        ],
+      },
+      {
+        test: /.tsx?</span>/,<br>
+use: &quot;ts-loader&quot;,<br>
+exclude: /node_modules/,<br>
+},<br>
+{<br>
+test: /.css<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;}&#039; at position 270: …      ],
+      }̲,
+      {
+     …'>/,
+        // 使用哪些 loader 进行处理
+        use: [
+          // use 数组中 loader 执行顺序：从右到左，从下到上 依次执行
+          // 创建 style 标签，将 js 中的样式资源插入进行，添加到 head 中生效
+          &quot;style-loader&quot;,
+          // 将 css 文件变成 commonjs 模块加载 js 中，里面内容是样式字符串
+          &quot;css-loader&quot;,
+        ],
+      },
+      {
+        test: /.less</span>/,<br>
+// 使用哪些 loader 进行处理<br>
+use: [<br>
+// use 数组中 loader 执行顺序：从右到左，从下到上 依次执行<br>
+// 创建 style 标签，将 js 中的样式资源插入进行，添加到 head 中生效<br>
+&quot;style-loader&quot;,<br>
+// 将 css 文件变成 commonjs 模块加载 js 中，里面内容是样式字符串<br>
+&quot;css-loader&quot;,<br>
+{<br>
+loader: &quot;less-loader&quot;,<br>
+options: {<br>
+lessOptions: {<br>
+javascriptEnabled: true,<br>
+},<br>
+},<br>
+},<br>
+],<br>
+},<br>
+],<br>
+},<br>
+resolve: {<br>
+extensions: [&quot;.tsx&quot;, &quot;.ts&quot;, &quot;.js&quot;],<br>
+},<br>
+mode: &quot;production&quot;,<br>
+devtool: &quot;source-map&quot;,<br>
+};<br>
+复制代码<br>
+8. 最后<br>
+本篇文章没有拿我的那个最终实现的脚本进行演示，而是模拟了另一个例子，主要是起到一个抛砖引玉的作用，我想表达的意思就是油猴被我们前端开发者所忽略了，其实它是一个非常好的能够提升开发效率的工具。<br>
+从文章中可以看到，编写一个脚本需要掌握的知识还是比较多的，尤其是jQuery和正则，当然如果你对原生js熟悉的话，你完全可以使用原生js代码来代替jQuery的那些代码。<br>
+就我个人编写油猴脚本的经验来讲，jQuery几乎在每个脚本中都会用到，虽然用到的东西不是特别深，主要是提取界面信息，而正则用到的也非常多。<br>
+其实这里还留下了一个问题，就是引入了React+Antd后，打包的时间往往会达到10s左右，而打包后的代码通常会达到2M左右，下一篇文章就讲如何在油猴中使用CDN引入，让打包时间减少到1s左右，代码体积减少到几十kb左右。<br>
+通过这次的灵光乍现，我想到平时在写业务代码时，一些重复的机械的工作都可以交给脚本去实现，提高自己的开发效率，做一个准点下班的程序员。</p>
+<p>作者：沧沧凉凉<br>
+链接：https://juejin.cn/post/7075237968205578277<br>
+来源：稀土掘金<br>
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<p><a href="https://juejin.cn/post/6925605904561750030">快速上手油猴插件开发（实战篇）</a><br>
+<a href="https://juejin.cn/post/6922815205575491597">5分钟上手开发浏览器插件——油猴脚手架wokoo(使用篇)</a><br>
+<a href="https://juejin.cn/post/6925613440752943112#">wokoo脚手架（搭建篇）</a><br>
+<a href="https://zhuanlan.zhihu.com/p/99390731">Chrome 插件大杀器：「油猴」Tampermonkey 使用详解</a></p>
+
+<span id="footnote"></span>
+<div id = "warn"></div>
+</div>
+<div class="toc-container"></div>
+</div>
+<div id="fullPage"><canvas id="canvas"></canvas></div>
+</article>
+<div id="eof"><span>EOF</span></div><div class="round-shape-one"></div>
+<section>
+<div class="doc_comments">
+
+</div></section>
+</div></div></div><script>
+"use strict";!function(){for(var n=document.getElementsByTagName("pre"),e=n.length,s=0;s<e;s++){n[s].innerHTML='<span class="line-number"></span>'+n[s].innerHTML+'<span class="cl"></span>';for(var a=n[s].innerHTML.split(/\n/).length,r=0;r<a-1;r++){n[s].getElementsByTagName("span")[0].innerHTML+="<span>"+(r+1)+"</span>"}}}();
+let mainNavLinks=document.querySelectorAll(".markdownIt-TOC a");window.addEventListener("scroll",event=>{let fromTop=window.scrollY;mainNavLinks.forEach((link,index)=>{let section=document.getElementById(decodeURI(link.hash).substring(1));let nextSection=null
+if(mainNavLinks[index+1]){nextSection=document.getElementById(decodeURI(mainNavLinks[index+1].hash).substring(1));}
+if(section.offsetTop<=fromTop){if(nextSection){if(nextSection.offsetTop>fromTop){link.classList.add("currentToc");}else{link.classList.remove("currentToc");}}else{link.classList.add("currentToc");}}else{link.classList.remove("currentToc");}});});
+var list=document.querySelectorAll(".katex");for(var i=0;i<list.length;i++){list[i].style.display="unset"};
+var h=document.documentElement,b=document.body,st="scrollTop",sh="scrollHeight",progress=document.querySelector(".progress"),scroll;document.addEventListener("scroll",function(){scroll=(h[st]||b[st])/((h[sh]||b[sh])-h.clientHeight)*100;progress.style.setProperty("--scroll",scroll+"%")});
+var wxScale=new WxScale({fullPage:document.querySelector("#fullPage"),canvas:document.querySelector("#canvas")});var imgBox=document.querySelectorAll("#md_block img");for(var i=0;i<imgBox.length;i++){imgBox[i].onclick=function(e){wxScale.start(this)}};
+content="本文最后更新于2022-04-02，已超过 1 年没有更新，涉及的内容可能已经失效！";var date1="2022-04-02 16:14:48";date1=date1.replace("-","/");var date2=new Date();var date3=date2.getTime()-new Date(date1).getTime();var days=Math.floor(date3/(24*3600*1000));if(days>=365){document.getElementById("warn").innerHTML=content};
+</script>
+<style>#magnifyImg{position:fixed;left:0;top:0;text-align:center;width:100%;display:none;z-index:9999}#magnifyImg img{object-fit:contain;background:#eaecef;padding:15px;border-radius:10px;height:auto;width:auto;vertical-align:middle}</style>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647; display: block;"></a><div class="footer animated fadeInDown"><div class="site_footer"><div class="mysocials"><div class="my_socials"></div></div><div class="copyright"id="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>Copyright © 2018-2020 <a href="https://181016.xyz" style="margin:0;">Gridea</a>.</div>
+<span style="display: inline;margin-right:15px;">👁<strong><span id="busuanzi_value_site_uv"></span></strong></span><span id="busuanzi_container_page_pv" style="display: inline;"><span>📚<strong>42</strong> posts</span></div></div>
+<script>
+console.log("\n %c \u26a1Theme: Bitcron-pro Author's Blog:https://blog.blinkstar.cn  Writen By Serence  \n\n", "color: #ffffff; background: rgba(49, 49, 49, 0.85); padding:5px 0;border-radius:5px;", );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/instant.page@3.0.0/instantpage.min.js" type="module" defer></script>
+<script type="text/javascript" async src="https://181016.xyz/media/js/prism.js"></script>
+</body>
+</html>

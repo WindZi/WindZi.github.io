@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" href="https://181016.xyz/favicon.ico" type="image/x-icon" /><meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta name="apple-mobile-web-app-capable"content="yes"/><meta name="apple-mobile-web-app-status-bar-style"content="black"/><meta name="format-detection"content="telephone=no"/><meta name="renderer"content="webkit"><meta name="description"content="温故而知新"><meta charset="UTF-8"><title>基于Sentry搭建前端异常监控系统 | Gridea</title>
+<link href="https://181016.xyz/styles/main.css" type="text/css" rel="stylesheet" /><link href="https://at.alicdn.com/t/font_1621793_zatzzgvf30g.css" type="text/css" rel="stylesheet" /><link rel="stylesheet" href="https://181016.xyz/media/css/katex.css"><script async src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.min.js"></script><script src="https://181016.xyz/media/js/magnify.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+<script type="text/javascript">function btn_toggle(){document.getElementById("hn").classList.contains("no-js")?document.getElementById("hn").classList.remove("no-js"):document.getElementById("hn").classList.add("no-js")}</script>
+
+<link rel="canonical" href="https://181016.xyz/post/ji-yu-sentry-da-jian-qian-duan-yi-chang-jian-kong-xi-tong/" />
+</head>
+<body>
+<div class="progress"></div><style>.progress{background:linear-gradient(to right,#87ceeb var(--scroll),transparent 0);background-repeat:no-repeat;position:fixed;width:100%;height:4px;z-index:1}</style><div class="darkmode-background"></div><div class="darkmode-layer"></div>
+<noscript><p class="warn" >本页面需要浏览器支持（启用）JavaScript</p></noscript><div class="header"><div class="logo_title"><div class="title animated fadeInDown"><a href="https://181016.xyz"><img alt="logo" style="display:inline-block;" src="https://181016.xyz/images/avatar.png"/></a><h1 title="Gridea" class="weaklink"><a  href="/">Gridea</a></h1>
+
+<div class="navbar weaklink">
+<div class="normal_nav">
+<div class="bitcron_nav_container"><div class="bitcron_nav"><div class="bitcron_nav"><div style="display:flex;justify-content:center;"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul></nav>
+<div style="float:right;margin-top:1em"><form id="gridea-search-form" data-update="1578893743252" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="Search..."></form></div><div style="margin-left:0.5em;margin-top:1.2em"><input id="switch_default" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+<div class="clear clear_nav_inline_end"></div></div></div><div class="clear clear_nav_end"></div></div></div><div class="hamberger" href="javascript:void(0)" onclick="btn_toggle();"><i class="iconfont icon-category"></i></div></div></div></div>
+<div id="hn" class="no-js hidden_nav animated fadeInDown"><div class="bitcron_nav_container"><div class="bitcron_nav"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul><div class="clear clear_nav_inline_end"></div></nav></div><div class="clear clear_nav_end"></div></div>
+<div style="display:flex;justify-content:center;inline-block;text-align:center;margin-top:7%"><div><form id="gridea-search-form" data-update="1700192119215" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q"  placeholder="Search..." /></form></div><div style="margin-left:0.5em"><input id="switch_default_h" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+</div></div>
+<script>function enableDarkmode(){document.body.classList.add("darkmode"),document.getElementById("switch_default").checked=1,document.getElementById("switch_default_h").checked=1}function removeDarkmode(){document.body.classList.remove("darkmode"),document.getElementById("switch_default").checked=0,document.getElementById("switch_default_h").checked=0}function getCookie(a){var b,c=new RegExp("(^| )"+a+"=([^;]*)(;|$)");return(b=document.cookie.match(c))?unescape(b[2]):null}cookie=getCookie("darkmode"),"enable"==cookie&&enableDarkmode(),window.matchMedia("(prefers-color-scheme: dark)").matches&&"disable"!==cookie&&(enableDarkmode(),document.cookie="darkmode=enable; path=/");var mobileBtn=function(){1==document.getElementById("switch_default").checked?(enableDarkmode(),document.cookie="darkmode=enable; path=/"):(removeDarkmode(),document.cookie="darkmode=disable; path=/")};</script>
+
+<div class="main"><div class="main-inner"><div class="content">
+<article class="post">
+<h2 class="post_title sm_margin"><a>基于Sentry搭建前端异常监控系统</a></h2>
+<script>function lan(){if(document.getElementById("lan").innerText=="繁"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_tw.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="简"}else{if(document.getElementById("lan").innerText=="簡"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_cn.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="繁"}}};</script>
+<section class="post_details"><i class="iconfont icon-calendar"></i><span style="margin-right:15px"> 2021-12-22</span><i class="iconfont icon-browse"></i><span style="margin-right:15px"> <span id="busuanzi_value_page_pv"></span> Views</span><i class="iconfont icon-category"></i><span class="weaklink" style="margin-right:15px"></span><i class="iconfont icon-caret-down"></i><span style="margin-right:15px">3482字</span><i class="iconfont icon-naozhong"></i><span style="margin-right:15px">14 min read</span><a id="lan" href="javascript:void(0);"onclick="lan();"title="调整简繁体" style="margin-right:15px;">繁</a>
+</section>
+
+<div style="display:flex">
+<div class="md_block" id="md_block">
+<div class="round-shape-one"></div>
+<p>背景<br>
+虽然在我们的项目上线前会有很多的测试流程，但是测试流程肯定无法保证 100%覆盖所有操作场景，在用户的使用过程中仍会有一些问题暴露出来。<br>
+但当线上用户出现问题，我们需要收到用户的一个反馈，才能去定位解决，这样会导致我们的问题解决不够及时。<br>
+并且有些疑难杂症，我们无法复现定位，这时候我们需要得知用户的环境、操作等信息，以便于对问题进行排查。<br>
+基于以上三点考虑，我认为在大部分项目中都需要接入一个异常监控系统，来实现收集异常、收集日志信息、及时警告、展示统计信息等功能。</p>
+<p>为什么选择 Sentry？<br>
+免费<br>
+Sentry 可直接使用也可自行搭建<br>
+兼容性强，基本不受语言限制，搭建一套系统可用于多个项目。<br>
+Sentry可适用平台<br>
+Sentry 简介<br>
+Sentry's application monitoring platform helps every developer<br>
+diagnose, fix, and optimize the performance of their code.<br>
+Sentry 的应用程序监视平台可帮助每个开发人员诊断，修复和优化其代码的性能。</p>
+<p>Sentry 部署及使用<br>
+Sentry 可直接使用也可自行搭建，下面将讲解 Sentry 的搭建过程。想要直接体验的可以跳过直接戳官网进行体验。</p>
+<p>官方提供安装方式是使用 Docker 和 Docker Compose 以及基于 bash 的安装和升级脚本。</p>
+<p>环境要求<br>
+Docker 19.03.6+<br>
+Compose 1.24.1+<br>
+4 CPU Cores<br>
+8 GB RAM<br>
+20 GB Free Disk Space<br>
+Python 3<br>
+这里就不对环境的配置进行详细说明，想自己搭建的同学可以参考下以下文章。</p>
+<p>yum 方式安装升级 docker<br>
+新装的 CentOS 7 安装 python3<br>
+部署步骤<br>
+从 github 上获取 Sentry 最新代码。<br>
+git clone https://github.com/getsentry/onpremise.git<br>
+进入 onpremise ，运行 install.sh 脚本。<br>
+cd onpremise<br>
+./install.sh<br>
+运行 docker-compose up -d 以启动 Sentry。<br>
+按照默认配置构建后，Sentry 默认绑定 9000 端口，访问 http://127.0.0.1:9000 即可进入登录页面。</p>
+<p>打开页面填写信息后即可进入 Sentry 系统<br>
+初始化界面</p>
+<p>自动发送警告邮件配置，可以从上图配置，也可以从配置文件配置，下面为通过 config.yml 配置教程。<br>
+打开 onpremise/sentry 下的 config.yml 文件，修改 Mail Server 配置内容。<br>
+异常警告发送邮件配置<br>
+mail.backend：邮件发送方式；<br>
+mail.host: 邮件发送域名 ，使用的哪个邮箱可以去该邮箱文档中找到 smtp 发送域名；<br>
+mail.port: 邮件发送的端口号；<br>
+mail.username：用于 smtp 邮箱的账号；<br>
+mail.password：用于 smtp 邮箱的密码；<br>
+mail.use-tls：是否使用 tls 安全协议，这里填写 true 或 false，和 use-ssl 配置互斥；<br>
+mail.use-ssl：是否使用 ssl 安全协议，这里填写 true 或 false，和 use-tls 配置互斥；<br>
+mail.from：收到邮件时的发送人名称；<br>
+通过配置文件修改邮件服务后，需要运行 docker-compose up -d  更新 Sentry，如果更新失败则需要关闭 docker-compose 后重新运行。<br>
+docker-compose down<br>
+docker-compose build<br>
+docker-compose up -d<br>
+重启后可通过 头像-&gt; admin -&gt; mail 进入 mail 配置页，点击发送测试邮件来检测是否配置成功。</p>
+<p>测试邮件服务配置</p>
+<p>Sentry 设置通过 HTTPS 访问<br>
+有没有发现上面 Sentry 的启动地址还有 DSN 地址都是 http，现在要给 Sentry 配置 ssl 让我们能通过 https 使用。</p>
+<p>首先要修改 onpremise/sentry/config.yml system.url-prefix 配置，将其设置为我们访问的 Sentry 域名。 url-prefix 组成了项目的 DSN 地址，一定要保证格式正确。</p>
+<p>system.url-prefix: 'https://sentry.xxxxx.com:60000'<br>
+然后是 onpremise/sentry/sentry.conf.py 文件下的 SSL/TLS 配置，将原来注释的部分全部打开。<br>
+修改 SSL/TLS 配置</p>
+<p>修改完后同样要将 docker-compose 关掉重建。</p>
+<p>docker-compose down<br>
+docker-compose build<br>
+docker-compose up -d<br>
+上面的配置只是让 Sentry 允许通过 SSL 代理，下面我们需要在服务器内搭建一个 nginx 用来转发 https 协议内容，搭建的过程不多说，百度或者请教运维大大。下面是我的 nginx 配置，配好 nginx 并重启后就算大功告成。我们的 Sentry 终于可以通过 https 访问了！</p>
+<p>server {<br>
+# 配置监听端口<br>
+listen       60000 ssl http2 default_server;<br>
+listen       [::]:60000 ssl http2 default_server;</p>
+<pre><code># 域名
+server_name  sentry.xxxxx.cn;
+
+# nginx 默认根目录
+root         /usr/share/nginx/html;
+
+# 加载其他配置文件，这里是 nginx 默认配置，可以不需要
+include /etc/nginx/default.d/*.conf;
+
+# ssl 设置
+ssl on;
+# ssl 证书地址
+ssl_certificate     /etc/nginx/sslcert/server.crt;
+# ssl 密钥地址
+ssl_certificate_key /etc/nginx/sslcert/server.key;
+ssl_session_cache shared:SSL:1m;
+ssl_session_timeout  10m;
+
+ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+ssl_ciphers EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
+ssl_prefer_server_ciphers on;
+
+
+client_max_body_size 200M;
+client_body_buffer_size 1024k;
+
+# 这一段是最重要的，将域名代理到本机 http://localhost:9000 服务上，对应的就是 docker 内的 sentry 服务
+location / {
+    proxy_pass http://localhost:9000;
+}
+
+gzip  on;
+gzip_http_version 1.1;
+gzip_vary on;
+gzip_comp_level 9;
+gzip_proxied any;
+gzip_types text/plain  text/css application/json  application/x-javascript text/xml application/xml application/xml+rss text/javascript application/x-shockwave-flash image/png image/x-icon image/gif image/jpeg;
+gzip_buffers 16 8k;
+
+error_page 404 /404.html;
+    location = /404.html {
+}
+
+error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+}
+</code></pre>
+<p>}<br>
+Sentry 接入实例<br>
+通过上面的过程 Sentry 系统就搭建好了，访问配置的地址即可进入 Sentry 系统。没有搭建的朋友们，也可以直接通过官网体验下面接入项目的过程。</p>
+<p>创建项目<br>
+进入系统后点右上角的 New Project  创建项目。</p>
+<p>Sentry 创建项目</p>
+<p>这里以 React 项目为例，建立一个 React 项目，按照页面提示即可在项目中注册 Sentry，对系项目执行中出现的异常进行捕捉。</p>
+<p>Sentry接入项目及初始化</p>
+<p>配置<br>
+Sentry 配置应在应用程序的生命周期中尽早进行。完成此操作后，Sentry 的 JavaScript SDK 会捕获所有未处理的异常和事务。init 参数详解：</p>
+<p>Sentry.init({<br>
+// Sentry 项目的 dsn，可从项目设置中获取<br>
+dsn: &quot;https://xxxxxx@161.xxx.xxx.xxx:9000/2&quot;,<br>
+// 初始参数配置内容<br>
+integrations: [new Integrations.BrowserTracing()],<br>
+// 触发异常后发送给 Sentry 的概率<br>
+tracesSampleRate: 1.0,<br>
+// 控制应捕获的面包屑(行为栈)的总量<br>
+maxBreadcrumbs: 20,<br>
+// 规定上下文数据结构的深度，默认为 3<br>
+normalizeDepth: 100,<br>
+// 版本信息<br>
+release: &quot;common@1.0.0&quot;,<br>
+// 环境信息<br>
+environment: process.env.NODE_ENV,<br>
+// 钩子函数，在每次发送 event 前触发<br>
+beforeSend(event) {<br>
+// 网页应用刷新后设置的变量会消失，所以我选择在 beforeSend 触发时插入用户信息<br>
+event.user = {<br>
+userNick: &quot;xiaohu&quot;,<br>
+};<br>
+return event;<br>
+},<br>
+});<br>
+设置变量<br>
+在 Sentry 中，可以使用 set + tags，extra，contexts，user，level，fingerprint 形式，设置变量。下面将简单介绍几种方式，详情使用方法可见文档。</p>
+<p>通过 setUser 设置全局变量用户信息示例（不建议使用）<br>
+捕捉异常还需要采集用户信息，在用户登录后需要通过 setUser 设置一下用户信息全局变量，如下所示。注意，通过这种方式设置的全局变量在页面刷新后会消失。设置用户信息代码：</p>
+<p>Sentry.setUser({<br>
+tenant: {<br>
+code: 12345,<br>
+name: '测试公司',<br>
+_id: 12345<br>
+},<br>
+orgAccount: {<br>
+_id: 54321,<br>
+orgName: '是机构啦'<br>
+},<br>
+user: {<br>
+_id: '8910JQ',<br>
+loginName: '测试人员小Q'<br>
+}<br>
+})<br>
+设置全局变量后触发的 issue 中，可看到上传的用户数据。</p>
+<p>自定义 user 数据展示</p>
+<p>通过 beforeSnd 插入用户信息<br>
+通过 Sentry 机制设置的全局变量在页面刷新后会消失，这边我建议通过 beforeSend  函数，修改 event 中的数据来插入需要的全局变量。</p>
+<p>Sentry.init({<br>
+...,<br>
+// 钩子函数，在每次发送 event 前触发<br>
+beforeSend(event) {<br>
+// 在这里可根据业务情况发送用户信息<br>
+event.user = {<br>
+userNick: 'xiaohu'<br>
+};<br>
+return event;<br>
+}<br>
+});<br>
+设置全局变量<br>
+// 以下是 Sentry 定义的全局变量，可以直接使用 Sentry api 设置<br>
+Sentry.setUser(object);<br>
+Sentry.tags(object);<br>
+Sentry.extra(object);<br>
+Sentry.level(object);<br>
+Sentry.fingerprint(object);</p>
+<p>// 通过 setContext，设置 key 值，可自定义随事件传递的变量名<br>
+Sentry.setContext(key, context);<br>
+设置局部变量<br>
+captureException 是我常用的一种设置局部变量并上传报错的方式，Sentry.captureException(err[, obj]) 第一个参数为抛出的异常，第二个参数可附加错误信息。<br>
+第二个参数为对象，key 值可为 tags，extra，contexts，user，level，fingerprint 这 6 种。</p>
+<p>Sentry.captureException(error, {<br>
+contexts: {<br>
+message: {<br>
+a: 1,<br>
+b: { b: 1 },<br>
+},<br>
+},<br>
+});<br>
+设置局部变量网络报错信息示例<br>
+根据目前前端框架所用的 axios，对网络请求出错的局部数据进行收集，代码示例：</p>
+<p>Sentry.captureException(error, {<br>
+contexts: {<br>
+message: {<br>
+url: error.response.config.baseURL + error.response.config.url,<br>
+data: error.response.config.data,<br>
+method: error.response.config.method,<br>
+status: error.response.status,<br>
+statusText: error.response.statusText,<br>
+responseData: JSON.stringify(error.response.data),<br>
+},<br>
+},<br>
+});<br>
+清除全局变量<br>
+在用户退出登录后需要清除该用户的用户信息，有以下两种方式。</p>
+<p>通过设置为空，可以清除设置过的数据。<br>
+Sentry.setUser();<br>
+通过 scope.clear()  清除全局变量。<br>
+Sentry.configureScope((scope) =&gt; scope.clear()); // 清除所有全局变量<br>
+Sentry.configureScope((scope) =&gt; scope.setUser(null)); // 清除 user 变量<br>
+上传日志信息<br>
+有时我们不仅仅要收集异常信息，还需要在页面中打 log 来收集页面运行数据，这时可以用 Sentry.captureMessage(err[, obj]) api，进行传输日志。使用方法与 captureException 一致，建议将 level 设置为 Info，便于与异常区分开来，避免触发我们设置的异常警报。</p>
+<p>Sentry.captureMessage(&quot;Something went fundamentally wrong&quot;, {<br>
+contexts: {<br>
+text: {<br>
+hahah: 22,<br>
+},<br>
+},<br>
+level: Sentry.Severity.Info,<br>
+});<br>
+上传 sourceMap<br>
+Sentry 可将前端项目打包后的 SourceMap 上传，方便我们查看异常所在的代码位置。<br>
+Sentry 集成sourcemap</p>
+<p>卸载 sentry<br>
+需要卸载可参考以下链接。<br>
+如何卸载Sentry？</p>
+<p>触发一个异常看看<br>
+onClick={() =&gt; {<br>
+let a = {};<br>
+console.log(a.b.c);<br>
+}}<br>
+在这里我制造了一个异常代码，点击后大家可想而知会出现一个 js error，如下图。</p>
+<p>在 network 中我们可以看到一条请求，Sentry 就是通过这样的方式上传错误的。</p>
+<p>然后转到 Sentry 系统页面上，可以看到 Issues 面板中多了一条信息：</p>
+<p>点击进入后可以看到关于这条异常的详细信息。</p>
+<p>可以看到，详情里收集了大量的异常相关数据，如设备、浏览器版本、ip地址、error 数据、用户操作栈等数据。但光有这些数据是不够的，原始的上传信息有时也不足以分析问题，很多时候我们需要根据业务场景定制所采集的数据。下面我们将从捕捉场景和采集内容这两方面进行分析。</p>
+<p>异常信息捕捉场景及采集内容<br>
+捕捉场景<br>
+针对前端常见业务场景，总结了以下几个场景需要收集业务报错信息。</p>
+<p>接口错误<br>
+网络错误<br>
+js error 报错<br>
+主要业务流程异常状态<br>
+iframe/webview 内部错误<br>
+以上异常如果触发了 js error 或者 Promise.reject 并且没有被抛出，会被 Sentry 自动捕捉到，如果没有自动触发可手动 new Error 或 Promise.reject(error) 抛出异常，即可被 Sentry 收集。或者使用 captureMessage Api 收集运行日志。</p>
+<p>采集内容<br>
+尽管 Sentry SDK 会捕获所有未处理的异常和事务汇报至系统上，并且会记录产生异常的页面及设备信息。但是有这些信息是远远不够的，还需要额外的业务信息，用于更好的区别定位问题。下面是我对上报异常所需要收集的内容进行总结。</p>
+<p>异常信息：抛出异常的 error 信息，Sentry 会自动捕捉。</p>
+<p>用户信息：用户的信息（登录名、id、level 等），所属机构信息，所属公司信息。</p>
+<p>行为信息：用户的操作过程，例如登陆后进入 xx 页面，点击 xx 按钮，Sentry 会自动捕捉。</p>
+<p>版本信息：运行项目的版本信息（测试、生产、灰度），以及版本号。</p>
+<p>设备信息：项目使用的平台，web 项目包括运行设备信息及浏览器版本信息。小程序项目包括运行手机的手机型号、系统版本及微信版本。</p>
+<p>时间戳：记录异常发生时间，Sentry 会自动捕捉。</p>
+<p>异常等级：根据 Sentry 文档分为以下几个等级。</p>
+<p>Critical<br>
+Debug<br>
+Error<br>
+Fatal<br>
+Info<br>
+Log<br>
+Warning<br>
+平台信息：记录异常发生的项目。</p>
+<p>有以上内容的补全，再加上原有的异常数据，对于一个报错是不是就更清晰明了了呢。</p>
+<p>小程序接入 Sentry<br>
+Sentry 无官方 api 用于提供给小程序，好在有第三方根据提供的库，可使用原有 api 实现小程序端的异常监控。</p>
+<p>安装<br>
+npm install sentry-mina --save<br>
+yarn add sentry-mina<br>
+将 browser/sentry-mina.js 拷贝到项目中<br>
+使用<br>
+import * as Sentry from &quot;sentry-mina/browser/sentry-mina.js&quot;;<br>
+// import * as Sentry from &quot;sentry-mina&quot;;<br>
+// config Sentry<br>
+Sentry.init({<br>
+dsn: &quot;&quot;,<br>
+});<br>
+// Set user information, as well as tags and further extras<br>
+Sentry.configureScope((scope) =&gt; {<br>
+scope.setUser({ id: &quot;4711&quot; });<br>
+scope.setTag(&quot;user_mode&quot;, &quot;admin&quot;);<br>
+scope.setExtra(&quot;battery&quot;, 0.7);<br>
+// scope.clear();<br>
+});<br>
+// Add a breadcrumb for future events<br>
+Sentry.addBreadcrumb({<br>
+message: &quot;My Breadcrumb&quot;,<br>
+// ...<br>
+});<br>
+// Capture exceptions, messages or manual events<br>
+Sentry.captureMessage(&quot;Hello, world!&quot;);<br>
+Sentry.captureException(new Error(&quot;Good bye&quot;));<br>
+Sentry.captureEvent({<br>
+message: &quot;Manual&quot;,<br>
+stacktrace: [<br>
+// ...<br>
+],<br>
+});<br>
+其他内容见文档 Sentry 小程序 SDK。</p>
+<p>问题总结<br>
+下面是我在接入 Sentry 及后续使用时遇到的问题。</p>
+<p>consolelog 不显示 sourmap 地址<br>
+consolelog 不显示 sourmap 地址</p>
+<p>这个问题产生的原因是，Sentry 会修改原生 console 方法收集 console，所以这边不会显示 sourcemap 地址，可以在开发环境下取消注册 Sentry。</p>
+<p>本文首发于我的博客 mogii'blog 欢迎大家光临~<br>
+https://segmentfault.com/a/1190000040237095</p>
+
+<span id="footnote"></span>
+<div id = "warn"></div>
+</div>
+<div class="toc-container"></div>
+</div>
+<div id="fullPage"><canvas id="canvas"></canvas></div>
+</article>
+<div id="eof"><span>EOF</span></div><div class="round-shape-one"></div>
+<section>
+<div class="doc_comments">
+
+</div></section>
+</div></div></div><script>
+"use strict";!function(){for(var n=document.getElementsByTagName("pre"),e=n.length,s=0;s<e;s++){n[s].innerHTML='<span class="line-number"></span>'+n[s].innerHTML+'<span class="cl"></span>';for(var a=n[s].innerHTML.split(/\n/).length,r=0;r<a-1;r++){n[s].getElementsByTagName("span")[0].innerHTML+="<span>"+(r+1)+"</span>"}}}();
+let mainNavLinks=document.querySelectorAll(".markdownIt-TOC a");window.addEventListener("scroll",event=>{let fromTop=window.scrollY;mainNavLinks.forEach((link,index)=>{let section=document.getElementById(decodeURI(link.hash).substring(1));let nextSection=null
+if(mainNavLinks[index+1]){nextSection=document.getElementById(decodeURI(mainNavLinks[index+1].hash).substring(1));}
+if(section.offsetTop<=fromTop){if(nextSection){if(nextSection.offsetTop>fromTop){link.classList.add("currentToc");}else{link.classList.remove("currentToc");}}else{link.classList.add("currentToc");}}else{link.classList.remove("currentToc");}});});
+var list=document.querySelectorAll(".katex");for(var i=0;i<list.length;i++){list[i].style.display="unset"};
+var h=document.documentElement,b=document.body,st="scrollTop",sh="scrollHeight",progress=document.querySelector(".progress"),scroll;document.addEventListener("scroll",function(){scroll=(h[st]||b[st])/((h[sh]||b[sh])-h.clientHeight)*100;progress.style.setProperty("--scroll",scroll+"%")});
+var wxScale=new WxScale({fullPage:document.querySelector("#fullPage"),canvas:document.querySelector("#canvas")});var imgBox=document.querySelectorAll("#md_block img");for(var i=0;i<imgBox.length;i++){imgBox[i].onclick=function(e){wxScale.start(this)}};
+content="本文最后更新于2021-12-22，已超过 1 年没有更新，涉及的内容可能已经失效！";var date1="2021-12-22 18:11:52";date1=date1.replace("-","/");var date2=new Date();var date3=date2.getTime()-new Date(date1).getTime();var days=Math.floor(date3/(24*3600*1000));if(days>=365){document.getElementById("warn").innerHTML=content};
+</script>
+<style>#magnifyImg{position:fixed;left:0;top:0;text-align:center;width:100%;display:none;z-index:9999}#magnifyImg img{object-fit:contain;background:#eaecef;padding:15px;border-radius:10px;height:auto;width:auto;vertical-align:middle}</style>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647; display: block;"></a><div class="footer animated fadeInDown"><div class="site_footer"><div class="mysocials"><div class="my_socials"></div></div><div class="copyright"id="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>Copyright © 2018-2020 <a href="https://181016.xyz" style="margin:0;">Gridea</a>.</div>
+<span style="display: inline;margin-right:15px;">👁<strong><span id="busuanzi_value_site_uv"></span></strong></span><span id="busuanzi_container_page_pv" style="display: inline;"><span>📚<strong>42</strong> posts</span></div></div>
+<script>
+console.log("\n %c \u26a1Theme: Bitcron-pro Author's Blog:https://blog.blinkstar.cn  Writen By Serence  \n\n", "color: #ffffff; background: rgba(49, 49, 49, 0.85); padding:5px 0;border-radius:5px;", );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/instant.page@3.0.0/instantpage.min.js" type="module" defer></script>
+<script type="text/javascript" async src="https://181016.xyz/media/js/prism.js"></script>
+</body>
+</html>
